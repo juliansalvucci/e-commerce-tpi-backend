@@ -16,6 +16,7 @@ public interface IProductService {
     
     void deleteById(Long id); //Borrado logico
 
+    void recoverProduct(Long id);
     
 
 }   
