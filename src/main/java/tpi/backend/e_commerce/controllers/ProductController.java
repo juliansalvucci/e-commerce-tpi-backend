@@ -29,19 +29,31 @@ public class ProductController {
         return productService.findAll();
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id){
         Optional<Product> optionalProduct = productService.findById(id);
         if (optionalProduct.isPresent()) {
-            return ResponseEntity.ok(optionalProduct.get()); //De existir el producto y estar activo lo devuelve con codigo 200
+            return ResponseEntity.ok(optionalProduct.get()); 
+            //De existir el producto y estar activo lo devuelve con codigo 200
         }
-        return ResponseEntity.notFound().build(); //De no existir el producto o existir y estar eliminado devuelve un codigo 404
+        return ResponseEntity.notFound().build(); 
+        //De no existir el producto o existir y estar eliminado devuelve un codigo 404
     }
 
     @GetMapping("/deleted")
     public List<Product> findAllDeleted(){
         return productService.findAllDeleted();
+    }
+
+    @GetMapping("/deleted/{id}")
+    public ResponseEntity<?> findDeletedById(@PathVariable Long id){ //Busca por id entre los productos eliminados
+        Optional<Product> optionalProduct = productService.findDeletedById(id);
+        if (optionalProduct.isPresent()) {
+            return ResponseEntity.ok(optionalProduct.get()); 
+            //De existir el producto y estar eliminado lo devuelve con codigo 200
+        }
+        return ResponseEntity.notFound().build(); 
+        //De no existir el producto o existir y estar activo devuelve un codigo 404
     }
 
     @PostMapping
@@ -59,7 +71,8 @@ public class ProductController {
             Como el producto pasado al save tiene un id, no se crea un nuevo producto 
             sino que se actualiza el que tenia ese id */
         }
-        return ResponseEntity.notFound().build(); //De no existir un producto con el id mandado lanza un 404
+        return ResponseEntity.notFound().build(); 
+        //De no existir un producto con el id mandado lanza un 404
     }
 
     @DeleteMapping("/{id}")

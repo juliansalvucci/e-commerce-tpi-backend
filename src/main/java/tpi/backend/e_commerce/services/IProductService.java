@@ -14,10 +14,11 @@ public interface IProductService {
     List<Product> findAllDeleted();
 
     Optional<Product> findById(Long id);
-    
+    Optional<Product> findDeletedById(Long id);   
+     
     void delete(Product product); //Borrado logico
 
-    //Product recoverProduct(Long id);
+    
     
 
 }   
