@@ -17,5 +17,5 @@ public class Category {
     private String name;
     private String description;
 
-
+    private boolean deleted; //True si esta eliminado, false si no
 }

@@ -22,20 +22,29 @@ public class CategoryService implements ICategoryService{
 
     @Override
     public List<Category> findAll() {
-        return (List<Category>) categoryRepository.findAll();
+        return (List<Category>) categoryRepository.findAllActive();
     }
 
     @Override
-    public Category findById(Long id) {
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isPresent()) {
-            return optionalCategory.get();
-        }
-        throw new RuntimeException("Product doesn't exists");
+    public List<Category> findAllDeleted() {
+        return (List<Category>) categoryRepository.findAllDeleted();
     }
 
     @Override
-    public void deleteById(Long id) { //Borrado fisico de categoria
-        categoryRepository.deleteById(id);
+    public Optional<Category> findById(Long id) {
+        return categoryRepository.findActiveById(id);
+        
+    }
+
+    @Override
+    public Optional<Category> findDeletedById(Long id) {
+        
+        return categoryRepository.findDeletedById(id);
+    }
+
+    @Override
+    public void delete(Category category) { //Borrado logico de categoria
+        category.setDeleted(true);
+        categoryRepository.save(category);
     }
 }
