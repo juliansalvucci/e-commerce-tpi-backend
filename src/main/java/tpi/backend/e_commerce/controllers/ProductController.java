@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tpi.backend.e_commerce.dto.ProductDto;
 import tpi.backend.e_commerce.models.Category;
 import tpi.backend.e_commerce.models.Product;
-import tpi.backend.e_commerce.repositories.ICategoryRepository;
+
 import tpi.backend.e_commerce.services.ICategoryService;
 import tpi.backend.e_commerce.services.IProductService;
 
@@ -42,7 +42,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id){
-        Optional<Product> optionalProduct = productService.findById(id);
+        Optional<Product> optionalProduct = productService.findActiveById(id);
         if (optionalProduct.isPresent()) {
             return ResponseEntity.ok(optionalProduct.get()); 
             //De existir el producto y estar activo lo devuelve con codigo 200
@@ -82,7 +82,7 @@ public class ProductController {
 
     @PutMapping("/{id}") //Actualiza un producto
     public ResponseEntity<?> update(@RequestBody ProductDto productDto, @PathVariable Long id){ 
-        Optional<Product> optionalProduct = productService.findById(id);
+        Optional<Product> optionalProduct = productService.findActiveById(id);
         if (optionalProduct.isPresent()) { //Primero chequea que exista un producto con ese id
             Optional<Category> optionalCategory = categoryService.findById(productDto.getCategory());
             if (optionalCategory.isEmpty()) {
@@ -101,9 +101,9 @@ public class ProductController {
         //De no existir un producto con el id mandado lanza un 404
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") //Elimina logicamente un producto por su id 
     public ResponseEntity<?> delete(@PathVariable Long id){
-        Optional<Product> optionalProduct = productService.findById(id);
+        Optional<Product> optionalProduct = productService.findActiveById(id);
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
             productService.delete(product);
@@ -112,6 +112,24 @@ public class ProductController {
 
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/recover/{id}") //Recupera logicamente un producto por su id.
+    public ResponseEntity<?> recoverProduct(@PathVariable Long id){
+        Optional<Product> optionalProduct = productService.findById(id);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            product.setDeleted(false);
+            return ResponseEntity.ok(productService.saveProduct(product));
+        }
+        return ResponseEntity.notFound().build(); //Si el producto
+        /*
+        Disclaimer: Si se ingresa el id de un producto que existe y esta activo,
+        se tratara de la misma manera que si estuviera eliminado. Se setea el atributo
+        deleted en false (Ya estaba en false porque esta activo)
+        */
+    }
+
+
 
 
 }

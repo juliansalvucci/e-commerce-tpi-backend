@@ -35,7 +35,12 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Optional<Product> findById(Long id) { //Trata a los productos eliminados como si no existieran
+    public Optional<Product> findById(Long id) { //Trae el producto por id ya sea que este activo o eliminado
+        return productRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Product> findActiveById(Long id) { //Trata a los productos eliminados como si no existieran
         return productRepository.findActiveById(id);
 
     }
