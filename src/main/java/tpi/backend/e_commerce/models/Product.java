@@ -27,4 +27,34 @@ public class Product {
     private Category category;
 
     private boolean deleted; //Borrado logico, si el valor es true significa que el producto fue eliminado
+    
+    public Product() {
+    }
+
+    public Product(String name, String description, Double price, Category category) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+    }
+
+    public Product(Long id, String name, String description, Double price, Category category) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+    }
+
+    public Product(Long id, String name, String description, Double price, Category category, boolean deleted) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+        this.deleted = deleted;
+    }
+    
+    
 }
+

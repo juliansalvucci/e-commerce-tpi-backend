@@ -2,7 +2,11 @@ package tpi.backend.e_commerce.controllers;
 
 import java.util.List;
 import java.util.Optional;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import tpi.backend.e_commerce.dto.ProductDto;
+import tpi.backend.e_commerce.models.Category;
 import tpi.backend.e_commerce.models.Product;
-
+import tpi.backend.e_commerce.repositories.ICategoryRepository;
+import tpi.backend.e_commerce.services.ICategoryService;
 import tpi.backend.e_commerce.services.IProductService;
 
 @RestController
@@ -23,6 +30,10 @@ public class ProductController {
     
     @Autowired
     private IProductService productService;
+
+    @Autowired
+    private ICategoryService categoryService;
+
 
     @GetMapping
     public List<Product> findAll(){
@@ -57,17 +68,32 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Product product){
-        return ResponseEntity.ok(productService.saveProduct(product));
+    public ResponseEntity<?> create(@RequestBody ProductDto productDto){ //El producto que obtengo de la peticion no tiene el objeto categoria sino unicamente su id
+        Optional<Category> optionalCategory = categoryService.findById(productDto.getCategory()); //Recupero el objeto categoria a traves del id pasado por la peticion
+        if (optionalCategory.isEmpty()) { //Si no existe la categoria mandada por la peticion, retorno un 404
+            return ResponseEntity.status(404).body("Error: La categoria ingresada no existe");
+        }
+        Product productToSave = new Product(
+            productDto.getName(), productDto.getDescription(), productDto.getPrice(), optionalCategory.get()
+        ); //Creo el producto a guardar en la bd
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.saveProduct(productToSave));
     }
 
     @PutMapping("/{id}") //Actualiza un producto
-    public ResponseEntity<?> update(@RequestBody Product requestProduct, @PathVariable Long id){ 
+    public ResponseEntity<?> update(@RequestBody ProductDto productDto, @PathVariable Long id){ 
         Optional<Product> optionalProduct = productService.findById(id);
         if (optionalProduct.isPresent()) { //Primero chequea que exista un producto con ese id
-            Product dbProduct = optionalProduct.get();
-            requestProduct.setId(dbProduct.getId()); //Setea el id del producto buscado en la BD al producto recibido en la request
-            return ResponseEntity.ok(productService.saveProduct(requestProduct)); /*
+            Optional<Category> optionalCategory = categoryService.findById(productDto.getCategory());
+            if (optionalCategory.isEmpty()) {
+                return ResponseEntity.status(404).body("Error: La categoria ingresada no existe");
+            }
+
+            Product product = new Product(
+                id, productDto.getName(), productDto.getDescription(), 
+                productDto.getPrice(), optionalCategory.get(), productDto.isDeleted()
+            );
+            return ResponseEntity.ok(productService.saveProduct(product)); /*
             Como el producto pasado al save tiene un id, no se crea un nuevo producto 
             sino que se actualiza el que tenia ese id */
         }
