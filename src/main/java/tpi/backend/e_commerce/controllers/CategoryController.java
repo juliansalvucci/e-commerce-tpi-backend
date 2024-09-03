@@ -82,4 +82,15 @@ public class CategoryController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/recover/{id}") //Recupera logicamente una categoria por su id.
+    public ResponseEntity<?> recoverCategory(@PathVariable Long id){
+        Optional<Category> optionalCategory = categoryService.findById(id);
+        if (optionalCategory.isPresent()) {
+            Category category = optionalCategory.get();
+            category.setDeleted(false);
+            return ResponseEntity.ok(categoryService.saveCategory(category));
+        }
+        return ResponseEntity.notFound().build(); //Si el producto
+    }
+
 }

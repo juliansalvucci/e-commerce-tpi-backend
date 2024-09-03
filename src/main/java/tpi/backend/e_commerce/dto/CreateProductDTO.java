@@ -1,7 +1,7 @@
 package tpi.backend.e_commerce.dto;
 
 
-public class ProductDto {
+public class CreateProductDTO {
 
     private String name;
 
@@ -11,7 +11,6 @@ public class ProductDto {
 
     private Long category;
 
-    private boolean deleted;
     
     public String getName() {
         return name;
@@ -44,14 +43,5 @@ public class ProductDto {
     public void setCategory(Long category) {
         this.category = category;
     }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
     
 }

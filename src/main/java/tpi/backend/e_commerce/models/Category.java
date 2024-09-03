@@ -18,4 +18,12 @@ public class Category {
     private String description;
 
     private boolean deleted; //True si esta eliminado, false si no
+
+    public Category() {
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
+    
 }

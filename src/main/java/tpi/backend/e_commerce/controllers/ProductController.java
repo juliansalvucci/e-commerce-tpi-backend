@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import tpi.backend.e_commerce.dto.ProductDto;
+import tpi.backend.e_commerce.dto.CreateProductDTO;
+import tpi.backend.e_commerce.dto.ResponseProductDTO;
+import tpi.backend.e_commerce.mapper.ProductMapper;
 import tpi.backend.e_commerce.models.Category;
 import tpi.backend.e_commerce.models.Product;
 
@@ -36,68 +38,69 @@ public class ProductController {
 
 
     @GetMapping
-    public List<Product> findAll(){
-        return productService.findAll();
+    public List<ResponseProductDTO> findAll(){
+
+        return ProductMapper.toDTOList(productService.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id){
+
         Optional<Product> optionalProduct = productService.findActiveById(id);
         if (optionalProduct.isPresent()) {
-            return ResponseEntity.ok(optionalProduct.get()); 
+
+            ResponseProductDTO productDto = ProductMapper.toDTO(optionalProduct.get()); //Convierto el producto a un DTO
+            return ResponseEntity.ok(productDto); 
             //De existir el producto y estar activo lo devuelve con codigo 200
         }
-        return ResponseEntity.notFound().build(); 
+        return ResponseEntity.status(404).body("Error:El id ingresado no corresponde a ningun producto");
         //De no existir el producto o existir y estar eliminado devuelve un codigo 404
     }
 
     @GetMapping("/deleted")
-    public List<Product> findAllDeleted(){
-        return productService.findAllDeleted();
+    public List<ResponseProductDTO> findAllDeleted(){
+        return ProductMapper.toDTOList(productService.findAllDeleted());
     }
 
     @GetMapping("/deleted/{id}")
     public ResponseEntity<?> findDeletedById(@PathVariable Long id){ //Busca por id entre los productos eliminados
         Optional<Product> optionalProduct = productService.findDeletedById(id);
         if (optionalProduct.isPresent()) {
-            return ResponseEntity.ok(optionalProduct.get()); 
+            return ResponseEntity.ok(ProductMapper.toDTO(optionalProduct.get())); 
             //De existir el producto y estar eliminado lo devuelve con codigo 200
         }
-        return ResponseEntity.notFound().build(); 
+        return ResponseEntity.status(404).body("Error:El id ingresado no corresponde a ningun producto eliminado");
         //De no existir el producto o existir y estar activo devuelve un codigo 404
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody ProductDto productDto){ //El producto que obtengo de la peticion no tiene el objeto categoria sino unicamente su id
+    public ResponseEntity<?> create(@RequestBody CreateProductDTO productDto){ //El producto que obtengo de la peticion no tiene el objeto categoria sino unicamente su id
         Optional<Category> optionalCategory = categoryService.findById(productDto.getCategory()); //Recupero el objeto categoria a traves del id pasado por la peticion
         if (optionalCategory.isEmpty()) { //Si no existe la categoria mandada por la peticion, retorno un 404
             return ResponseEntity.status(404).body("Error: La categoria ingresada no existe");
         }
-        Product productToSave = new Product(
-            productDto.getName(), productDto.getDescription(), productDto.getPrice(), optionalCategory.get()
-        ); //Creo el producto a guardar en la bd
+        Product productToSave = ProductMapper.toEntity(productDto, optionalCategory.get()); 
+        //Convierto el product de la peticion en un product de la bd a traves del mapper
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.saveProduct(productToSave));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ProductMapper.toDTO(productService.saveProduct(productToSave)));
     }
 
     @PutMapping("/{id}") //Actualiza un producto
-    public ResponseEntity<?> update(@RequestBody ProductDto productDto, @PathVariable Long id){ 
+    public ResponseEntity<?> update(@RequestBody CreateProductDTO productDto, @PathVariable Long id){ 
         Optional<Product> optionalProduct = productService.findActiveById(id);
         if (optionalProduct.isPresent()) { //Primero chequea que exista un producto con ese id
             Optional<Category> optionalCategory = categoryService.findById(productDto.getCategory());
             if (optionalCategory.isEmpty()) {
                 return ResponseEntity.status(404).body("Error: La categoria ingresada no existe");
+                //Si no existe la categoria mandada por la peticion, retorno un 404
             }
+            Product product = ProductMapper.toUpdate(productDto, id, optionalCategory.get());
 
-            Product product = new Product(
-                id, productDto.getName(), productDto.getDescription(), 
-                productDto.getPrice(), optionalCategory.get(), productDto.isDeleted()
-            );
-            return ResponseEntity.ok(productService.saveProduct(product)); /*
+            return ResponseEntity.ok(ProductMapper.toDTO(productService.saveProduct(product))); /*
             Como el producto pasado al save tiene un id, no se crea un nuevo producto 
             sino que se actualiza el que tenia ese id */
         }
-        return ResponseEntity.notFound().build(); 
+        return ResponseEntity.status(404).body("Error:El id ingresado no corresponde a ningun producto");
         //De no existir un producto con el id mandado lanza un 404
     }
 
@@ -110,7 +113,7 @@ public class ProductController {
             return ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(404).body("Error:El id ingresado no corresponde a ningun producto");
     }
 
     @GetMapping("/recover/{id}") //Recupera logicamente un producto por su id.
@@ -119,9 +122,9 @@ public class ProductController {
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
             product.setDeleted(false);
-            return ResponseEntity.ok(productService.saveProduct(product));
+            return ResponseEntity.ok(ProductMapper.toDTO(productService.saveProduct(product)));
         }
-        return ResponseEntity.notFound().build(); //Si el producto
+        return ResponseEntity.status(404).body("Error:El id ingresado no corresponde a ningun producto");
         /*
         Disclaimer: Si se ingresa el id de un producto que existe y esta activo,
         se tratara de la misma manera que si estuviera eliminado. Se setea el atributo
