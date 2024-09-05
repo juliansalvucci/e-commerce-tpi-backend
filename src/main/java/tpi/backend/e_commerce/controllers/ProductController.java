@@ -26,6 +26,7 @@ import tpi.backend.e_commerce.models.Product;
 import tpi.backend.e_commerce.services.ICategoryService;
 import tpi.backend.e_commerce.services.IProductService;
 
+
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -35,7 +36,6 @@ public class ProductController {
 
     @Autowired
     private ICategoryService categoryService;
-
 
     @GetMapping
     public List<ResponseProductDTO> findAll(){

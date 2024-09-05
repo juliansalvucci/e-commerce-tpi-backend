@@ -32,6 +32,11 @@ public class CategoryService implements ICategoryService{
 
     @Override
     public Optional<Category> findById(Long id) {
+        return categoryRepository.findById(id);
+        
+    }
+    @Override
+    public Optional<Category> findActiveById(Long id) {
         return categoryRepository.findActiveById(id);
         
     }

@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
+
+import tpi.backend.e_commerce.dto.CategoryDTO;
+import tpi.backend.e_commerce.mapper.CategoryMapper;
 import tpi.backend.e_commerce.models.Category;
 import tpi.backend.e_commerce.services.ICategoryService;
 
@@ -23,15 +26,15 @@ public class CategoryController {
     private ICategoryService categoryService;
     
     @GetMapping
-    public List<Category> findAll(){
-        return (List<Category>) categoryService.findAll();
+    public List<CategoryDTO> findAll(){
+        return CategoryMapper.toDTOList(categoryService.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id){
         Optional<Category> optionalCategory = categoryService.findById(id);
         if (optionalCategory.isPresent()) {
-            return ResponseEntity.ok(optionalCategory.get()); 
+            return ResponseEntity.ok(CategoryMapper.toDTO(optionalCategory.get())); 
             //De existir la categoria y estar activa lo devuelve con codigo 200
         }
     
@@ -40,15 +43,15 @@ public class CategoryController {
     }
 
     @GetMapping("/deleted")
-    public List<Category> findAllDeleted(){
-        return categoryService.findAllDeleted();
+    public List<CategoryDTO> findAllDeleted(){
+        return CategoryMapper.toDTOList(categoryService.findAllDeleted());
     }
 
     @GetMapping("/deleted/{id}")
     public ResponseEntity<?> findDeletedById(@PathVariable Long id){ //Busca por id entre las categorias eliminadas
         Optional<Category> optionalCategory = categoryService.findDeletedById(id);
         if (optionalCategory.isPresent()) {
-            return ResponseEntity.ok(optionalCategory.get()); 
+            return ResponseEntity.ok(CategoryMapper.toDTO(optionalCategory.get())); 
             //De existir la categoria y estar eliminada lo devuelve con codigo 200
         }
         return ResponseEntity.notFound().build(); 
@@ -56,8 +59,8 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Category category){
-        return ResponseEntity.ok(categoryService.saveCategory(category));
+    public ResponseEntity<CategoryDTO> create(@RequestBody Category category){
+        return ResponseEntity.ok(CategoryMapper.toDTO(categoryService.saveCategory(category)));
     }
 
     @PutMapping("/{id}")
@@ -66,7 +69,7 @@ public class CategoryController {
         if (optionalCategory.isPresent()) {
             Category dbCategory = optionalCategory.get();
             requestCategory.setId(dbCategory.getId());
-            return ResponseEntity.ok(categoryService.saveCategory(requestCategory));
+            return ResponseEntity.ok(CategoryMapper.toDTO(categoryService.saveCategory(requestCategory)));
         }
 
         return ResponseEntity.notFound().build();
@@ -88,7 +91,7 @@ public class CategoryController {
         if (optionalCategory.isPresent()) {
             Category category = optionalCategory.get();
             category.setDeleted(false);
-            return ResponseEntity.ok(categoryService.saveCategory(category));
+            return ResponseEntity.ok(CategoryMapper.toDTO(categoryService.saveCategory(category)));
         }
         return ResponseEntity.notFound().build(); //Si el producto
     }

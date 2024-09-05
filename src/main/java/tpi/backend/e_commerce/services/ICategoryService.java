@@ -13,6 +13,7 @@ public interface ICategoryService {
     public List<Category> findAllDeleted();
 
     public Optional<Category> findById(Long id);
+    public Optional<Category> findActiveById(Long id);
     public Optional<Category> findDeletedById(Long id);
 
     public void delete(Category category);
