@@ -15,6 +15,7 @@ public class ProductService implements IProductService {
     @Autowired
     private IProductRepository productRepository;
 
+    
     @Override
     public Product saveProduct(Product product) {
 
@@ -23,39 +24,47 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> findAll() {
-        return (List<Product>) productRepository.findAllActive();
+        return (List<Product>) productRepository.findAllActive(); //Trae todos los productos activos
     }
 
     @Override
     public List<Product> findAllDeleted() {
-        return (List<Product>) productRepository.findAllDeleted();
+        return (List<Product>) productRepository.findAllDeleted(); //Trae todos los productos que han sido eliminados
     }
 
     @Override
-    public Product findById(Long id) {
+    public Optional<Product> findById(Long id) { //Trata a los productos eliminados como si no existieran
         Optional<Product> optionalProduct = productRepository.findById(id);
         if(optionalProduct.isPresent()){
-            Product product = optionalProduct.get();
+            Product product = optionalProduct.get(); 
             if (product.isDeleted()){
-                throw new RuntimeException("Product have been deleted");
+                return Optional.empty(); //De existir el producto pero estar eliminado, retorna un Optional vacio
             }
-            return product;
-        }else{
-            throw new RuntimeException("Product not found"); //De no encontrar el producto, lanzara una excepcion
-
         }
+        return optionalProduct; 
+        /*
+        De existir el producto y estar activo retorna un Optional de producto
+        De no existir el producto retorna un optional vacio
+        */
+
     }
 
     @Override
-    public void deleteById(Long id) { //Borrado logico
-        Optional<Product> optionalProduct = productRepository.findById(id);
-        if(optionalProduct.isPresent()){
-            Product product = optionalProduct.get();
-            product.setDeleted(true); //Setea la flag en true, por lo que el producto no se mostrara
-            productRepository.save(product);
-        }  
-        throw new RuntimeException("Product doesn't exist");
+    public void delete(Product product) { //Borrado logico
+        product.setDeleted(true);
+        productRepository.save(product);
+        
     }
-
+    /* 
+    Este metodo esta en revision
+    @Override
+    public Product recoverProduct(Long id){ //Permite recuperar un producto que fue eliminado a traves de su id
+        productRepository.findById(id).ifPresentOrElse(p -> { //De encontrar el producto, ejecuta esta funcion de flecha, que recibe el producto
+            p.setDeleted(false); //Setea la flag deleted en falso
+        }, ()-> { //De no existir un producto con ese id, lanza una
+            
+        });
+    }
+    */
 
 }
