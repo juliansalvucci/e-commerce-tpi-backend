@@ -10,17 +10,17 @@ public class ResponseProductDTO {
 
     private Double price;
 
-    private String category;
+    private String SubCategory;
     
     public ResponseProductDTO() {
     }
 
-    public ResponseProductDTO(Long id, String name, String description, Double price, String category) {
+    public ResponseProductDTO(Long id, String name, String description, Double price, String SubCategory) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.category = category;
+        this.SubCategory = SubCategory;
     }
 
     public String getName() {
@@ -47,12 +47,12 @@ public class ResponseProductDTO {
         this.price = price;
     }
 
-    public String getCategory() {
-        return category;
+    public String getSubCategory() {
+        return SubCategory;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setSubCategory(String SubCategory) {
+        this.SubCategory = SubCategory;
     }
 
     public Long getId() {

@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import tpi.backend.e_commerce.dto.CreateProductDTO;
 import tpi.backend.e_commerce.dto.ResponseProductDTO;
 import tpi.backend.e_commerce.mapper.ProductMapper;
-import tpi.backend.e_commerce.models.Category;
+import tpi.backend.e_commerce.models.SubCategory;
 import tpi.backend.e_commerce.models.Product;
 
-import tpi.backend.e_commerce.services.ICategoryService;
+import tpi.backend.e_commerce.services.ISubCategoryService;
 import tpi.backend.e_commerce.services.IProductService;
 
 
@@ -35,7 +35,7 @@ public class ProductController {
     private IProductService productService;
 
     @Autowired
-    private ICategoryService categoryService;
+    private ISubCategoryService subCategoryService;
 
     @GetMapping
     public List<ResponseProductDTO> findAll(){
@@ -75,11 +75,11 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CreateProductDTO productDto){ //El producto que obtengo de la peticion no tiene el objeto categoria sino unicamente su id
-        Optional<Category> optionalCategory = categoryService.findById(productDto.getCategory()); //Recupero el objeto categoria a traves del id pasado por la peticion
-        if (optionalCategory.isEmpty()) { //Si no existe la categoria mandada por la peticion, retorno un 404
+        Optional<SubCategory> optionalSubCategory = subCategoryService.findById(productDto.getSubCategory()); //Recupero el objeto categoria a traves del id pasado por la peticion
+        if (optionalSubCategory.isEmpty()) { //Si no existe la categoria mandada por la peticion, retorno un 404
             return ResponseEntity.status(404).body("Error: La categoria ingresada no existe");
         }
-        Product productToSave = ProductMapper.toEntity(productDto, optionalCategory.get()); 
+        Product productToSave = ProductMapper.toEntity(productDto, optionalSubCategory.get()); 
         //Convierto el product de la peticion en un product de la bd a traves del mapper
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ProductMapper.toDTO(productService.saveProduct(productToSave)));
@@ -89,12 +89,12 @@ public class ProductController {
     public ResponseEntity<?> update(@RequestBody CreateProductDTO productDto, @PathVariable Long id){ 
         Optional<Product> optionalProduct = productService.findActiveById(id);
         if (optionalProduct.isPresent()) { //Primero chequea que exista un producto con ese id
-            Optional<Category> optionalCategory = categoryService.findById(productDto.getCategory());
-            if (optionalCategory.isEmpty()) {
+            Optional<SubCategory> optionalSubCategory = subCategoryService.findById(productDto.getSubCategory());
+            if (optionalSubCategory.isEmpty()) {
                 return ResponseEntity.status(404).body("Error: La categoria ingresada no existe");
                 //Si no existe la categoria mandada por la peticion, retorno un 404
             }
-            Product product = ProductMapper.toUpdate(productDto, id, optionalCategory.get());
+            Product product = ProductMapper.toUpdate(productDto, id, optionalSubCategory.get());
 
             return ResponseEntity.ok(ProductMapper.toDTO(productService.saveProduct(product))); /*
             Como el producto pasado al save tiene un id, no se crea un nuevo producto 

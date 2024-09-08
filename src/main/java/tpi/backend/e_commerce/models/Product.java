@@ -24,26 +24,26 @@ public class Product {
     private Long stock; //Unidades en stock
 
     @ManyToOne
-    private Category category;
+    private SubCategory SubCategory;
 
     private boolean deleted; //Borrado logico, si el valor es true significa que el producto fue eliminado
     
     public Product() {
     }
 
-    public Product(String name, String description, Double price, Category category) {
+    public Product(String name, String description, Double price, SubCategory SubCategory) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.category = category;
+        this.SubCategory = SubCategory;
     }
 
-    public Product(Long id, String name, String description, Double price, Category category) {
+    public Product(Long id, String name, String description, Double price, SubCategory SubCategory) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.category = category;
+        this.SubCategory = SubCategory;
     }
 
    

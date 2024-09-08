@@ -5,32 +5,32 @@ import java.util.List;
 import tpi.backend.e_commerce.dto.CreateProductDTO;
 import tpi.backend.e_commerce.dto.ResponseProductDTO;
 
-import tpi.backend.e_commerce.models.Category;
+import tpi.backend.e_commerce.models.SubCategory;
 import tpi.backend.e_commerce.models.Product;
 
 public class ProductMapper {
 
-    public static Product toEntity(CreateProductDTO createProductDTO, Category category){ 
+    public static Product toEntity(CreateProductDTO createProductDTO, SubCategory SubCategory){ 
         //El mapper recibira el DTO y la categoria. Si no recibiera la categoria, deberia hacer una 
         //consulta a la BD para traerla, lo cual no es responsabilidad de esta clase
         return new Product(
             createProductDTO.getName(), createProductDTO.getDescription(), 
-            createProductDTO.getPrice(), category
+            createProductDTO.getPrice(), SubCategory
         );
     }
 
     public static ResponseProductDTO toDTO(Product product){
         return new ResponseProductDTO(
             product.getId(), product.getName(), product.getDescription(), 
-            product.getPrice(), product.getCategory().getName()
+            product.getPrice(), product.getSubCategory().getName()
             //El DTO de producto mostrara solo el nombre de la categoria
         );
     }   
 
-    public static Product toUpdate(CreateProductDTO updateProductDTO,Long id ,Category category){ //Este metodo sera usado para la actualizacion de productos
+    public static Product toUpdate(CreateProductDTO updateProductDTO,Long id ,SubCategory SubCategory){ //Este metodo sera usado para la actualizacion de productos
         return new Product(
             id, updateProductDTO.getName(), 
-            updateProductDTO.getDescription(), updateProductDTO.getPrice(),category
+            updateProductDTO.getDescription(), updateProductDTO.getPrice(),SubCategory
         );
     }
 

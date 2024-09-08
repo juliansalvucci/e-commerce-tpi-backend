@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Category {
+public class SubCategory {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,14 +19,14 @@ public class Category {
 
     private boolean deleted; //True si esta eliminado, false si no
 
-    public Category() {
+    public SubCategory() {
     }
 
-    public Category(String name) {
+    public SubCategory(String name) {
         this.name = name;
     }
 
-    public Category(String name, String description) {
+    public SubCategory(String name, String description) {
         this.name = name;
         this.description = description;
     }

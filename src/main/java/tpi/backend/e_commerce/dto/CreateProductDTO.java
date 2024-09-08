@@ -9,7 +9,7 @@ public class CreateProductDTO {
 
     private Double price;
 
-    private Long category;
+    private Long SubCategory;
 
     
     public String getName() {
@@ -36,12 +36,12 @@ public class CreateProductDTO {
         this.price = price;
     }
 
-    public Long getCategory() {
-        return category;
+    public Long getSubCategory() {
+        return SubCategory;
     }
 
-    public void setCategory(Long category) {
-        this.category = category;
+    public void setSubCategory(Long SubCategory) {
+        this.SubCategory = SubCategory;
     }
     
 }

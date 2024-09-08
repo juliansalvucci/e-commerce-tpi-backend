@@ -1,6 +1,6 @@
 package tpi.backend.e_commerce.dto;
 
-public class CategoryDTO {
+public class SubCategoryDTO {
     
     private Long id; //Id de la categoria
 
@@ -32,10 +32,10 @@ public class CategoryDTO {
         this.description = description;
     }
 
-    public CategoryDTO() {
+    public SubCategoryDTO() {
     } 
 
-    public CategoryDTO(Long id, String name, String description) {
+    public SubCategoryDTO(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
