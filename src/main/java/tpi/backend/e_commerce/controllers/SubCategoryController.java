@@ -16,7 +16,7 @@ import java.util.Optional;
 import tpi.backend.e_commerce.dto.SubCategoryDTO;
 import tpi.backend.e_commerce.mapper.SubCategoryMapper;
 import tpi.backend.e_commerce.models.SubCategory;
-import tpi.backend.e_commerce.services.ISubCategoryService;
+import tpi.backend.e_commerce.services.subCategory.ISubCategoryService;
 
 
 

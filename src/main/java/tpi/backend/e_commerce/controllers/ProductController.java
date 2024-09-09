@@ -22,9 +22,8 @@ import tpi.backend.e_commerce.dto.ResponseProductDTO;
 import tpi.backend.e_commerce.mapper.ProductMapper;
 import tpi.backend.e_commerce.models.SubCategory;
 import tpi.backend.e_commerce.models.Product;
-
-import tpi.backend.e_commerce.services.ISubCategoryService;
-import tpi.backend.e_commerce.services.IProductService;
+import tpi.backend.e_commerce.services.product.IProductService;
+import tpi.backend.e_commerce.services.subCategory.ISubCategoryService;
 
 
 @RestController

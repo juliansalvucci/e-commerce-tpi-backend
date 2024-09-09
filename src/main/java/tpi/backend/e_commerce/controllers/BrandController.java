@@ -19,8 +19,7 @@ import tpi.backend.e_commerce.dto.BrandDTO;
 import tpi.backend.e_commerce.mapper.BrandMapper;
 
 import tpi.backend.e_commerce.models.Brand;
-
-import tpi.backend.e_commerce.services.IBrandService;
+import tpi.backend.e_commerce.services.brand.IBrandService;
 
 @RestController
 @RequestMapping("/brand")
