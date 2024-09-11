@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import tpi.backend.e_commerce.mapper.SubCategoryMapper;
 import tpi.backend.e_commerce.models.SubCategory;
-import tpi.backend.e_commerce.repositories.ICategoryRepository;
+
 import tpi.backend.e_commerce.repositories.ISubCategoryRepository;
 import tpi.backend.e_commerce.services.subCategory.interfaces.IDeleteSubCategoryService;
 

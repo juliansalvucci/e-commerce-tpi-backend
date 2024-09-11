@@ -16,7 +16,6 @@ public interface IFindCategoryService {
     List<CategoryDTO> findAllActive();
     List<CategoryDTO> findAllDeleted();
     
-    ResponseEntity<?> findById(Long id);
     ResponseEntity<?> findActiveById(Long id);
     ResponseEntity<?> findDeletedById(Long id);
     

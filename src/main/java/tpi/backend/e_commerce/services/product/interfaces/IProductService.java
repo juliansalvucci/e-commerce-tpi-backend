@@ -1,4 +1,4 @@
-package tpi.backend.e_commerce.services.product;
+package tpi.backend.e_commerce.services.product.interfaces;
 
 import java.util.List;
 import java.util.Optional;

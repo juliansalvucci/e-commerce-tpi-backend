@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import tpi.backend.e_commerce.models.Product;
 import tpi.backend.e_commerce.repositories.IProductRepository;
+import tpi.backend.e_commerce.services.product.interfaces.IProductService;
 
 @Service
 public class ProductService implements IProductService {
@@ -15,12 +16,6 @@ public class ProductService implements IProductService {
     @Autowired
     private IProductRepository productRepository;
 
-    
-    @Override
-    public Product saveProduct(Product product) {
-
-        return productRepository.save(product);
-    }
 
     @Override
     public List<Product> findAll() {

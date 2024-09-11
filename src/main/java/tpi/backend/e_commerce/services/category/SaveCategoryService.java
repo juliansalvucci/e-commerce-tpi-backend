@@ -19,7 +19,7 @@ public class SaveCategoryService implements ISaveCategoryService{
 
     @Override
     public ResponseEntity<CategoryDTO> save(Category category) {
-       return ResponseEntity.ok(CategoryMapper.toDTO(categoryRepository.save(category)));
+       return ResponseEntity.status(201).body(CategoryMapper.toDTO(categoryRepository.save(category)));
     }
 
     @Override

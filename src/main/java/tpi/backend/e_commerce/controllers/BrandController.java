@@ -19,80 +19,60 @@ import tpi.backend.e_commerce.dto.BrandDTO;
 import tpi.backend.e_commerce.mapper.BrandMapper;
 
 import tpi.backend.e_commerce.models.Brand;
-import tpi.backend.e_commerce.services.brand.IBrandService;
+import tpi.backend.e_commerce.services.brand.interfaces.IDeleteBrandService;
+import tpi.backend.e_commerce.services.brand.interfaces.IFindBrandService;
+import tpi.backend.e_commerce.services.brand.interfaces.ISaveBrandService;
 
 @RestController
 @RequestMapping("/brand")
 public class BrandController {
 
     @Autowired
-    private IBrandService brandService;
+    private IFindBrandService findBrandService;
+    @Autowired
+    private ISaveBrandService saveBrandService;
+    @Autowired
+    private IDeleteBrandService deleteBrandService;
 
     @GetMapping
     public List<BrandDTO> findAll(){
-        return BrandMapper.toDTOList(brandService.findAll());
+        return findBrandService.findAllActive();
     }
     
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id){
-        Optional<Brand> optionalBrand = brandService.findActiveById(id);
-        if (optionalBrand.isPresent()) {
-            return ResponseEntity.ok(BrandMapper.toDTO(optionalBrand.get())); 
-
-        }
-        return ResponseEntity.notFound().build(); 
+        return findBrandService.findActiveById(id);
     }
 
     @GetMapping("/deleted")
     public List<BrandDTO> findAllDeleted(){
-        return BrandMapper.toDTOList(brandService.findAllDeleted());
+        return findBrandService.findAllDeleted();
     }
 
     @GetMapping("/deleted/{id}")
     public ResponseEntity<?> findDeletedById(@PathVariable Long id){
-        Optional<Brand> optionalBrand = brandService.findDeletedById(id);
-        if (optionalBrand.isPresent()) {
-            return ResponseEntity.ok(BrandMapper.toDTO(optionalBrand.get())); 
-        }
-        return ResponseEntity.notFound().build(); 
+
+        return findBrandService.findDeletedById(id);
     }
 
     @PostMapping
     public ResponseEntity<BrandDTO> create(@RequestBody Brand brand){
-
-        BrandDTO brandDTO = BrandMapper.toDTO(brandService.saveBrand(brand));
-        return ResponseEntity.status(HttpStatus.CREATED).body(brandDTO);
+        return saveBrandService.save(brand);
+       
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody Brand brand, @PathVariable Long id){
-        Optional<Brand> optionalBrand = brandService.findActiveById(id);
-        if (optionalBrand.isPresent()) {
-            brand.setId(id);
-            BrandDTO brandDTO = BrandMapper.toDTO(brandService.saveBrand(brand));
-            return ResponseEntity.ok(brandDTO);
-        }
-        return ResponseEntity.notFound().build();
+        return saveBrandService.update(id, brand);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
-        Optional<Brand> optionalBrand = brandService.findById(id);
-        if (optionalBrand.isPresent()) {
-            brandService.delete(optionalBrand.get());
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        return deleteBrandService.delete(id);
     }
 
     @GetMapping("/recover/{id}")
     public ResponseEntity<?> recover(@PathVariable Long id){
-        Optional<Brand> optionalBrand = brandService.findById(id);
-        if (optionalBrand.isPresent()) {
-            Brand brand = optionalBrand.get();
-            brand.setDeleted(false);
-            return ResponseEntity.ok(BrandMapper.toDTO(brandService.saveBrand(brand)));
-        }    
-        return ResponseEntity.notFound().build();
+       return deleteBrandService.recover(id);
     }
 }

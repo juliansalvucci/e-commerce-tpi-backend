@@ -34,16 +34,6 @@ public class FindCategoryService implements IFindCategoryService{
             (List<Category>) categoryRepository.findAllDeleted() 
         );    
     }
-
-    @Override
-    public ResponseEntity<?> findById(Long id) {
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isPresent()){    
-            return ResponseEntity.ok(CategoryMapper.toDTO(optionalCategory.get())); 
-        }
-        return ResponseEntity.notFound().build();
-        
-    }
     
     @Override
     public ResponseEntity<?> findActiveById(Long id) {

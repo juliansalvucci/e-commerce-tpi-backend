@@ -28,7 +28,7 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
         if (optionalCategory.isPresent()) {
             SubCategory subCategory = SubCategoryMapper.toEntity(subCategoryDTO, optionalCategory.get());
             subCategoryRepository.save(subCategory);
-            return ResponseEntity.ok(SubCategoryMapper.toDTO(subCategory));
+            return ResponseEntity.status(201).body(SubCategoryMapper.toDTO(subCategory));
         }
         return ResponseEntity.status(404).body("La categoria ingresada no existe");
     }
