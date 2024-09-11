@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Data
@@ -17,7 +18,10 @@ public class SubCategory {
     private String name;
     private String description;
 
-    private boolean deleted; //True si esta eliminado, false si no
+    @ManyToOne
+    private Category category;
+
+    private boolean deleted; 
 
     public SubCategory() {
     }
@@ -30,5 +34,19 @@ public class SubCategory {
         this.name = name;
         this.description = description;
     }
+
+    public SubCategory(String name, String description, Category category) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+    }
+
+    public SubCategory(Long id, String name, String description, Category category) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+    }
+    
     
 }

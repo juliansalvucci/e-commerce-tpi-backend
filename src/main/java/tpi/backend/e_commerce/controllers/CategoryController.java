@@ -15,51 +15,57 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tpi.backend.e_commerce.dto.CategoryDTO;
 import tpi.backend.e_commerce.models.Category;
-import tpi.backend.e_commerce.services.category.ICategoryService;
+import tpi.backend.e_commerce.services.category.interfaces.IDeleteCategoryService;
+import tpi.backend.e_commerce.services.category.interfaces.IFindCategoryService;
+import tpi.backend.e_commerce.services.category.interfaces.ISaveCategoryService;
 
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
     
     @Autowired
-    private ICategoryService categoryService;
+    private IFindCategoryService findCategoryService;
+    @Autowired
+    private ISaveCategoryService saveCategoryService;
+    @Autowired
+    private IDeleteCategoryService deleteCategoryService;
     
     @GetMapping
     public List<CategoryDTO> findAllActive(){
-        return categoryService.findAllActive();
+        return findCategoryService.findAllActive();
     }
     @GetMapping("/deleted")
     public List<CategoryDTO> findAllDeleted(){
-        return categoryService.findAllDeleted();
+        return findCategoryService.findAllDeleted();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findActiveById(@PathVariable Long id){
-        return categoryService.findActiveById(id);
+        return findCategoryService.findActiveById(id);
     }
 
     @GetMapping("/deleted/{id}")
     public ResponseEntity<?> findDeletedById(@PathVariable Long id){
-        return categoryService.findDeletedById(id);
+        return findCategoryService.findDeletedById(id);
     }
 
     @PostMapping
     public ResponseEntity<CategoryDTO> save(@RequestBody Category category){
-        return categoryService.save(category);
+        return saveCategoryService.save(category);
     }
     
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Category category){
-        return categoryService.update(id, category);
+        return saveCategoryService.update(id, category);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
-        return categoryService.delete(id);
+        return deleteCategoryService.delete(id);
     }
 
     @GetMapping("/recover/{id}")
     public ResponseEntity<?> recover(@PathVariable Long id){
-        return categoryService.recover(id);
+        return deleteCategoryService.recover(id);
     }
 }

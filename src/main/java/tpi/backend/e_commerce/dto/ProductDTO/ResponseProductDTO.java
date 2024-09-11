@@ -1,4 +1,4 @@
-package tpi.backend.e_commerce.dto;
+package tpi.backend.e_commerce.dto.ProductDTO;
 
 public class ResponseProductDTO {
 

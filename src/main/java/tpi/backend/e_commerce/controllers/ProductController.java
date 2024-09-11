@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import tpi.backend.e_commerce.dto.CreateProductDTO;
-import tpi.backend.e_commerce.dto.ResponseProductDTO;
+import tpi.backend.e_commerce.dto.ProductDTO.CreateProductDTO;
+import tpi.backend.e_commerce.dto.ProductDTO.ResponseProductDTO;
 import tpi.backend.e_commerce.mapper.ProductMapper;
 import tpi.backend.e_commerce.models.SubCategory;
 import tpi.backend.e_commerce.models.Product;
 import tpi.backend.e_commerce.services.product.IProductService;
-import tpi.backend.e_commerce.services.subCategory.ISubCategoryService;
+import tpi.backend.e_commerce.services.subCategory.interfaces.IFindSubCategoryService;
 
 
 @RestController
@@ -34,7 +34,7 @@ public class ProductController {
     private IProductService productService;
 
     @Autowired
-    private ISubCategoryService subCategoryService;
+    private IFindSubCategoryService subCategoryService;
 
     @GetMapping
     public List<ResponseProductDTO> findAll(){

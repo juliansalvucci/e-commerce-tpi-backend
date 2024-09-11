@@ -2,9 +2,9 @@ package tpi.backend.e_commerce.mapper;
 
 
 import java.util.List;
-import tpi.backend.e_commerce.dto.CreateProductDTO;
-import tpi.backend.e_commerce.dto.ResponseProductDTO;
 
+import tpi.backend.e_commerce.dto.ProductDTO.CreateProductDTO;
+import tpi.backend.e_commerce.dto.ProductDTO.ResponseProductDTO;
 import tpi.backend.e_commerce.models.SubCategory;
 import tpi.backend.e_commerce.models.Product;
 

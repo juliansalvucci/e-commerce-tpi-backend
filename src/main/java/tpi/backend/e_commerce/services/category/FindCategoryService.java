@@ -13,36 +13,13 @@ import tpi.backend.e_commerce.mapper.CategoryMapper;
 import tpi.backend.e_commerce.models.Category;
 
 import tpi.backend.e_commerce.repositories.ICategoryRepository;
+import tpi.backend.e_commerce.services.category.interfaces.IFindCategoryService;
 
 @Service
-public class CategoryService implements ICategoryService{
+public class FindCategoryService implements IFindCategoryService{
+
     @Autowired
     private ICategoryRepository categoryRepository;
-
-    @Override
-    public ResponseEntity<CategoryDTO> save(Category category) {
-       return ResponseEntity.ok(CategoryMapper.toDTO(categoryRepository.save(category)));
-    }
-
-    @Override
-    public ResponseEntity<?> update(Long id, Category category) {
-        Optional<Category> optionalCategory = categoryRepository.findActiveById(id);
-        if (optionalCategory.isPresent()){
-            category.setId(id);
-            return ResponseEntity.ok(CategoryMapper.toDTO(categoryRepository.save(category)));
-        }
-        return ResponseEntity.notFound().build();
-    }
-    @Override
-    public ResponseEntity<?> recover(Long id) {
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isPresent()){
-            Category category = optionalCategory.get();
-            category.setDeleted(false);
-            return ResponseEntity.ok(CategoryMapper.toDTO(categoryRepository.save(category)));
-        }
-        return ResponseEntity.notFound().build();
-    }
 
     @Override
     public List<CategoryDTO> findAllActive() {
@@ -58,7 +35,6 @@ public class CategoryService implements ICategoryService{
         );    
     }
 
-
     @Override
     public ResponseEntity<?> findById(Long id) {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
@@ -68,6 +44,7 @@ public class CategoryService implements ICategoryService{
         return ResponseEntity.notFound().build();
         
     }
+    
     @Override
     public ResponseEntity<?> findActiveById(Long id) {
         Optional<Category> optionalCategory = categoryRepository.findActiveById(id);
@@ -87,14 +64,5 @@ public class CategoryService implements ICategoryService{
         return ResponseEntity.notFound().build();
     }
 
-    @Override
-    public ResponseEntity<?> delete(Long id) { //Borrado logico de categoria
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isPresent()){
-            Category category = optionalCategory.get();
-            category.setDeleted(true);
-            return this.save(category);
-        }
-        return ResponseEntity.notFound().build();
-    }
+    
 }
