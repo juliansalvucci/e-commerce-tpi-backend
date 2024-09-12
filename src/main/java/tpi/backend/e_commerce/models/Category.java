@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 @Entity
 public class Category {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,7 +16,7 @@ public class Category {
     private String name;
     private String description;
 
-    private boolean deleted; //True si esta eliminado, false si no
+    private boolean deleted; 
 
     public Category() {
     }
@@ -25,5 +24,9 @@ public class Category {
     public Category(String name) {
         this.name = name;
     }
-    
+
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

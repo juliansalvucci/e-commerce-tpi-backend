@@ -2,35 +2,53 @@ package tpi.backend.e_commerce.mapper;
 
 
 import java.util.List;
-import tpi.backend.e_commerce.dto.CreateProductDTO;
-import tpi.backend.e_commerce.dto.ResponseProductDTO;
 
-import tpi.backend.e_commerce.models.Category;
+import tpi.backend.e_commerce.dto.ProductDTO.CreateProductDTO;
+import tpi.backend.e_commerce.dto.ProductDTO.ResponseProductDTO;
+import tpi.backend.e_commerce.models.SubCategory;
+import tpi.backend.e_commerce.models.Brand;
 import tpi.backend.e_commerce.models.Product;
 
 public class ProductMapper {
 
-    public static Product toEntity(CreateProductDTO createProductDTO, Category category){ 
-        //El mapper recibira el DTO y la categoria. Si no recibiera la categoria, deberia hacer una 
-        //consulta a la BD para traerla, lo cual no es responsabilidad de esta clase
+    //El mapper recibira el DTO y la categoria. Si no recibiera la categoria, deberia hacer una 
+    //consulta a la BD para traerla, lo cual no es responsabilidad de esta clase
+    public static Product toEntity(CreateProductDTO createProductDTO, SubCategory subCategory,Brand brand){ 
         return new Product(
-            createProductDTO.getName(), createProductDTO.getDescription(), 
-            createProductDTO.getPrice(), category
+            createProductDTO.getName(),createProductDTO.getDescription(),
+            createProductDTO.getPrice(),createProductDTO.getStock(),
+            createProductDTO.getStockMin(),createProductDTO.getImageURL(),
+            brand,subCategory
         );
     }
 
+//El DTO de producto mostrara el nombre de la categoria, subcategoria y de la marca
     public static ResponseProductDTO toDTO(Product product){
         return new ResponseProductDTO(
-            product.getId(), product.getName(), product.getDescription(), 
-            product.getPrice(), product.getCategory().getName()
-            //El DTO de producto mostrara solo el nombre de la categoria
+            product.getId(), 
+            product.getName(), 
+            product.getDescription(),
+            product.getPrice(), 
+            product.getStock(),
+            product.getStockMin(),
+            product.getImageURL(),
+            product.getSubCategory().getCategory().getName(),
+            product.getSubCategory().getName(), 
+            product.getBrand().getName()
         );
     }   
 
-    public static Product toUpdate(CreateProductDTO updateProductDTO,Long id ,Category category){ //Este metodo sera usado para la actualizacion de productos
+    public static Product toUpdate(CreateProductDTO productDTO,Long id ,SubCategory SubCategory, Brand brand){ 
         return new Product(
-            id, updateProductDTO.getName(), 
-            updateProductDTO.getDescription(), updateProductDTO.getPrice(),category
+            id, 
+            productDTO.getName(), 
+            productDTO.getDescription(), 
+            productDTO.getPrice(),
+            productDTO.getStock(),
+            productDTO.getStockMin(),
+            productDTO.getImageURL(),
+            brand,
+            SubCategory
         );
     }
 
