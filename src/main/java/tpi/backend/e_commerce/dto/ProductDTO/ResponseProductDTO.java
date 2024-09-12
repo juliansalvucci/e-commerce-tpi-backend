@@ -1,5 +1,8 @@
 package tpi.backend.e_commerce.dto.ProductDTO;
 
+import lombok.Data;
+
+@Data
 public class ResponseProductDTO {
 
     private Long id;
@@ -10,58 +13,34 @@ public class ResponseProductDTO {
 
     private Double price;
 
-    private String SubCategory;
+    private Long stock;
+    private Long stockMin;
+
+    private String imageURL;
+
+    private String category;
+    private String subCategory;
+    private String brand;
     
     public ResponseProductDTO() {
     }
 
-    public ResponseProductDTO(Long id, String name, String description, Double price, String SubCategory) {
+    public ResponseProductDTO(Long id, String name, String description, Double price, Long stock, Long stockMin,
+            String imageURL, String category, String subCategory, String brand) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.SubCategory = SubCategory;
+        this.stock = stock;
+        this.stockMin = stockMin;
+        this.imageURL = imageURL;
+        this.category = category;
+        this.subCategory = subCategory;
+        this.brand = brand;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getSubCategory() {
-        return SubCategory;
-    }
-
-    public void setSubCategory(String SubCategory) {
-        this.SubCategory = SubCategory;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+  
+    
 
     
 }

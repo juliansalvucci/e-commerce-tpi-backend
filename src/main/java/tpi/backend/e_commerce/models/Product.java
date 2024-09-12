@@ -5,13 +5,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Entity
 public class Product {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,31 +19,50 @@ public class Product {
 
     private String description;
 
-    private Double price; //Precio por unidad
+    private Double price; 
 
-    private Long stock; //Unidades en stock
+    private Long stock; 
+
+    private Long stockMin;
+
+    private String imageURL;
+
+    @ManyToOne
+    private Brand brand;
 
     @ManyToOne
     private SubCategory SubCategory;
 
-    private boolean deleted; //Borrado logico, si el valor es true significa que el producto fue eliminado
+    private boolean deleted; 
     
     public Product() {
     }
 
-    public Product(String name, String description, Double price, SubCategory SubCategory) {
+
+    public Product(String name, String description, Double price, Long stock, Long stockMin, String imageURL,
+            Brand brand, SubCategory subCategory) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.SubCategory = SubCategory;
+        this.stock = stock;
+        this.stockMin = stockMin;
+        this.imageURL = imageURL;
+        this.brand = brand;
+        SubCategory = subCategory;
     }
 
-    public Product(Long id, String name, String description, Double price, SubCategory SubCategory) {
+
+    public Product(Long id, String name, String description, Double price, Long stock, Long stockMin, String imageURL,
+            Brand brand, tpi.backend.e_commerce.models.SubCategory subCategory) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.SubCategory = SubCategory;
+        this.stock = stock;
+        this.stockMin = stockMin;
+        this.imageURL = imageURL;
+        this.brand = brand;
+        SubCategory = subCategory;
     }
 
    

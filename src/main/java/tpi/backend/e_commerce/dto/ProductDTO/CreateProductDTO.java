@@ -1,6 +1,8 @@
 package tpi.backend.e_commerce.dto.ProductDTO;
 
+import lombok.Data;
 
+@Data
 public class CreateProductDTO {
 
     private String name;
@@ -9,39 +11,24 @@ public class CreateProductDTO {
 
     private Double price;
 
-    private Long SubCategory;
+    private Long stock;
+    private Long stockMin;
 
+    private String imageURL;
+
+    private Long brandId;
+    private Long subCategoryId;
     
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public CreateProductDTO(String name, String description, Double price, Long stock, Long stockMin, String imageURL,
+        Long brandId, Long subCategoryId) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public Long getSubCategory() {
-        return SubCategory;
-    }
-
-    public void setSubCategory(Long SubCategory) {
-        this.SubCategory = SubCategory;
+        this.stock = stock;
+        this.stockMin = stockMin;
+        this.imageURL = imageURL;
+        this.brandId = brandId;
+        this.subCategoryId = subCategoryId;
     }
     
 }
