@@ -1,5 +1,6 @@
 package tpi.backend.e_commerce.services.product;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class DeleteProductService implements IDeleteProductService{
         }
         Product product = optionalProduct.get();
         product.setDeleted(true);
+        product.setDeleteDatetime(LocalDateTime.now());
         productRepository.save(product);
         return ResponseEntity.noContent().build();
         /* 
@@ -41,6 +43,7 @@ public class DeleteProductService implements IDeleteProductService{
         }
         Product product = optionalProduct.get();
         product.setDeleted(false);
+        product.setDeleteDatetime(null);
         productRepository.save(product);
         return ResponseEntity.ok(ProductMapper.toDTO(product));
     }

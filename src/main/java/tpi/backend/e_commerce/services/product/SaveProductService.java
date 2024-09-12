@@ -59,6 +59,9 @@ public class SaveProductService implements ISaveProductService{
         Product productToSave = ProductMapper.toUpdate(createProductDTO, id ,optionalSubCategory.get(), optionalBrand.get()); 
         //Convierto el product de la peticion en un product de la bd a traves del mapper
 
+        productToSave.setCreationDatetime(optionalProduct.get().getCreationDatetime());
+        //Asigno al producto a guardar en la bd la fecha de creacion que tenia el producto antes de ser actualizado
+
         return ResponseEntity.ok(ProductMapper.toDTO(productRepository.save(productToSave)));
 
     }

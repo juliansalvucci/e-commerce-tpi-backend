@@ -8,7 +8,13 @@ import tpi.backend.e_commerce.models.Category;
 public class CategoryMapper {
     
    public static CategoryDTO toDTO(Category category){
-        return new CategoryDTO(category.getId(), category.getName(), category.getDescription());
+        return new CategoryDTO(
+          category.getId(), 
+          category.getName(), 
+          category.getDescription(),
+          category.getCreationDatetime(),
+          category.getUpdateDatetime(),
+          category.getDeleteDatetime());
    }
    public static List<CategoryDTO> toDTOList(List<Category> categories){
         return categories.stream()

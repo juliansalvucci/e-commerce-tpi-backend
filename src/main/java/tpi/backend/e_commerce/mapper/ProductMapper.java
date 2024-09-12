@@ -15,10 +15,14 @@ public class ProductMapper {
     //consulta a la BD para traerla, lo cual no es responsabilidad de esta clase
     public static Product toEntity(CreateProductDTO createProductDTO, SubCategory subCategory,Brand brand){ 
         return new Product(
-            createProductDTO.getName(),createProductDTO.getDescription(),
-            createProductDTO.getPrice(),createProductDTO.getStock(),
-            createProductDTO.getStockMin(),createProductDTO.getImageURL(),
-            brand,subCategory
+            createProductDTO.getName(),
+            createProductDTO.getDescription(),
+            createProductDTO.getPrice(),
+            createProductDTO.getStock(),
+            createProductDTO.getStockMin(),
+            createProductDTO.getImageURL(),
+            brand,
+            subCategory
         );
     }
 
@@ -34,7 +38,10 @@ public class ProductMapper {
             product.getImageURL(),
             product.getSubCategory().getCategory().getName(),
             product.getSubCategory().getName(), 
-            product.getBrand().getName()
+            product.getBrand().getName(),
+            product.getCreationDatetime(),
+            product.getUpdateDatetime(),
+            product.getDeleteDatetime()
         );
     }   
 

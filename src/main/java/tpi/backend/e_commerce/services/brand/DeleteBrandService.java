@@ -1,7 +1,9 @@
 package tpi.backend.e_commerce.services.brand;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ public class DeleteBrandService implements IDeleteBrandService{
         if (optionalBrand.isPresent()) {
             Brand brand = optionalBrand.get();
             brand.setDeleted(true);
+            brand.setDeleteDatetime(LocalDateTime.now()); //Guardo la fechaHora en que se elimina al objeto
             brandRepository.save(brand);
             return ResponseEntity.noContent().build();
         }
@@ -34,10 +37,11 @@ public class DeleteBrandService implements IDeleteBrandService{
         if (optionalBrand.isPresent()) {
             Brand brand = optionalBrand.get();
             brand.setDeleted(false);
+            brand.setDeleteDatetime(null); //Como el objeto vuelve a estar activo, elimino la fecha de borrado
             return ResponseEntity.ok(BrandMapper.toDTO(brandRepository.save(brand)));
         }    
         return ResponseEntity.notFound().build();
     }
-
+    
     
 }

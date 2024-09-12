@@ -1,5 +1,6 @@
 package tpi.backend.e_commerce.services.subCategory;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class DeleteSubCategoryService implements IDeleteSubCategoryService{
 
             SubCategory subCategory = optionalSubCategory.get();
             subCategory.setDeleted(true);
+            subCategory.setDeleteDatetime(LocalDateTime.now());
             return ResponseEntity.ok(SubCategoryMapper.toDTO(subCategory));
         }
         return ResponseEntity.notFound().build();
@@ -36,6 +38,7 @@ public class DeleteSubCategoryService implements IDeleteSubCategoryService{
         if (optionalSubCategory.isPresent()){
             SubCategory subCategory = optionalSubCategory.get();
             subCategory.setDeleted(false);
+            subCategory.setDeleteDatetime(null);
             return ResponseEntity.ok(SubCategoryMapper.toDTO(subCategoryRepository.save(subCategory)));
         }
         return ResponseEntity.notFound().build();    
