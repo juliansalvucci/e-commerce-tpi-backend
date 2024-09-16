@@ -2,6 +2,7 @@ package tpi.backend.e_commerce.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import tpi.backend.e_commerce.dto.SubCategoryDTO.CreateSubCategoryDTO;
@@ -54,13 +58,13 @@ public class SubCategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CreateSubCategoryDTO subCategoryDTO){
-        return saveSubCategoryService.save(subCategoryDTO);
+    public ResponseEntity<?> create(@Valid @RequestBody CreateSubCategoryDTO subCategoryDTO, BindingResult result){
+        return saveSubCategoryService.save(subCategoryDTO, result);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CreateSubCategoryDTO subCategoryDTO){
-        return saveSubCategoryService.update(id, subCategoryDTO);
+    public ResponseEntity<?> update(@Valid @RequestBody CreateSubCategoryDTO subCategoryDTO,BindingResult result ,@PathVariable Long id){
+        return saveSubCategoryService.update(id, subCategoryDTO, result);
     }
 
     @DeleteMapping("/{id}")

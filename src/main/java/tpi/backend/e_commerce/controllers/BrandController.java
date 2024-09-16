@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import tpi.backend.e_commerce.dto.BrandDTO;
 
 import tpi.backend.e_commerce.models.Brand;
@@ -55,14 +57,14 @@ public class BrandController {
     }
 
     @PostMapping
-    public ResponseEntity<BrandDTO> create(@RequestBody Brand brand){
-        return saveBrandService.save(brand);
+    public ResponseEntity<?> create(@Valid @RequestBody Brand brand, BindingResult result){
+        return saveBrandService.save(brand, result);
        
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody Brand brand, @PathVariable Long id){
-        return saveBrandService.update(id, brand);
+    public ResponseEntity<?> update(@Valid @RequestBody Brand brand, BindingResult result,@PathVariable Long id){
+        return saveBrandService.update(id, brand, result);
     }
 
     @DeleteMapping("/{id}")

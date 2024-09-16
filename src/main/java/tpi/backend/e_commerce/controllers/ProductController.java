@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import tpi.backend.e_commerce.dto.ProductDTO.CreateProductDTO;
 import tpi.backend.e_commerce.dto.ProductDTO.ResponseProductDTO;
 import tpi.backend.e_commerce.services.product.interfaces.IDeleteProductService;
@@ -57,14 +59,14 @@ public class ProductController {
         return findProductService.findDeletedById(id);
     }     
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CreateProductDTO productDto){ //El producto que obtengo de la peticion no tiene el objeto categoria sino unicamente su id
-        return saveProductService.save(productDto);
+    public ResponseEntity<?> create(@Valid @RequestBody CreateProductDTO productDto, BindingResult result){ //El producto que obtengo de la peticion no tiene el objeto categoria sino unicamente su id
+        return saveProductService.save(productDto,result);
     }
 
     @PutMapping("/{id}") //Actualiza un producto
-    public ResponseEntity<?> update(@RequestBody CreateProductDTO productDto, @PathVariable Long id){ 
+    public ResponseEntity<?> update(@Valid @RequestBody CreateProductDTO productDto , BindingResult result, @PathVariable Long id){ 
 
-        return saveProductService.update(id, productDto);
+        return saveProductService.update(id, productDto,result);
     }
 
     @DeleteMapping("/{id}") //Elimina logicamente un producto por su id 

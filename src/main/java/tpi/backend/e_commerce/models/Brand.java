@@ -2,12 +2,14 @@ package tpi.backend.e_commerce.models;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
@@ -18,6 +20,8 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true) //No puede existir dos marcas con el mismo nombre
+    @NotBlank(message = "No puede estar vacio")
     private String name;
 
     private boolean deleted; //True si esta eliminado

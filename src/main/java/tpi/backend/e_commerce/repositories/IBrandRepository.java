@@ -21,4 +21,10 @@ public interface IBrandRepository extends CrudRepository<Brand,Long>{
     
     @Query("select b from Brand b where b.id = ?1 and b.deleted = true")
     Optional<Brand> findDeletedById(Long id);
+
+    boolean existsByName(String name);
+
+    @Query("select CASE when COUNT(b) > 0 then true else false end from Brand b where b.name = ?1 and b.id <> ?2" )
+    boolean existsByNameExceptId(String name, Long id);
+
 }
