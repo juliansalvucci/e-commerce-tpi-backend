@@ -22,18 +22,17 @@ import lombok.RequiredArgsConstructor;
 import tpi.backend.e_commerce.services.JwtService.JwtService;
 import tpi.backend.e_commerce.services.JwtService.UserService;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-        private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
-
+    private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     @Autowired
     private JwtService jwtService;
     private final UserService userService;
+
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
