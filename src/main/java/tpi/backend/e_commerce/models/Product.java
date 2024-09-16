@@ -1,10 +1,15 @@
 package tpi.backend.e_commerce.models;
 
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.Data;
 
 @Data
@@ -15,16 +20,72 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     private String description;
 
-    private Double price; //Precio por unidad
+    private Double price; 
 
-    private Long stock; //Unidades en stock
+    private Long stock; 
+
+    private Long stockMin;
+
+    private String imageURL;
 
     @ManyToOne
-    private Category category;
+    private Brand brand;
 
-    private boolean deleted; //Borrado logico, si el valor es true significa que el producto fue eliminado
+    @ManyToOne
+    private SubCategory SubCategory;
+
+    private boolean deleted; 
+    
+    private LocalDateTime creationDatetime;
+    private LocalDateTime updateDatetime;
+    private LocalDateTime deleteDatetime;
+
+    @PrePersist //Este metodo se ejecutara antes de crear persistir al objeto en la BD
+    public void preCreate() {
+        creationDatetime = LocalDateTime.now();
+    }
+    @PreUpdate //Este metodo se ejecutara antes de actualizarse el objeto en la BD
+    public void preUpdate() {
+        updateDatetime = LocalDateTime.now();
+    }
+
+    public Product() {
+    }
+
+
+    public Product(String name, String description, Double price, Long stock, Long stockMin, String imageURL,
+            Brand brand, SubCategory subCategory) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.stockMin = stockMin;
+        this.imageURL = imageURL;
+        this.brand = brand;
+        SubCategory = subCategory;
+    }
+
+
+    public Product(Long id, String name, String description, Double price, Long stock, Long stockMin, String imageURL,
+            Brand brand, tpi.backend.e_commerce.models.SubCategory subCategory) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.stockMin = stockMin;
+        this.imageURL = imageURL;
+        this.brand = brand;
+        SubCategory = subCategory;
+    }
+
+   
+    
+    
 }
+

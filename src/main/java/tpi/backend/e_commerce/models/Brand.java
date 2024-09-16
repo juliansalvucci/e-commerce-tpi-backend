@@ -10,24 +10,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 @Entity
-public class Category {
+public class Brand {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true) //No puede existir dos marcas con el mismo nombre
     @NotBlank(message = "No puede estar vacio")
     private String name;
 
-    @Size(max = 100)
-    private String description;
-
-    private boolean deleted; 
+    private boolean deleted; //True si esta eliminado
 
     private LocalDateTime creationDatetime;
     private LocalDateTime updateDatetime;
@@ -42,15 +39,4 @@ public class Category {
         updateDatetime = LocalDateTime.now();
     }
 
-    public Category() {
-    }
-
-    public Category(String name) {
-        this.name = name;
-    }
-
-    public Category(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 }
