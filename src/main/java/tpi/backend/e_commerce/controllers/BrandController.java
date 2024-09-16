@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import tpi.backend.e_commerce.services.brand.interfaces.IDeleteBrandService;
 import tpi.backend.e_commerce.services.brand.interfaces.IFindBrandService;
 import tpi.backend.e_commerce.services.brand.interfaces.ISaveBrandService;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/brand")
 public class BrandController {
