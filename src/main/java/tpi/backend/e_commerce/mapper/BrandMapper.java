@@ -5,7 +5,12 @@ import tpi.backend.e_commerce.models.Brand;
 
 public class BrandMapper {
     public static BrandDTO toDTO(Brand brand){
-        return new BrandDTO(brand.getId(), brand.getName());
+        return new BrandDTO(
+        brand.getId(), 
+        brand.getName(), 
+        brand.getCreationDatetime(), 
+        brand.getUpdateDatetime(), 
+        brand.getDeleteDatetime());
     }
 
     public static List<BrandDTO> toDTOList(List<Brand> brands){

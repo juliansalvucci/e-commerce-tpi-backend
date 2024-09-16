@@ -25,4 +25,8 @@ public interface ICategoryRepository extends CrudRepository<Category,Long>{
     Optional<Category> findDeletedById(Long id);
     //Solo traera la categoria si este esta eliminado
     
+    boolean existsByName(String name);
+
+    @Query("select CASE when COUNT(c) > 0 then true else false end from Category c where c.name = ?1 and c.id <> ?2")
+    boolean existsByNameExceptId(String name, Long id);
 }

@@ -2,8 +2,11 @@ package tpi.backend.e_commerce.controllers;
 
 import java.util.List;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import tpi.backend.e_commerce.dto.CategoryDTO;
 import tpi.backend.e_commerce.models.Category;
 import tpi.backend.e_commerce.services.category.interfaces.IDeleteCategoryService;
@@ -50,13 +54,13 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDTO> save(@RequestBody Category category){
-        return saveCategoryService.save(category);
+    public ResponseEntity<?> create(@Valid @RequestBody Category category, BindingResult result){
+        return saveCategoryService.save(category, result);
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Category category){
-        return saveCategoryService.update(id, category);
+    public ResponseEntity<?> update(@Valid @RequestBody Category category,BindingResult result ,@PathVariable Long id){
+        return saveCategoryService.update(id, category, result);
     }
 
     @DeleteMapping("/{id}")

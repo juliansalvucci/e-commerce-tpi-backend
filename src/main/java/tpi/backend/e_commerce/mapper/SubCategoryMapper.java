@@ -10,8 +10,13 @@ public class SubCategoryMapper {
     
     public static ResponseSubCategoryDTO toDTO(SubCategory subCategory){
         return new ResponseSubCategoryDTO(
-            subCategory.getId(), subCategory.getName(), 
-            subCategory.getDescription(), subCategory.getCategory().getName()
+            subCategory.getId(), 
+            subCategory.getName(), 
+            subCategory.getDescription(), 
+            subCategory.getCategory().getName(),
+            subCategory.getCreationDatetime(),
+            subCategory.getUpdateDatetime(),
+            subCategory.getDeleteDatetime()
         );
     } 
 
