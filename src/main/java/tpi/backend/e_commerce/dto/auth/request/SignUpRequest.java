@@ -1,4 +1,4 @@
-package tpi.backend.e_commerce.models.auth.request;
+package tpi.backend.e_commerce.dto.auth.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignInRequest {
+public class SignUpRequest {
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
 }
