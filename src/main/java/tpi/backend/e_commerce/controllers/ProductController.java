@@ -1,9 +1,12 @@
 package tpi.backend.e_commerce.controllers;
 
 import java.util.List;
-import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import tpi.backend.e_commerce.models.Product;
+import jakarta.validation.Valid;
+import tpi.backend.e_commerce.dto.ProductDTO.CreateProductDTO;
+import tpi.backend.e_commerce.dto.ProductDTO.ResponseProductDTO;
+import tpi.backend.e_commerce.services.product.interfaces.IDeleteProductService;
+import tpi.backend.e_commerce.services.product.interfaces.IFindProductService;
+import tpi.backend.e_commerce.services.product.interfaces.ISaveProductService;
 
-import tpi.backend.e_commerce.services.IProductService;
 
 @RestController
 @RequestMapping("/product")
@@ -24,57 +31,59 @@ import tpi.backend.e_commerce.services.IProductService;
 public class ProductController {
     
     @Autowired
-    private IProductService productService;
+    private IFindProductService findProductService;
+    @Autowired
+    private ISaveProductService saveProductService;
+    @Autowired
+    private IDeleteProductService deleteProductService;
+
 
     @GetMapping
-    public List<Product> findAll(){
-        return productService.findAll();
-    }
+    public List<ResponseProductDTO> findAllActive(){
 
+        return findProductService.findAllActive();
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id){
-        Optional<Product> optionalProduct = productService.findById(id);
-        if (optionalProduct.isPresent()) {
-            return ResponseEntity.ok(optionalProduct.get()); //De existir el producto y estar activo lo devuelve con codigo 200
-        }
-        return ResponseEntity.notFound().build(); //De no existir el producto o existir y estar eliminado devuelve un codigo 404
+
+        return findProductService.findActiveById(id);
     }
 
     @GetMapping("/deleted")
-    public List<Product> findAllDeleted(){
-        return productService.findAllDeleted();
+    public List<ResponseProductDTO> findAllDeleted(){
+        return findProductService.findAllDeleted();
     }
 
+    @GetMapping("/deleted/{id}")
+    public ResponseEntity<?> findDeletedById(@PathVariable Long id){ //Busca por id entre los productos eliminados
+
+        return findProductService.findDeletedById(id);
+    }     
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Product product){
-        return ResponseEntity.ok(productService.saveProduct(product));
+    public ResponseEntity<?> create(@Valid @RequestBody CreateProductDTO productDto, BindingResult result){ //El producto que obtengo de la peticion no tiene el objeto categoria sino unicamente su id
+        return saveProductService.save(productDto,result);
     }
 
     @PutMapping("/{id}") //Actualiza un producto
-    public ResponseEntity<?> update(@RequestBody Product requestProduct, @PathVariable Long id){ 
-        Optional<Product> optionalProduct = productService.findById(id);
-        if (optionalProduct.isPresent()) { //Primero chequea que exista un producto con ese id
-            Product dbProduct = optionalProduct.get();
-            requestProduct.setId(dbProduct.getId()); //Setea el id del producto buscado en la BD al producto recibido en la request
-            return ResponseEntity.ok(productService.saveProduct(requestProduct)); /*
-            Como el producto pasado al save tiene un id, no se crea un nuevo producto 
-            sino que se actualiza el que tenia ese id */
-        }
-        return ResponseEntity.notFound().build(); //De no existir un producto con el id mandado lanza un 404
+    public ResponseEntity<?> update(@Valid @RequestBody CreateProductDTO productDto , BindingResult result, @PathVariable Long id){ 
+
+        return saveProductService.update(id, productDto,result);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") //Elimina logicamente un producto por su id 
     public ResponseEntity<?> delete(@PathVariable Long id){
-        Optional<Product> optionalProduct = productService.findById(id);
-        if (optionalProduct.isPresent()) {
-            Product product = optionalProduct.get();
-            productService.delete(product);
-            return ResponseEntity.noContent().build();
-        }
 
-        return ResponseEntity.notFound().build();
+        return deleteProductService.delete(id);
     }
+
+    @GetMapping("/recover/{id}") //Recupera logicamente un producto por su id.
+    public ResponseEntity<?> recover(@PathVariable Long id){
+
+        return deleteProductService.recover(id);
+    }
+
+
 
 
 }
