@@ -6,11 +6,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import tpi.backend.e_commerce.models.auth.request.SignUpRequest;
+import tpi.backend.e_commerce.dto.auth.request.SignInRequest;
+import tpi.backend.e_commerce.dto.auth.request.SignUpRequest;
+import tpi.backend.e_commerce.dto.auth.response.JwtAuthenticationResponse;
 import tpi.backend.e_commerce.enums.Role;
 import tpi.backend.e_commerce.models.User;
-import tpi.backend.e_commerce.models.auth.request.SignInRequest;
-import tpi.backend.e_commerce.models.auth.response.JwtAuthenticationResponse;
 import tpi.backend.e_commerce.repositories.IUserRepository;
 import tpi.backend.e_commerce.services.JwtService.interfaces.IAuthenticationService;
 
