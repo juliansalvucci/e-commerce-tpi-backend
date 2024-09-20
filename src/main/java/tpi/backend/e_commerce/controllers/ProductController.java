@@ -59,7 +59,14 @@ public class ProductController {
     public ResponseEntity<?> findDeletedById(@PathVariable Long id){ //Busca por id entre los productos eliminados
 
         return findProductService.findDeletedById(id);
-    }     
+    }  
+    
+    @GetMapping("/name/{name}")
+    public ResponseEntity<?> findByName(@PathVariable String name){
+
+        return findProductService.findByName(name);
+    } 
+    
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody CreateProductDTO productDto, BindingResult result){ //El producto que obtengo de la peticion no tiene el objeto categoria sino unicamente su id
         return saveProductService.save(productDto,result);

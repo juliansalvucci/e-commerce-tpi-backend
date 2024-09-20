@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import tpi.backend.e_commerce.dto.CategoryDTO;
 import tpi.backend.e_commerce.mapper.CategoryMapper;
+
 import tpi.backend.e_commerce.models.Category;
 
 import tpi.backend.e_commerce.repositories.ICategoryRepository;
@@ -54,5 +55,14 @@ public class FindCategoryService implements IFindCategoryService{
         return ResponseEntity.notFound().build();
     }
 
+    @Override
+    public ResponseEntity<?> findByName(String name) {
+        Optional<Category> optionalCategory = categoryRepository.findByName(name);
+        if(optionalCategory.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } 
+        return ResponseEntity.ok(CategoryMapper.toDTO(optionalCategory.get()));
+    }
+    
     
 }

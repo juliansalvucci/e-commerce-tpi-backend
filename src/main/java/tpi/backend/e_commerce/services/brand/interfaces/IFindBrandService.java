@@ -17,4 +17,6 @@ public interface IFindBrandService {
     ResponseEntity<?> findActiveById(Long id);
     ResponseEntity<?> findDeletedById(Long id);
 
+    ResponseEntity<?> findByName(String name);
+
 }

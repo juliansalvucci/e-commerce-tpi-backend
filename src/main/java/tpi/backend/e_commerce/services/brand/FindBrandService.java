@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import tpi.backend.e_commerce.dto.BrandDTO;
 import tpi.backend.e_commerce.mapper.BrandMapper;
+
 import tpi.backend.e_commerce.models.Brand;
 
 import tpi.backend.e_commerce.repositories.IBrandRepository;
@@ -52,6 +53,14 @@ public class FindBrandService implements IFindBrandService{
         return ResponseEntity.notFound().build(); 
     }
 
+    @Override
+    public ResponseEntity<?> findByName(String name) {
+        Optional<Brand> optionalBrand = brandRepository.findByName(name);
+        if(optionalBrand.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } 
+        return ResponseEntity.ok(BrandMapper.toDTO(optionalBrand.get()));
+    }
     
     
 }

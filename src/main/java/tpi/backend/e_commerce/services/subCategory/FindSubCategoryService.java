@@ -65,6 +65,13 @@ public class FindSubCategoryService implements IFindSubCategoryService{
         return ResponseEntity.notFound().build();
     }
 
-
+    @Override
+    public ResponseEntity<?> findByName(String name) {
+        Optional<SubCategory> optionalSubCategory = subCategoryRepository.findByName(name);
+        if(optionalSubCategory.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } 
+        return ResponseEntity.ok(SubCategoryMapper.toDTO(optionalSubCategory.get()));
+    }
 
 }
