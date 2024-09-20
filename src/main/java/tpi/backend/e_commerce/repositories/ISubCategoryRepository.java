@@ -3,7 +3,7 @@ import java.util.*;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import tpi.backend.e_commerce.models.Product;
+
 import tpi.backend.e_commerce.models.SubCategory;
 
 
@@ -25,7 +25,7 @@ public interface ISubCategoryRepository extends CrudRepository<SubCategory,Long>
     Optional<SubCategory> findDeletedById(Long id);
     //Solo traera la categoria si este esta eliminado
 
-    @Query("select c from SubCategory c where UPPER(c.name) = UPPER(?1) and c.deleted = false")
-    Optional<SubCategory> findActiveByName(String name);
+    Optional<SubCategory> findByName(String name);
+
 }
 

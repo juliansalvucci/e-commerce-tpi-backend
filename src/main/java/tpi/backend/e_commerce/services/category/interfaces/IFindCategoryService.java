@@ -19,6 +19,6 @@ public interface IFindCategoryService {
     ResponseEntity<?> findActiveById(Long id);
     ResponseEntity<?> findDeletedById(Long id);
     
-    ResponseEntity<?> findActiveByName(String name);
+    ResponseEntity<?> findByName(String name);
 
 }

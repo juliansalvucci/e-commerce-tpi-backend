@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import tpi.backend.e_commerce.models.Brand;
 import tpi.backend.e_commerce.models.Category;
 import tpi.backend.e_commerce.models.Product;
 
@@ -33,6 +34,7 @@ public interface ICategoryRepository extends CrudRepository<Category,Long>{
     @Query("select CASE when COUNT(c) > 0 then true else false end from Category c where UPPER(c.name) = UPPER(?1) and c.id <> ?2")
     boolean existsByNameExceptId(String name, Long id);
 
-    @Query("select c from Category c where UPPER(c.name) = UPPER(?1) and c.deleted = false")
-    Optional<Category> findActiveByName(String name);
+    Optional<Category> findByName(String name);
+
+
 }

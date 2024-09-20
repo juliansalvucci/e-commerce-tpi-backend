@@ -59,10 +59,11 @@ public class BrandController {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<?> findActiveByName(@PathVariable String name){
+    public ResponseEntity<?> findByName(@PathVariable String name){
 
-        return findBrandService.findActiveByName(name);
+        return findBrandService.findByName(name);
     }
+
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Brand brand, BindingResult result){

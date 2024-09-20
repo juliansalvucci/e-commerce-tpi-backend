@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import tpi.backend.e_commerce.dto.SubCategoryDTO.ResponseSubCategoryDTO;
 import tpi.backend.e_commerce.mapper.SubCategoryMapper;
-import tpi.backend.e_commerce.models.Product;
+
 import tpi.backend.e_commerce.models.SubCategory;
 
 import tpi.backend.e_commerce.repositories.ISubCategoryRepository;
@@ -66,8 +66,8 @@ public class FindSubCategoryService implements IFindSubCategoryService{
     }
 
     @Override
-    public ResponseEntity<?> findActiveByName(String name) {
-        Optional<SubCategory> optionalSubCategory = subCategoryRepository.findActiveByName(name);
+    public ResponseEntity<?> findByName(String name) {
+        Optional<SubCategory> optionalSubCategory = subCategoryRepository.findByName(name);
         if(optionalSubCategory.isEmpty()){
             return ResponseEntity.notFound().build();
         } 

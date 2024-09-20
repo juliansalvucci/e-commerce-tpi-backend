@@ -29,7 +29,6 @@ public interface IBrandRepository extends CrudRepository<Brand,Long>{
     @Query("select CASE when COUNT(b) > 0 then true else false end from Brand b where UPPER(b.name) = UPPER(?1) and b.id <> ?2" )
     boolean existsByNameExceptId(String name, Long id);
 
-    @Query("select b from Brand b where UPPER(b.name) = UPPER(?1) and b.deleted = false")
-    Optional<Brand> findActiveByName(String name);
+    Optional<Brand> findByName(String name);
 
 }

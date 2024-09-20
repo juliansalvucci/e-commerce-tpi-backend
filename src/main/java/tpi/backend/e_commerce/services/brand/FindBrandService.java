@@ -54,8 +54,8 @@ public class FindBrandService implements IFindBrandService{
     }
 
     @Override
-    public ResponseEntity<?> findActiveByName(String name) {
-        Optional<Brand> optionalBrand = brandRepository.findActiveByName(name);
+    public ResponseEntity<?> findByName(String name) {
+        Optional<Brand> optionalBrand = brandRepository.findByName(name);
         if(optionalBrand.isEmpty()){
             return ResponseEntity.notFound().build();
         } 

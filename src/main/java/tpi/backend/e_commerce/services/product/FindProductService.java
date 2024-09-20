@@ -55,8 +55,8 @@ public class FindProductService implements IFindProductService {
     }
 
     @Override
-    public ResponseEntity<?> findActiveByName(String name) {
-        Optional<Product> optionalProduct = productRepository.findActiveByName(name);
+    public ResponseEntity<?> findByName(String name) {
+        Optional<Product> optionalProduct = productRepository.findByName(name);
         if(optionalProduct.isEmpty()){
             return ResponseEntity.notFound().build();
         } 

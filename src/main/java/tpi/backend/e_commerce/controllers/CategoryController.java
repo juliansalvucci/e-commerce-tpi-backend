@@ -56,8 +56,8 @@ public class CategoryController {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<?> findActiveByName(@PathVariable String name){
-        return findCategoryService.findActiveByName(name);
+    public ResponseEntity<?> findByName(@PathVariable String name){
+        return findCategoryService.findByName(name);
     }
 
     @PostMapping

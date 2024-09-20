@@ -56,8 +56,8 @@ public class FindCategoryService implements IFindCategoryService{
     }
 
     @Override
-    public ResponseEntity<?> findActiveByName(String name) {
-        Optional<Category> optionalCategory = categoryRepository.findActiveByName(name);
+    public ResponseEntity<?> findByName(String name) {
+        Optional<Category> optionalCategory = categoryRepository.findByName(name);
         if(optionalCategory.isEmpty()){
             return ResponseEntity.notFound().build();
         } 

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import tpi.backend.e_commerce.models.Brand;
 import tpi.backend.e_commerce.models.Product;
 
 public interface IProductRepository extends CrudRepository<Product,Long>{
@@ -25,7 +26,7 @@ public interface IProductRepository extends CrudRepository<Product,Long>{
     Optional<Product> findDeletedById(Long id);
     //Solo traera el producto si este esta eliminado
 
-    @Query("select p from Product p where UPPER(p.name) = UPPER(?1) and p.deleted = false")
-    Optional<Product> findActiveByName(String name);
+    Optional<Product> findByName(String name);
+
     
 }
