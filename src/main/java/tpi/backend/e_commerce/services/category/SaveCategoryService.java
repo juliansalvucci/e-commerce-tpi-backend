@@ -48,4 +48,11 @@ public class SaveCategoryService implements ISaveCategoryService{
         }
         return ResponseEntity.notFound().build();
     }
+
+    // @Override
+    // public void modifyName(Category category) {
+    //     category.setName()
+    // }
+
+    
 }

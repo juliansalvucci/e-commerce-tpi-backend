@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import tpi.backend.e_commerce.models.Brand;
+import tpi.backend.e_commerce.models.Product;
 
 public interface IBrandRepository extends CrudRepository<Brand,Long>{
     @Query("select b from Brand b where b.deleted = false")
@@ -22,9 +23,13 @@ public interface IBrandRepository extends CrudRepository<Brand,Long>{
     @Query("select b from Brand b where b.id = ?1 and b.deleted = true")
     Optional<Brand> findDeletedById(Long id);
 
+    @Query("select CASE when COUNT(b) > 0 then true else false end from Brand b where UPPER(b.name) = UPPER(?1)")
     boolean existsByName(String name);
 
-    @Query("select CASE when COUNT(b) > 0 then true else false end from Brand b where b.name = ?1 and b.id <> ?2" )
+    @Query("select CASE when COUNT(b) > 0 then true else false end from Brand b where UPPER(b.name) = UPPER(?1) and b.id <> ?2" )
     boolean existsByNameExceptId(String name, Long id);
+
+    @Query("select b from Brand b where UPPER(b.name) = UPPER(?1) and b.deleted = false")
+    Optional<Brand> findActiveByName(String name);
 
 }

@@ -9,4 +9,5 @@ import tpi.backend.e_commerce.models.Category;
 public interface ISaveCategoryService {
     ResponseEntity<?> save(Category category, BindingResult result);
     ResponseEntity<?> update(Long id, Category category, BindingResult result);
+    //void modifyName(Category c);
 }

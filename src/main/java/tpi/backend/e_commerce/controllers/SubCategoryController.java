@@ -58,6 +58,12 @@ public class SubCategoryController {
         return findSubCategoryService.findDeletedById(id);
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<?> findActiveByName(@PathVariable String name){
+
+        return findSubCategoryService.findActiveByName(name);
+    }
+    
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody CreateSubCategoryDTO subCategoryDTO, BindingResult result){
         return saveSubCategoryService.save(subCategoryDTO, result);

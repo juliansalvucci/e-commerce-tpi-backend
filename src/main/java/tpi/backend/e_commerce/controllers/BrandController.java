@@ -58,6 +58,12 @@ public class BrandController {
         return findBrandService.findDeletedById(id);
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<?> findActiveByName(@PathVariable String name){
+
+        return findBrandService.findActiveByName(name);
+    }
+
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Brand brand, BindingResult result){
         return saveBrandService.save(brand, result);
