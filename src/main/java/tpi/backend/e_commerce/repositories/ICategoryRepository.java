@@ -5,7 +5,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import tpi.backend.e_commerce.models.Brand;
 import tpi.backend.e_commerce.models.Category;
+import tpi.backend.e_commerce.models.Product;
 
 
 public interface ICategoryRepository extends CrudRepository<Category,Long>{
@@ -25,8 +27,14 @@ public interface ICategoryRepository extends CrudRepository<Category,Long>{
     Optional<Category> findDeletedById(Long id);
     //Solo traera la categoria si este esta eliminado
     
+
+    @Query("select CASE when COUNT(c) > 0 then true else false end from Category c where UPPER(c.name) = UPPER(?1)")
     boolean existsByName(String name);
 
-    @Query("select CASE when COUNT(c) > 0 then true else false end from Category c where c.name = ?1 and c.id <> ?2")
+    @Query("select CASE when COUNT(c) > 0 then true else false end from Category c where UPPER(c.name) = UPPER(?1) and c.id <> ?2")
     boolean existsByNameExceptId(String name, Long id);
+
+    Optional<Category> findByName(String name);
+
+
 }

@@ -55,6 +55,11 @@ public class CategoryController {
         return findCategoryService.findDeletedById(id);
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<?> findByName(@PathVariable String name){
+        return findCategoryService.findByName(name);
+    }
+
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Category category, BindingResult result){
         return saveCategoryService.save(category, result);

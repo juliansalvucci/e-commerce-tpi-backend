@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import tpi.backend.e_commerce.dto.ProductDTO.ResponseProductDTO;
 import tpi.backend.e_commerce.mapper.ProductMapper;
+
 import tpi.backend.e_commerce.models.Product;
+
 import tpi.backend.e_commerce.repositories.IProductRepository;
 import tpi.backend.e_commerce.services.product.interfaces.IFindProductService;
 
@@ -50,7 +52,15 @@ public class FindProductService implements IFindProductService {
             return ResponseEntity.status(404).body("Error: El producto ingresado no existe");
         }
         return ResponseEntity.ok(ProductMapper.toDTO(optionalProduct.get()));
+    }
 
+    @Override
+    public ResponseEntity<?> findByName(String name) {
+        Optional<Product> optionalProduct = productRepository.findByName(name);
+        if(optionalProduct.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } 
+        return ResponseEntity.ok(ProductMapper.toDTO(optionalProduct.get()));
     }
 
 }

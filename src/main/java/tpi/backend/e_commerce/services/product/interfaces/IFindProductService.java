@@ -16,4 +16,5 @@ public interface IFindProductService {
     ResponseEntity<?> findActiveById(Long id);
     ResponseEntity<?> findDeletedById(Long id);   
     
+    ResponseEntity<?> findByName(String name);
 }   
