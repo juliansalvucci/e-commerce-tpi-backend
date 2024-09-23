@@ -79,7 +79,7 @@ public class SubCategoryController {
         return deleteSubCategoryService.delete(id);
     }
 
-    @GetMapping("/recover/{id}") //Recupera logicamente una categoria por su id.
+    @PostMapping("/recover/{id}") //Recupera logicamente una categoria por su id.
     public ResponseEntity<?> recover(@PathVariable Long id){
        return deleteSubCategoryService.recover(id);
     }
