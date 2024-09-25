@@ -36,5 +36,7 @@ public interface ICategoryRepository extends CrudRepository<Category,Long>{
 
     Optional<Category> findByName(String name);
 
+    @Query("select CASE when COUNT(p)>0 then true else false end from Product p where p.brand.id = ?1")
+    boolean hasCategorySubCategorys(Long id);
 
 }

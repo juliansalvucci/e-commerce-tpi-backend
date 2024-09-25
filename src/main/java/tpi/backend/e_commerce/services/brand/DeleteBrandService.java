@@ -3,9 +3,10 @@ package tpi.backend.e_commerce.services.brand;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import tpi.backend.e_commerce.mapper.BrandMapper;
 import tpi.backend.e_commerce.models.Brand;
@@ -21,14 +22,21 @@ public class DeleteBrandService implements IDeleteBrandService{
     @Override
     public ResponseEntity<?> delete(Long id) { 
         Optional<Brand> optionalBrand = brandRepository.findById(id);
-        if (optionalBrand.isPresent()) {
-            Brand brand = optionalBrand.get();
-            brand.setDeleted(true);
-            brand.setDeleteDatetime(LocalDateTime.now()); //Guardo la fechaHora en que se elimina al objeto
-            brandRepository.save(brand);
-            return ResponseEntity.noContent().build();
+        if (optionalBrand.isEmpty()) {
+            
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+
+        if (brandRepository.hasBrandProducts(id)) {
+            //Si la marca tiene productos asociados, retorna el codigo CONFLICT 409
+            return ResponseEntity.status(409).body("La marca tiene productos asociados");
+        }
+
+        Brand brand = optionalBrand.get();
+        brand.setDeleted(true);
+        brand.setDeleteDatetime(LocalDateTime.now()); //Guardo la fechaHora en que se elimina al objeto
+        brandRepository.save(brand);
+        return ResponseEntity.noContent().build();
     }
 
     @Override

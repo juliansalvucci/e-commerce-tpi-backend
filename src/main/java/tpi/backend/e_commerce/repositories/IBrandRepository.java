@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import tpi.backend.e_commerce.models.Brand;
-import tpi.backend.e_commerce.models.Product;
 
 public interface IBrandRepository extends CrudRepository<Brand,Long>{
     @Query("select b from Brand b where b.deleted = false")
@@ -30,5 +29,8 @@ public interface IBrandRepository extends CrudRepository<Brand,Long>{
     boolean existsByNameExceptId(String name, Long id);
 
     Optional<Brand> findByName(String name);
+
+    @Query("select CASE when COUNT(p)>0 then true else false end from Product p where p.brand.id = ?1")
+    boolean hasBrandProducts(Long id);
 
 }
