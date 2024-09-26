@@ -22,7 +22,6 @@ public class SubCategory {
 
     @Column(unique = true)
     private String name;
-    private String description;
 
     @ManyToOne
     private Category category;
@@ -47,24 +46,18 @@ public class SubCategory {
     public SubCategory(String name) {
         this.name = name;
     }
-
-    public SubCategory(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public SubCategory(String name, String description, Category category) {
-        this.name = name;
-        this.description = description;
-        this.category = category;
-    }
-
-    public SubCategory(Long id, String name, String description, Category category) {
+    public SubCategory(Long id, String name, Category category) {
         this.id = id;
         this.name = name;
-        this.description = description;
         this.category = category;
     }
+    public SubCategory(String name, Category category) {
+        this.name = name;
+        this.category = category;
+    }
+    
+    
+    
     
     
 }
