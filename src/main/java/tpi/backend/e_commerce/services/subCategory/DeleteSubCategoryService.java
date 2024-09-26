@@ -22,14 +22,20 @@ public class DeleteSubCategoryService implements IDeleteSubCategoryService{
     @Override
     public ResponseEntity<?> delete(Long id) { 
         Optional<SubCategory> optionalSubCategory = subCategoryRepository.findById(id);
-        if (optionalSubCategory.isPresent()){    
+        if (optionalSubCategory.isEmpty()){    
 
-            SubCategory subCategory = optionalSubCategory.get();
-            subCategory.setDeleted(true);
-            subCategory.setDeleteDatetime(LocalDateTime.now());
-            return ResponseEntity.ok(SubCategoryMapper.toDTO(subCategory));
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        
+        if (subCategoryRepository.hasSubCategoryProducts(id)) {
+            return ResponseEntity.status(409).body("La subcategoria tiene productos asociados");
+        }
+
+        SubCategory subCategory = optionalSubCategory.get();
+        subCategory.setDeleted(true);
+        subCategory.setDeleteDatetime(LocalDateTime.now());
+        subCategoryRepository.save(subCategory);
+        return ResponseEntity.noContent().build();
     }
 
     @Override

@@ -23,7 +23,7 @@ public class SaveCategoryService implements ISaveCategoryService{
 
     @Override
     public ResponseEntity<?> save(Category category, BindingResult result) {
-        if(categoryRepository.existsByName(category.getName())){
+        if(categoryRepository.existByName(category.getName())){
             result.rejectValue("name", "", "Ya existe una categoria con ese nombre");
         }
         if (result.hasFieldErrors()) {
@@ -37,7 +37,7 @@ public class SaveCategoryService implements ISaveCategoryService{
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
-        if(categoryRepository.existsByNameExceptId(category.getName(), id)){
+        if(categoryRepository.existByNameExceptId(category.getName(), id)){
             return ResponseEntity.badRequest().body("Ya existe una categoria con ese nombre");
         }
         Optional<Category> optionalCategory = categoryRepository.findActiveById(id);
@@ -49,10 +49,7 @@ public class SaveCategoryService implements ISaveCategoryService{
         return ResponseEntity.notFound().build();
     }
 
-    // @Override
-    // public void modifyName(Category category) {
-    //     category.setName()
-    // }
+    
 
     
 }
