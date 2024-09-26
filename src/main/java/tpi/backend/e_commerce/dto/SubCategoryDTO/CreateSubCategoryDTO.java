@@ -11,7 +11,7 @@ public class CreateSubCategoryDTO {
     @NotBlank(message = "No puede estar vacio")
     @Size(min = 3, max = 20, message = "Debe tener entre 3 y 20 caracteres")
     private String name; 
-
+    
     @Size(max = 100)
     private String description; 
     

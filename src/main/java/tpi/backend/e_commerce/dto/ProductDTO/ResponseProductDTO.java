@@ -31,9 +31,11 @@ public class ResponseProductDTO {
     public ResponseProductDTO() {
     }
 
-    public ResponseProductDTO(Long id, String name, String description, Double price, Long stock, Long stockMin,
-            String imageURL, String category, String subCategory, String brand, LocalDateTime creationDatetime,
-            LocalDateTime updateDatetime, LocalDateTime deleteDatetime) {
+    public ResponseProductDTO(Long id, String name, String description, Double price, Long stock, 
+        Long stockMin, String imageURL, String category, String subCategory, String brand, 
+        LocalDateTime creationDatetime, LocalDateTime updateDatetime, 
+        LocalDateTime deleteDatetime) {
+            
         this.id = id;
         this.name = name;
         this.description = description;

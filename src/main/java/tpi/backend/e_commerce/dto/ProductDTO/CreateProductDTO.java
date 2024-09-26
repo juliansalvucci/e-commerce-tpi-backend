@@ -31,8 +31,9 @@ public class CreateProductDTO {
     @NotNull(message = "Debe ingresar un id de subcategoria")
     private Long subCategoryId;
     
-    public CreateProductDTO(String name, String description, Double price, Long stock, Long stockMin, String imageURL,
-        Long brandId, Long subCategoryId) {
+    public CreateProductDTO(String name, String description, Double price, Long stock, 
+        Long stockMin, String imageURL, Long brandId, Long subCategoryId) {
+        
         this.name = name;
         this.description = description;
         this.price = price;

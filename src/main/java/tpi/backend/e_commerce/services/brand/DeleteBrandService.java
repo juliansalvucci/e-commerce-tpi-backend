@@ -3,10 +3,10 @@ package tpi.backend.e_commerce.services.brand;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import tpi.backend.e_commerce.mapper.BrandMapper;
 import tpi.backend.e_commerce.models.Brand;

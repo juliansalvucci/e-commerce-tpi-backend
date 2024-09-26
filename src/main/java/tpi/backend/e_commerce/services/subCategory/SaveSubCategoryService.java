@@ -30,6 +30,10 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
 
     @Override
     public ResponseEntity<?> save(CreateSubCategoryDTO subCategoryDTO, BindingResult result) {
+        
+        if(subCategoryRepository.existByName(subCategoryDTO.getName())){
+            result.rejectValue("name", "", "Ya existe una sub categoria con ese nombre");
+        }
 
         if (result.hasFieldErrors()) {
             return validation.validate(result);
@@ -47,7 +51,14 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
     }
 
     @Override
-    public ResponseEntity<?> update(Long id, CreateSubCategoryDTO subCategoryDTO, BindingResult result) {
+    public ResponseEntity<?> update(Long id, CreateSubCategoryDTO subCategoryDTO, 
+        BindingResult result) {
+
+        //Chequea que no exista otra subcategoria con el mismo nombre
+        if(subCategoryRepository.existByNameExceptId(subCategoryDTO.getName(),id)){
+            result.rejectValue("name", "", "Ya existe una sub categoria con ese nombre");
+        }    
+
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }

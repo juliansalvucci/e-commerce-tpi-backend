@@ -21,13 +21,21 @@ public class DeleteCategoryService implements IDeleteCategoryService{
     @Override
     public ResponseEntity<?> delete(Long id) { //Borrado logico de categoria
         Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isPresent()){
-            Category category = optionalCategory.get();
-            category.setDeleted(true);
-            category.setDeleteDatetime(LocalDateTime.now());
-            return ResponseEntity.ok(CategoryMapper.toDTO(categoryRepository.save(category)));
+        
+        
+        if (optionalCategory.isEmpty()){
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        
+        //Chequea que la categoria no tenga subcategorias asignadas
+        if (categoryRepository.hasCategorySubCategories(id)) {
+            return ResponseEntity.status(409).body("La categoria tiene subcategorias asociadas");
+        }
+
+        Category category = optionalCategory.get();
+        category.setDeleted(true);
+        category.setDeleteDatetime(LocalDateTime.now());
+        return ResponseEntity.ok(CategoryMapper.toDTO(categoryRepository.save(category)));
     }
 
     @Override

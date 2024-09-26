@@ -30,7 +30,7 @@ public interface IBrandRepository extends CrudRepository<Brand,Long>{
 
     Optional<Brand> findByName(String name);
 
-    @Query("select CASE when COUNT(p)>0 then true else false end from Product p where p.brand.id = ?1")
+    @Query("select CASE when COUNT(p)>0 then true else false end from Product p where p.brand.id = ?1 and p.deleted = false")
     boolean hasBrandProducts(Long id);
 
 }

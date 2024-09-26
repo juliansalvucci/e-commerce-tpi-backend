@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import tpi.backend.e_commerce.models.Brand;
+
 import tpi.backend.e_commerce.models.Category;
-import tpi.backend.e_commerce.models.Product;
+
 
 
 public interface ICategoryRepository extends CrudRepository<Category,Long>{
@@ -29,14 +29,15 @@ public interface ICategoryRepository extends CrudRepository<Category,Long>{
     
 
     @Query("select CASE when COUNT(c) > 0 then true else false end from Category c where UPPER(c.name) = UPPER(?1)")
-    boolean existsByName(String name);
+    boolean existByName(String name);
 
     @Query("select CASE when COUNT(c) > 0 then true else false end from Category c where UPPER(c.name) = UPPER(?1) and c.id <> ?2")
-    boolean existsByNameExceptId(String name, Long id);
+    boolean existByNameExceptId(String name, Long id);
 
     Optional<Category> findByName(String name);
 
-    @Query("select CASE when COUNT(p)>0 then true else false end from Product p where p.brand.id = ?1")
-    boolean hasCategorySubCategorys(Long id);
+    @Query("select CASE when COUNT(s)>0 then true else false end from SubCategory s where s.category.id = ?1 and s.deleted = false")
+    boolean hasCategorySubCategories(Long id);
+    //Si encuentra alguna sub categoria que pertenezca a esta categoria, retornara true
 
 }

@@ -37,7 +37,7 @@ public class Product {
     private Brand brand;
 
     @ManyToOne
-    private SubCategory SubCategory;
+    private SubCategory subCategory;
 
     private boolean deleted; 
     
@@ -67,7 +67,7 @@ public class Product {
         this.stockMin = stockMin;
         this.imageURL = imageURL;
         this.brand = brand;
-        SubCategory = subCategory;
+        subCategory = subCategory;
     }
 
 
@@ -81,7 +81,7 @@ public class Product {
         this.stockMin = stockMin;
         this.imageURL = imageURL;
         this.brand = brand;
-        SubCategory = subCategory;
+        subCategory = subCategory;
     }
 
    
