@@ -9,7 +9,7 @@ import lombok.Data;
 public class CreateSubCategoryDTO {
 
     @NotBlank(message = "No puede estar vacio")
-    @Size(min = 3, max = 20, message = "Debe tener entre 3 y 20 caracteres")
+    @Size(min = 3, max = 30, message = "Debe tener entre 3 y 30 caracteres")
     private String name; 
     
     @NotNull
