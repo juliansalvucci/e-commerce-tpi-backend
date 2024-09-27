@@ -3,6 +3,7 @@ package tpi.backend.e_commerce.services.product;
 import java.util.Optional;
 import java.util.Collections;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class SaveProductService implements ISaveProductService{
     
     @Override
     public ResponseEntity<?> save(CreateProductDTO createProductDTO , BindingResult result) {
-        
+
         if (productRepository.existsByName(createProductDTO.getName())) {
             result.rejectValue(
                 "name", 
@@ -44,6 +45,9 @@ public class SaveProductService implements ISaveProductService{
             );
         }
 
+        result = nameProductValidation(result, createProductDTO); 
+        //Las validaciones de producto estan en un metodo privado aparte
+        
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
@@ -78,6 +82,8 @@ public class SaveProductService implements ISaveProductService{
             );
         }
 
+        result = nameProductValidation(result, createProductDTO); 
+
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
@@ -109,4 +115,34 @@ public class SaveProductService implements ISaveProductService{
 
     }
 
+    private BindingResult nameProductValidation(BindingResult result, CreateProductDTO createProductDTO) {
+
+        //Chequea que el primer caracter sea un digito o una letra
+        char firstChar = createProductDTO.getName().charAt(0);
+        if (!Character.isLetterOrDigit(firstChar)) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "El primer caracter debe ser un numero o una letra"
+            );     
+        }
+
+        //Chequea que al menos un caracter sea una letra
+        boolean letra = false;
+        for (int i = 0; i < createProductDTO.getName().length(); i++) {
+            if (Character.isLetter(createProductDTO.getName().charAt(i))) {
+                letra = true;
+            }
+        }
+        if (!letra) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "El nombre debe contener al menos una letra"
+            );
+        }
+
+        return result;
+    }
+    
 }
