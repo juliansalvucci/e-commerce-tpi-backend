@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+
 import tpi.backend.e_commerce.dto.SubCategoryDTO.CreateSubCategoryDTO;
 import tpi.backend.e_commerce.mapper.SubCategoryMapper;
 import tpi.backend.e_commerce.models.Category;
@@ -32,8 +33,18 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
     public ResponseEntity<?> save(CreateSubCategoryDTO subCategoryDTO, BindingResult result) {
         
         if(subCategoryRepository.existByName(subCategoryDTO.getName())){
-            result.rejectValue("name", "", "Ya existe una sub categoria con ese nombre");
+            result.rejectValue(
+                "name", 
+                "", 
+                "Ya existe una sub categoria con ese nombre"
+            );
         }
+
+        if (result.hasFieldErrors()) {
+            return validation.validate(result);
+        }
+
+        result = subCategoryNameValidations(result, subCategoryDTO.getName());
 
         if (result.hasFieldErrors()) {
             return validation.validate(result);
@@ -62,6 +73,12 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
+        
+        result = subCategoryNameValidations(result, subCategoryDTO.getName());
+        
+        if (result.hasFieldErrors()) {
+            return validation.validate(result);
+        }
 
         Optional<SubCategory> optionalSubCategory = subCategoryRepository.findActiveById(id);
         if (optionalSubCategory.isPresent()){
@@ -82,4 +99,35 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
             Collections.singletonMap("id","El id no corresponde a ninguna sub categoria")
         );
     }
+
+    private BindingResult subCategoryNameValidations(BindingResult result, String name){
+
+        //Chequea que el primer caracter del nombre sea un digito o una letra
+        char firstChar = name.charAt(0);
+        if (!Character.isLetter(firstChar)) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "El primer caracter debe ser una letra"
+            );     
+        }
+
+        //Chequea que el nombre no contenga numeros
+        boolean letra = false;
+        for (int i = 0; i < name.length(); i++) {
+            if (Character.isDigit(name.charAt(i))) {
+                letra = true;
+            }
+        }
+        if (letra) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "El nombre no puede contener numeros"
+            );
+        }
+
+        return result;
+    }
+
 }

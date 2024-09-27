@@ -44,8 +44,13 @@ public class SaveProductService implements ISaveProductService{
                 "Ya existe un producto con ese nombre"
             );
         }
+        
+        //Este if evita un null pointer exception al hacer el getName() si el nombre es nulo
+        if (result.hasFieldErrors()) {
+            return validation.validate(result);
+        }
 
-        result = nameProductValidation(result, createProductDTO); 
+        result = nameProductValidation(result, createProductDTO.getName()); 
         //Las validaciones de producto estan en un metodo privado aparte
         
         if (result.hasFieldErrors()) {
@@ -82,11 +87,16 @@ public class SaveProductService implements ISaveProductService{
             );
         }
 
-        result = nameProductValidation(result, createProductDTO); 
-
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
+       
+        result = nameProductValidation(result, createProductDTO.getName()); 
+        
+        if (result.hasFieldErrors()) {
+            return validation.validate(result);
+        }
+
         Optional<Product> optionalProduct = productRepository.findActiveById(id); 
         if (optionalProduct.isEmpty()) { //Si no existe la categoria mandada por la peticion, retorno un 404
             return ResponseEntity.status(404).body(
@@ -115,10 +125,10 @@ public class SaveProductService implements ISaveProductService{
 
     }
 
-    private BindingResult nameProductValidation(BindingResult result, CreateProductDTO createProductDTO) {
-
+    private BindingResult nameProductValidation(BindingResult result, String name) {
+        
         //Chequea que el primer caracter sea un digito o una letra
-        char firstChar = createProductDTO.getName().charAt(0);
+        char firstChar = name.charAt(0);
         if (!Character.isLetterOrDigit(firstChar)) {
             result.rejectValue(
                 "name", 
@@ -129,8 +139,8 @@ public class SaveProductService implements ISaveProductService{
 
         //Chequea que al menos un caracter sea una letra
         boolean letra = false;
-        for (int i = 0; i < createProductDTO.getName().length(); i++) {
-            if (Character.isLetter(createProductDTO.getName().charAt(i))) {
+        for (int i = 0; i < name.length(); i++) {
+            if (Character.isLetter(name.charAt(i))) {
                 letra = true;
             }
         }
