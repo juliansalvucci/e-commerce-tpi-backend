@@ -21,23 +21,41 @@ public class SaveBrandService implements ISaveBrandService{
     private Validation validation;
    @Override
     public ResponseEntity<?> save(Brand brand, BindingResult result) {
+
         if(brandRepository.existsByName(brand.getName())){
             result.rejectValue("name", "", "Ya existe una marca con ese nombre");
         }
+        
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
+
+        result = brandNameValidations(result, brand.getName());
+
+        if (result.hasFieldErrors()) {
+            return validation.validate(result);
+        }
+
        return ResponseEntity.status(201).body(BrandMapper.toDTO(brandRepository.save(brand)));
     }
 
     @Override
     public ResponseEntity<?> update(Long id, Brand brand, BindingResult result) {
+
+        if(brandRepository.existsByNameExceptId(brand.getName(), id)){
+            result.rejectValue("name", "", "Ya existe una marca con ese nombre");
+        }
+
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
-        if(brandRepository.existsByNameExceptId(brand.getName(), id)){
-            return ResponseEntity.badRequest().body("Ya existe una marca con ese nombre");
+
+        result = brandNameValidations(result, brand.getName());
+
+        if (result.hasFieldErrors()) {
+            return validation.validate(result);
         }
+
         Optional<Brand> optionalBrand = brandRepository.findActiveById(id);
         if (optionalBrand.isPresent()) {
             brand.setId(id);
@@ -48,5 +66,34 @@ public class SaveBrandService implements ISaveBrandService{
         return ResponseEntity.notFound().build();
     }
     
+    private BindingResult brandNameValidations(BindingResult result , String name){
 
+        //Chequea que el primer caracter sea un digito o una letra
+        char firstChar = name.charAt(0);
+        if (!Character.isLetterOrDigit(firstChar)) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "El primer caracter debe ser un numero o una letra"
+            );     
+        }
+
+        //Chequea que al menos un caracter sea una letra
+        boolean letra = false;
+        for (int i = 0; i < name.length(); i++) {
+            if (Character.isLetter(name.charAt(i))) {
+                letra = true;
+            }
+        }
+        if (!letra) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "El nombre debe contener al menos una letra"
+            );
+        }
+
+        return result;
+     
+    } 
 }
