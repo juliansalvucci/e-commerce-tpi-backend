@@ -35,9 +35,19 @@ public class SaveProductService implements ISaveProductService{
     
     @Override
     public ResponseEntity<?> save(CreateProductDTO createProductDTO , BindingResult result) {
+        
+        if (productRepository.existsByName(createProductDTO.getName())) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "Ya existe un producto con ese nombre"
+            );
+        }
+
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
+        
         Optional<SubCategory> optionalSubCategory = subCategoryRepository.findActiveById(createProductDTO.getSubCategoryId()); 
         if (optionalSubCategory.isEmpty()) { //Si no existe la categoria mandada por la peticion, retorno un 404
             return ResponseEntity.status(404).body(
@@ -56,8 +66,18 @@ public class SaveProductService implements ISaveProductService{
         return ResponseEntity.status(HttpStatus.CREATED).body(ProductMapper.toDTO(productRepository.save(productToSave)));
     }
 
+
     @Override
     public ResponseEntity<?> update(Long id, CreateProductDTO createProductDTO, BindingResult result) {
+
+        if (productRepository.existsByNameExceptId(createProductDTO.getName(),id)) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "Ya existe un producto con ese nombre"
+            );
+        }
+
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }

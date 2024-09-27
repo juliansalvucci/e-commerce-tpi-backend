@@ -17,11 +17,15 @@ public class CreateProductDTO {
     private String description;
 
     @Min(0)
+    @NotNull(message = "Debe ingresar un precio")
     private Double price;
 
     @Min(0)
-    private Long stock;
+    @NotNull(message = "Debe ingresar un stock")
+    private Long stock = 0L;
+
     @Min(0)
+    @NotNull(message="Debe ingresar un stock minimo")
     private Long stockMin;
 
     private String imageURL;
