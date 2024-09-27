@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotBlank;
-
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -22,6 +22,7 @@ public class Category {
 
     @Column(unique = true)
     @NotBlank(message = "No puede estar vacio")
+    @Size(min = 2, max = 30, message = "Debe tener entre 2 y 30 caracteres")
     private String name;
 
     private boolean deleted; 

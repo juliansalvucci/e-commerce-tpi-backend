@@ -102,7 +102,7 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
 
     private BindingResult subCategoryNameValidations(BindingResult result, String name){
 
-        //Chequea que el primer caracter del nombre sea un digito o una letra
+        //Chequea que el primer caracter del nombre sea una una letra
         char firstChar = name.charAt(0);
         if (!Character.isLetter(firstChar)) {
             result.rejectValue(
@@ -113,13 +113,14 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
         }
 
         //Chequea que el nombre no contenga numeros
-        boolean letra = false;
+        boolean numero = false;
         for (int i = 0; i < name.length(); i++) {
             if (Character.isDigit(name.charAt(i))) {
-                letra = true;
+                numero = true;
             }
         }
-        if (letra) {
+        
+        if (numero) {
             result.rejectValue(
                 "name", 
                 "", 
