@@ -28,11 +28,7 @@ public class DeleteProductService implements IDeleteProductService{
         product.setDeleteDatetime(LocalDateTime.now());
         productRepository.save(product);
         return ResponseEntity.noContent().build();
-        /* 
-        Si se ingresa el id de un producto que existe y esta activo,
-        se tratara de la misma manera que si estuviera eliminado. Se setea el atributo
-        deleted en false (Ya estaba en false porque esta activo)
-        */
+       
     }
 
     @Override
@@ -46,6 +42,11 @@ public class DeleteProductService implements IDeleteProductService{
         product.setDeleteDatetime(null);
         productRepository.save(product);
         return ResponseEntity.ok(ProductMapper.toDTO(product));
+         /* 
+        Si se ingresa el id de un producto que existe y esta activo,
+        se tratara de la misma manera que si estuviera eliminado. Se setea el atributo
+        deleted en false (Ya estaba en false porque esta activo)
+        */
     }
 
 }

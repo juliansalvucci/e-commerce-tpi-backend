@@ -112,19 +112,19 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
             );     
         }
 
-        //Chequea que el nombre no contenga numeros
-        boolean numero = false;
+        //Chequea que el nombre contenga al menos una letra
+        boolean letra = false;
         for (int i = 0; i < name.length(); i++) {
-            if (Character.isDigit(name.charAt(i))) {
-                numero = true;
+            if (Character.isLetter(name.charAt(i))) {
+                letra = true;
             }
         }
         
-        if (numero) {
+        if (!letra) {
             result.rejectValue(
                 "name", 
                 "", 
-                "El nombre no puede contener numeros"
+                "El nombre debe contener al menos una letra"
             );
         }
 
