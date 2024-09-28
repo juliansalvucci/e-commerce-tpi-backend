@@ -12,7 +12,6 @@ public class SubCategoryMapper {
         return new ResponseSubCategoryDTO(
             subCategory.getId(), 
             subCategory.getName(), 
-            subCategory.getDescription(), 
             subCategory.getCategory().getName(),
             subCategory.getCreationDatetime(),
             subCategory.getUpdateDatetime(),
@@ -22,7 +21,7 @@ public class SubCategoryMapper {
 
    public static SubCategory toEntity(CreateSubCategoryDTO subCategoryDTO, Category category) {
 
-        return new SubCategory(subCategoryDTO.getName(), subCategoryDTO.getDescription(), category);
+        return new SubCategory(subCategoryDTO.getName(), category);
     }
 
     public static List<ResponseSubCategoryDTO> toDTOList(List<SubCategory> subCategories){
@@ -33,7 +32,7 @@ public class SubCategoryMapper {
 
     public static SubCategory toUpdate(Long id, CreateSubCategoryDTO subCategoryDTO, Category category){
         
-        return new SubCategory(id, subCategoryDTO.getName(), subCategoryDTO.getDescription(), category);
+        return new SubCategory(id, subCategoryDTO.getName(), category);
     }
     
 }

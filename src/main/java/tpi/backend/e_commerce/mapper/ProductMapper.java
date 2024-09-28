@@ -24,6 +24,9 @@ public class ProductMapper {
             brand,
             subCategory
         );
+
+
+        
     }
 
 //El DTO de producto mostrara el nombre de la categoria, subcategoria y de la marca

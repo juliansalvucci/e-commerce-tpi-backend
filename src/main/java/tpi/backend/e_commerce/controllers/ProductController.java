@@ -84,7 +84,7 @@ public class ProductController {
         return deleteProductService.delete(id);
     }
 
-    @GetMapping("/recover/{id}") //Recupera logicamente un producto por su id.
+    @PostMapping("/recover/{id}") //Recupera logicamente un producto por su id.
     public ResponseEntity<?> recover(@PathVariable Long id){
 
         return deleteProductService.recover(id);

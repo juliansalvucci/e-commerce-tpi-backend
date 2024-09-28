@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -22,6 +23,7 @@ public class Brand {
 
     @Column(unique = true) //No puede existir dos marcas con el mismo nombre
     @NotBlank(message = "No puede estar vacio")
+    @Size(min = 3, max = 30, message = "Debe tener entre 3 y 30 caracteres")
     private String name;
 
     private boolean deleted; //True si esta eliminado

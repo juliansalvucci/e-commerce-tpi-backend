@@ -1,5 +1,7 @@
 package tpi.backend.e_commerce.dto.ProductDTO;
 
+import org.hibernate.validator.constraints.URL;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,20 +12,26 @@ import lombok.Data;
 public class CreateProductDTO {
 
     @NotBlank(message = "No puede estar vacio")
-    @Size(min = 3, max = 20, message = "Debe tener entre 3 y 20 caracteres")
+    @Size(min = 2, max = 60, message = "Debe tener entre 3 y 20 caracteres")
     private String name;
 
     @Size(max = 100)
+    @NotBlank(message = "No puede estar vacio")
     private String description;
 
     @Min(0)
+    @NotNull(message = "Debe ingresar un precio")
     private Double price;
 
     @Min(0)
-    private Long stock;
+    @NotNull(message = "Debe ingresar un stock")
+    private Long stock = 0L;
+
     @Min(0)
+    @NotNull(message="Debe ingresar un stock minimo")
     private Long stockMin;
 
+    @URL(message = "Debe ser una URL")
     private String imageURL;
 
     @NotNull(message = "Debe ingresar un id de marca")
@@ -31,8 +39,9 @@ public class CreateProductDTO {
     @NotNull(message = "Debe ingresar un id de subcategoria")
     private Long subCategoryId;
     
-    public CreateProductDTO(String name, String description, Double price, Long stock, Long stockMin, String imageURL,
-        Long brandId, Long subCategoryId) {
+    public CreateProductDTO(String name, String description, Double price, Long stock, 
+        Long stockMin, String imageURL, Long brandId, Long subCategoryId) {
+        
         this.name = name;
         this.description = description;
         this.price = price;

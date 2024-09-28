@@ -75,7 +75,7 @@ public class CategoryController {
         return deleteCategoryService.delete(id);
     }
 
-    @GetMapping("/recover/{id}")
+    @PostMapping("/recover/{id}")
     public ResponseEntity<?> recover(@PathVariable Long id){
         return deleteCategoryService.recover(id);
     }

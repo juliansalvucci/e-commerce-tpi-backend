@@ -9,23 +9,22 @@ import lombok.Data;
 public class CategoryDTO {
     private Long id;
     private String name;
-    private String description;
+
     
     private LocalDateTime creationDatetime;
     private LocalDateTime updateDatetime;
     private LocalDateTime deleteDatetime;
 
-    public CategoryDTO(Long id, String name, String description) {
+    public CategoryDTO(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.description = description;
+
     }
 
-    public CategoryDTO(Long id, String name, String description, LocalDateTime creationDatetime,
+    public CategoryDTO(Long id, String name , LocalDateTime creationDatetime,
             LocalDateTime updateDatetime, LocalDateTime deleteDatetime) {
         this.id = id;
         this.name = name;
-        this.description = description;
         this.creationDatetime = creationDatetime;
         this.updateDatetime = updateDatetime;
         this.deleteDatetime = deleteDatetime;

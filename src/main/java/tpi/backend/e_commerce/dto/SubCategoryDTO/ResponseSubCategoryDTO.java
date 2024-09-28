@@ -11,7 +11,6 @@ public class ResponseSubCategoryDTO {
 
     private String name; 
 
-    private String description; 
     
     private String category; 
 
@@ -22,11 +21,10 @@ public class ResponseSubCategoryDTO {
     public ResponseSubCategoryDTO() {
     }
 
-    public ResponseSubCategoryDTO(Long id, String name, String description, String category,
+    public ResponseSubCategoryDTO(Long id, String name, String category,
             LocalDateTime creationDatetime, LocalDateTime updateDatetime, LocalDateTime deleteDatetime) {
         this.id = id;
         this.name = name;
-        this.description = description;
         this.category = category;
         this.creationDatetime = creationDatetime;
         this.updateDatetime = updateDatetime;

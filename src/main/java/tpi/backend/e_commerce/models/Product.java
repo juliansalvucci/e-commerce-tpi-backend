@@ -10,10 +10,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Entity
+@Builder
 public class Product {
 
     @Id
@@ -37,7 +39,7 @@ public class Product {
     private Brand brand;
 
     @ManyToOne
-    private SubCategory SubCategory;
+    private SubCategory subCategory;
 
     private boolean deleted; 
     
@@ -67,12 +69,12 @@ public class Product {
         this.stockMin = stockMin;
         this.imageURL = imageURL;
         this.brand = brand;
-        SubCategory = subCategory;
+        this.subCategory = subCategory;
     }
 
 
     public Product(Long id, String name, String description, Double price, Long stock, Long stockMin, String imageURL,
-            Brand brand, tpi.backend.e_commerce.models.SubCategory subCategory) {
+            Brand brand, SubCategory subCategory) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -81,7 +83,24 @@ public class Product {
         this.stockMin = stockMin;
         this.imageURL = imageURL;
         this.brand = brand;
-        SubCategory = subCategory;
+        this.subCategory = subCategory;
+    }
+    public Product(Long id, String name, String description, Double price, Long stock, Long stockMin, String imageURL,
+            Brand brand, SubCategory subCategory, boolean deleted, LocalDateTime creationDatetime,
+            LocalDateTime updateDatetime, LocalDateTime deleteDatetime) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.stockMin = stockMin;
+        this.imageURL = imageURL;
+        this.brand = brand;
+        this.subCategory = subCategory;
+        this.deleted = deleted;
+        this.creationDatetime = creationDatetime;
+        this.updateDatetime = updateDatetime;
+        this.deleteDatetime = deleteDatetime;
     }
 
    

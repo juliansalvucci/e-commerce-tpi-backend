@@ -22,10 +22,8 @@ public class Category {
 
     @Column(unique = true)
     @NotBlank(message = "No puede estar vacio")
+    @Size(min = 2, max = 30, message = "Debe tener entre 2 y 30 caracteres")
     private String name;
-
-    @Size(max = 100)
-    private String description;
 
     private boolean deleted; 
 
@@ -49,8 +47,4 @@ public class Category {
         this.name = name;
     }
 
-    public Category(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 }

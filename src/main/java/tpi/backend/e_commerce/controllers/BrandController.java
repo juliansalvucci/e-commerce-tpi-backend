@@ -81,7 +81,7 @@ public class BrandController {
         return deleteBrandService.delete(id);
     }
 
-    @GetMapping("/recover/{id}")
+    @PostMapping("/recover/{id}")
     public ResponseEntity<?> recover(@PathVariable Long id){
        return deleteBrandService.recover(id);
     }

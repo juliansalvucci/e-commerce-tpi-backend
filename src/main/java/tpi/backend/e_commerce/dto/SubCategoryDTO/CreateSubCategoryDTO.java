@@ -9,20 +9,18 @@ import lombok.Data;
 public class CreateSubCategoryDTO {
 
     @NotBlank(message = "No puede estar vacio")
-    @Size(min = 3, max = 20, message = "Debe tener entre 3 y 20 caracteres")
+    @Size(min = 3, max = 30, message = "Debe tener entre 3 y 30 caracteres")
     private String name; 
-
-    @Size(max = 100)
-    private String description; 
     
     @NotNull
     private Long categoryId;
 
-    public CreateSubCategoryDTO(String name, String description, Long categoryId) {
+    public CreateSubCategoryDTO( String name, Long categoryId ) {
         this.name = name;
-        this.description = description;
         this.categoryId = categoryId;
     }
+
+    
     
     
 }

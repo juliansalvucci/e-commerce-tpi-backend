@@ -23,22 +23,37 @@ public class SaveCategoryService implements ISaveCategoryService{
 
     @Override
     public ResponseEntity<?> save(Category category, BindingResult result) {
-        if(categoryRepository.existsByName(category.getName())){
+        if(categoryRepository.existByName(category.getName())){
             result.rejectValue("name", "", "Ya existe una categoria con ese nombre");
         }
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
-       return ResponseEntity.status(201).body(CategoryMapper.toDTO(categoryRepository.save(category)));
+
+        result = categoryNameValidations(result, category.getName());
+
+        if (result.hasFieldErrors()) {
+            return validation.validate(result);
+        }
+
+        return ResponseEntity.status(201).body(CategoryMapper.toDTO(categoryRepository.save(category)));
     }
 
     @Override
     public ResponseEntity<?> update(Long id, Category category, BindingResult result) {
+        
+        if(categoryRepository.existByNameExceptId(category.getName(), id)){
+            result.rejectValue("name", "", "Ya existe una categoria con ese nombre");
+        }
+
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
-        if(categoryRepository.existsByNameExceptId(category.getName(), id)){
-            return ResponseEntity.badRequest().body("Ya existe una categoria con ese nombre");
+
+        result = categoryNameValidations(result, category.getName());
+
+        if (result.hasFieldErrors()) {
+            return validation.validate(result);
         }
         Optional<Category> optionalCategory = categoryRepository.findActiveById(id);
         if (optionalCategory.isPresent()){
@@ -49,10 +64,35 @@ public class SaveCategoryService implements ISaveCategoryService{
         return ResponseEntity.notFound().build();
     }
 
-    // @Override
-    // public void modifyName(Category category) {
-    //     category.setName()
-    // }
+    private BindingResult categoryNameValidations(BindingResult result, String name){
+
+        //Chequea que el primer caracter del nombre sea un digito o una letra
+        char firstChar = name.charAt(0);
+        if (!Character.isLetter(firstChar)) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "El primer caracter debe ser una letra"
+            );     
+        }
+
+        //Chequea que el nombre no contenga numeros
+        boolean numero = false;
+        for (int i = 0; i < name.length(); i++) {
+            if (Character.isDigit(name.charAt(i))) {
+                numero = true;
+            }
+        }
+        if (numero) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "El nombre no puede contener numeros"
+            );
+        }
+
+        return result;
+    }
 
     
 }
