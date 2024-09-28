@@ -31,6 +31,7 @@ public class Product {
 
     private Long stock; 
 
+    //Este atributo se utilizara para mandar alertas cuando el stock sea menor o igual al stock minimo
     private Long stockMin;
 
     private String imageURL;
