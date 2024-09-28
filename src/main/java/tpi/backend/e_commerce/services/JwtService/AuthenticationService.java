@@ -1,6 +1,6 @@
 package tpi.backend.e_commerce.services.JwtService;
 
-import org.hibernate.engine.jdbc.mutation.spi.Binding;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import lombok.RequiredArgsConstructor;
-import lombok.val;
+
 import tpi.backend.e_commerce.dto.auth.request.SignInRequest;
 import tpi.backend.e_commerce.dto.auth.request.SignUpRequest;
 import tpi.backend.e_commerce.dto.auth.response.JwtAuthenticationResponse;
