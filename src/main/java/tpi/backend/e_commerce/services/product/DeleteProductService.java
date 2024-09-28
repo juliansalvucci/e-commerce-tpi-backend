@@ -19,11 +19,19 @@ public class DeleteProductService implements IDeleteProductService{
 
     @Override
     public ResponseEntity<?> delete(Long id) {
+
         Optional<Product> optionalProduct = productRepository.findById(id);
         if (optionalProduct.isEmpty()) {
             return ResponseEntity.status(404).body("Error: El producto ingresado no existe");
         }
+        
         Product product = optionalProduct.get();
+        if (product.getStock() > 0) {
+            return ResponseEntity.status(409).body(
+                "Error: No se puede eliminar un producto que no tenga stock en 0"
+            );
+        }
+
         product.setDeleted(true);
         product.setDeleteDatetime(LocalDateTime.now());
         productRepository.save(product);
