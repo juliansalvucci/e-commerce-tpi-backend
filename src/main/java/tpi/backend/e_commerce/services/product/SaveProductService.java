@@ -3,6 +3,7 @@ package tpi.backend.e_commerce.services.product;
 import java.util.Optional;
 import java.util.Collections;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +36,27 @@ public class SaveProductService implements ISaveProductService{
     
     @Override
     public ResponseEntity<?> save(CreateProductDTO createProductDTO , BindingResult result) {
+
+        if (productRepository.existsByName(createProductDTO.getName())) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "Ya existe un producto con ese nombre"
+            );
+        }
+        
+        //Este if evita un null pointer exception al hacer el getName() si el nombre es nulo
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
+
+        result = nameProductValidation(result, createProductDTO.getName()); 
+        //Las validaciones de producto estan en un metodo privado aparte
+        
+        if (result.hasFieldErrors()) {
+            return validation.validate(result);
+        }
+        
         Optional<SubCategory> optionalSubCategory = subCategoryRepository.findActiveById(createProductDTO.getSubCategoryId()); 
         if (optionalSubCategory.isEmpty()) { //Si no existe la categoria mandada por la peticion, retorno un 404
             return ResponseEntity.status(404).body(
@@ -56,11 +75,28 @@ public class SaveProductService implements ISaveProductService{
         return ResponseEntity.status(HttpStatus.CREATED).body(ProductMapper.toDTO(productRepository.save(productToSave)));
     }
 
+
     @Override
     public ResponseEntity<?> update(Long id, CreateProductDTO createProductDTO, BindingResult result) {
+
+        if (productRepository.existsByNameExceptId(createProductDTO.getName(),id)) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "Ya existe un producto con ese nombre"
+            );
+        }
+
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
+       
+        result = nameProductValidation(result, createProductDTO.getName()); 
+        
+        if (result.hasFieldErrors()) {
+            return validation.validate(result);
+        }
+
         Optional<Product> optionalProduct = productRepository.findActiveById(id); 
         if (optionalProduct.isEmpty()) { //Si no existe la categoria mandada por la peticion, retorno un 404
             return ResponseEntity.status(404).body(
@@ -89,4 +125,34 @@ public class SaveProductService implements ISaveProductService{
 
     }
 
+    private BindingResult nameProductValidation(BindingResult result, String name) {
+        
+        //Chequea que el primer caracter sea un digito o una letra
+        char firstChar = name.charAt(0);
+        if (!Character.isLetterOrDigit(firstChar)) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "El primer caracter debe ser un numero o una letra"
+            );     
+        }
+
+        //Chequea que al menos un caracter sea una letra
+        boolean letra = false;
+        for (int i = 0; i < name.length(); i++) {
+            if (Character.isLetter(name.charAt(i))) {
+                letra = true;
+            }
+        }
+        if (!letra) {
+            result.rejectValue(
+                "name", 
+                "", 
+                "El nombre debe contener al menos una letra"
+            );
+        }
+
+        return result;
+    }
+    
 }
