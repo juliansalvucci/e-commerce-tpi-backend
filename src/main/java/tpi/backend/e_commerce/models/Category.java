@@ -47,4 +47,13 @@ public class Category {
         this.name = name;
     }
 
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+        if (deleted) {
+            deleteDatetime = LocalDateTime.now();
+        }
+        if (!deleted) {
+            deleteDatetime = null;
+        }
+    }
 }
