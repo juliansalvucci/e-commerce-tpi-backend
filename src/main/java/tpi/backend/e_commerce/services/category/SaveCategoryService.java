@@ -23,6 +23,7 @@ public class SaveCategoryService implements ISaveCategoryService{
 
     @Override
     public ResponseEntity<?> save(Category category, BindingResult result) {
+        
         if(categoryRepository.existByName(category.getName())){
             return validation.validate(
                 "name",
@@ -30,6 +31,7 @@ public class SaveCategoryService implements ISaveCategoryService{
                 409
             );
         }
+
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }

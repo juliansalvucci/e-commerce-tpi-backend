@@ -47,7 +47,7 @@ public class SaveProductService implements ISaveProductService{
             return validation.validate(
                 "name", 
                 "Ya existe en la base de datos", 
-                404
+                409
             );
         }
 
