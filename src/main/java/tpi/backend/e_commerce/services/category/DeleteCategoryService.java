@@ -55,7 +55,7 @@ public class DeleteCategoryService implements IDeleteCategoryService{
     public ResponseEntity<?> recover(Long id) {
 
         Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isPresent()){
+        if (optionalCategory.isEmpty()){
             return validation.validate(
                 "id",
                 "No existe una categoria con ese id",

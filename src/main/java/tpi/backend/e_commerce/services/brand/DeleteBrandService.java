@@ -55,7 +55,7 @@ public class DeleteBrandService implements IDeleteBrandService{
     public ResponseEntity<?> recover(Long id) {
 
        Optional<Brand> optionalBrand = brandRepository.findById(id);
-        if (optionalBrand.isPresent()) {
+        if (optionalBrand.isEmpty()) {
             return validation.validate(
                 "id", 
               "No existe una marca con ese id", 
@@ -67,6 +67,5 @@ public class DeleteBrandService implements IDeleteBrandService{
         brand.setDeleted(false);
         return ResponseEntity.ok(BrandMapper.toDTO(brandRepository.save(brand)));
     }
-    
     
 }

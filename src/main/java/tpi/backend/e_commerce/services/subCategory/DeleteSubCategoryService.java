@@ -53,7 +53,7 @@ public class DeleteSubCategoryService implements IDeleteSubCategoryService{
     public ResponseEntity<?> recover(Long id) {
 
         Optional<SubCategory> optionalSubCategory = subCategoryRepository.findById(id);
-        if (optionalSubCategory.isPresent()){
+        if (optionalSubCategory.isEmpty()){
             return validation.validate(
                 "id",
                 "No existe una sub categoria con ese id",
