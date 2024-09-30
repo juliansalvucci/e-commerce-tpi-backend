@@ -21,11 +21,14 @@ import tpi.backend.e_commerce.services.JwtService.interfaces.IAuthenticationServ
 @CrossOrigin(origins = "http://localhost:5173")
 public class AuthenticationController {
     private final IAuthenticationService authenticationService;
+
+    //Endpoint para registrar un usuario
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody SignUpRequest request, BindingResult result) {
         return authenticationService.signup(request,result);
-    }
+    }   
 
+    //Endpoint para autenticar al usuario en el inicio de sesion
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@Valid @RequestBody SignInRequest request , BindingResult result) {
         return authenticationService.signin(request,result);

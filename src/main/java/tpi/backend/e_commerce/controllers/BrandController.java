@@ -60,7 +60,6 @@ public class BrandController {
 
     @GetMapping("/name/{name}")
     public ResponseEntity<?> findByName(@PathVariable String name){
-
         return findBrandService.findByName(name);
     }
 
@@ -68,7 +67,6 @@ public class BrandController {
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Brand brand, BindingResult result){
         return saveBrandService.save(brand, result);
-       
     }
 
     @PutMapping("/{id}")

@@ -12,7 +12,7 @@ import lombok.Data;
 public class CreateProductDTO {
 
     @NotBlank(message = "No puede estar vacio")
-    @Size(min = 2, max = 60, message = "Debe tener entre 3 y 20 caracteres")
+    @Size(min = 2, max = 60, message = "Debe tener entre 2 y 60 caracteres")
     private String name;
 
     @Size(max = 100)
@@ -34,13 +34,16 @@ public class CreateProductDTO {
     @URL(message = "Debe ser una URL")
     private String imageURL;
 
+    private String color;
+    private String size;
+    
     @NotNull(message = "Debe ingresar un id de marca")
     private Long brandId;
     @NotNull(message = "Debe ingresar un id de subcategoria")
     private Long subCategoryId;
     
     public CreateProductDTO(String name, String description, Double price, Long stock, 
-        Long stockMin, String imageURL, Long brandId, Long subCategoryId) {
+        Long stockMin, String imageURL, String color, String size, Long brandId, Long subCategoryId) {
         
         this.name = name;
         this.description = description;
@@ -50,6 +53,8 @@ public class CreateProductDTO {
         this.imageURL = imageURL;
         this.brandId = brandId;
         this.subCategoryId = subCategoryId;
+        this.color = color;
+        this.size = size;
     }
     
 }

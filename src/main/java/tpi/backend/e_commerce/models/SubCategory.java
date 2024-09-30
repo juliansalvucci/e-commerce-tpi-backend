@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -24,6 +25,7 @@ public class SubCategory {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
     private boolean deleted; 
@@ -56,8 +58,13 @@ public class SubCategory {
         this.category = category;
     }
     
-    
-    
-    
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+        if (deleted) {
+            deleteDatetime = LocalDateTime.now();
+        } else{
+            deleteDatetime = null;
+        }
+    }
     
 }

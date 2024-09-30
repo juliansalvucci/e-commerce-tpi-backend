@@ -23,9 +23,15 @@ public class SaveCategoryService implements ISaveCategoryService{
 
     @Override
     public ResponseEntity<?> save(Category category, BindingResult result) {
+        
         if(categoryRepository.existByName(category.getName())){
-            result.rejectValue("name", "", "Ya existe una categoria con ese nombre");
+            return validation.validate(
+                "name",
+                "Ya existe una categoria con ese nombre",
+                409
+            );
         }
+
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
@@ -43,7 +49,11 @@ public class SaveCategoryService implements ISaveCategoryService{
     public ResponseEntity<?> update(Long id, Category category, BindingResult result) {
         
         if(categoryRepository.existByNameExceptId(category.getName(), id)){
-            result.rejectValue("name", "", "Ya existe una categoria con ese nombre");
+            return validation.validate(
+                "name",
+                "Ya existe una categoria con ese nombre",
+                409
+            );
         }
 
         if (result.hasFieldErrors()) {
@@ -55,13 +65,19 @@ public class SaveCategoryService implements ISaveCategoryService{
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
+
         Optional<Category> optionalCategory = categoryRepository.findActiveById(id);
-        if (optionalCategory.isPresent()){
-            category.setId(id);
-            category.setCreationDatetime(optionalCategory.get().getCreationDatetime());
-            return ResponseEntity.ok(CategoryMapper.toDTO(categoryRepository.save(category)));
+        if (optionalCategory.isEmpty()){
+            return validation.validate(
+                "id",
+                "El id no corresponde a ninguna categoria",
+                404
+            );
         }
-        return ResponseEntity.notFound().build();
+        
+        category.setId(id);
+        category.setCreationDatetime(optionalCategory.get().getCreationDatetime());
+        return ResponseEntity.ok(CategoryMapper.toDTO(categoryRepository.save(category)));
     }
 
     private BindingResult categoryNameValidations(BindingResult result, String name){

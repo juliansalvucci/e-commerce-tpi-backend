@@ -20,6 +20,9 @@ public class ResponseProductDTO {
 
     private String imageURL;
 
+    private String color;
+    private String size;
+    
     private String category;
     private String subCategory;
     private String brand;
@@ -31,11 +34,9 @@ public class ResponseProductDTO {
     public ResponseProductDTO() {
     }
 
-    public ResponseProductDTO(Long id, String name, String description, Double price, Long stock, 
-        Long stockMin, String imageURL, String category, String subCategory, String brand, 
-        LocalDateTime creationDatetime, LocalDateTime updateDatetime, 
-        LocalDateTime deleteDatetime) {
-            
+    public ResponseProductDTO(Long id, String name, String description, Double price, Long stock, Long stockMin,
+            String imageURL, String color, String size, String category, String subCategory, String brand,
+            LocalDateTime creationDatetime, LocalDateTime updateDatetime, LocalDateTime deleteDatetime) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -43,6 +44,8 @@ public class ResponseProductDTO {
         this.stock = stock;
         this.stockMin = stockMin;
         this.imageURL = imageURL;
+        this.color = color;
+        this.size = size;
         this.category = category;
         this.subCategory = subCategory;
         this.brand = brand;
@@ -50,6 +53,8 @@ public class ResponseProductDTO {
         this.updateDatetime = updateDatetime;
         this.deleteDatetime = deleteDatetime;
     }
+
+   
 
       
 }
