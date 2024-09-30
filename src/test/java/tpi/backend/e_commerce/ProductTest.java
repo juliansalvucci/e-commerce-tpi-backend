@@ -34,6 +34,8 @@ public class ProductTest {
                                 50L,
                                 10L,
                                 "http://example.com/image.jpg",
+                                "Rojo",
+                                "XL",
                                 1L,
                                 9999L // subCategoryId inexistente
                 );

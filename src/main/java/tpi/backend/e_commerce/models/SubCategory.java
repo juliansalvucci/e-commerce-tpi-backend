@@ -56,8 +56,13 @@ public class SubCategory {
         this.category = category;
     }
     
-    
-    
-    
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+        if (deleted) {
+            deleteDatetime = LocalDateTime.now();
+        } else{
+            deleteDatetime = null;
+        }
+    }
     
 }
