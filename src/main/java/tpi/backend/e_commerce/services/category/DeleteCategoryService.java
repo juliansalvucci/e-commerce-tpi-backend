@@ -1,13 +1,13 @@
 package tpi.backend.e_commerce.services.category;
 
-import java.time.LocalDateTime;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import lombok.val;
+
 import tpi.backend.e_commerce.mapper.CategoryMapper;
 import tpi.backend.e_commerce.models.Category;
 import tpi.backend.e_commerce.repositories.ICategoryRepository;

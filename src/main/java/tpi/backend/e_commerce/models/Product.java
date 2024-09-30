@@ -131,8 +131,7 @@ public class Product {
         this.deleted = deleted;
         if (deleted) {
             deleteDatetime = LocalDateTime.now();            
-        }
-        if (!deleted) {
+        }else{
             deleteDatetime = null;
         }
     }
