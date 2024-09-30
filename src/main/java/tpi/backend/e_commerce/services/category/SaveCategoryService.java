@@ -27,7 +27,7 @@ public class SaveCategoryService implements ISaveCategoryService{
         if(categoryRepository.existByName(category.getName())){
             return validation.validate(
                 "name",
-                "Ya existe en la base de datos",
+                "Ya existe una categoria con ese nombre",
                 409
             );
         }
@@ -51,7 +51,7 @@ public class SaveCategoryService implements ISaveCategoryService{
         if(categoryRepository.existByNameExceptId(category.getName(), id)){
             return validation.validate(
                 "name",
-                "Ya existe en la base de datos",
+                "Ya existe una categoria con ese nombre",
                 409
             );
         }

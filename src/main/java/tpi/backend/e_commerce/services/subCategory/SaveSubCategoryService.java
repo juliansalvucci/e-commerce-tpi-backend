@@ -72,7 +72,7 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
         if(subCategoryRepository.existByNameExceptId(subCategoryDTO.getName(),id)){
             return validation.validate(
                 "name", 
-                "Ya existe en la base de datos", 
+                "Ya existe una sub categoria con ese nombre", 
                 409
             );
         }    

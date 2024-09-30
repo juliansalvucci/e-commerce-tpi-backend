@@ -38,7 +38,7 @@ public class DeleteSubCategoryService implements IDeleteSubCategoryService{
 
             return validation.validate(
                 "id",
-                "La sub categoria tiene productos asociados",
+                "La subcategoria tiene productos asociados",
                 409
             );
         }

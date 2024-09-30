@@ -23,7 +23,7 @@ public class Brand {
 
     @Column(unique = true) //No puede existir dos marcas con el mismo nombre
     @NotBlank(message = "No puede estar vacio")
-    @Size(min = 3, max = 30, message = "Debe tener entre 3 y 30 caracteres")
+    @Size(min = 2, max = 30, message = "Debe tener entre 2 y 30 caracteres")
     private String name;
 
     private boolean deleted; //True si esta eliminado
