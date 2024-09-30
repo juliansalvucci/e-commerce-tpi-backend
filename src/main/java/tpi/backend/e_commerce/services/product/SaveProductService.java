@@ -46,8 +46,8 @@ public class SaveProductService implements ISaveProductService{
         if (productRepository.existsByName(createProductDTO.getName())) {
             return validation.validate(
                 "name", 
-                "Ya existe en la base de datos", 
-                404
+                "Ya existe una producto con ese nombre", 
+                409
             );
         }
 
@@ -63,7 +63,7 @@ public class SaveProductService implements ISaveProductService{
 
             return validation.validate(
                 "subCategoryId", 
-                "La sub categoria ingresada no existe", 
+                "La subcategoria ingresada no existe", 
                 404
             );
 
@@ -98,7 +98,7 @@ public class SaveProductService implements ISaveProductService{
 
             return validation.validate(
                 "name", 
-                "Ya existe en la base de datos", 
+                "Ya existe un producto con ese nombre", 
                 409
             );
         }

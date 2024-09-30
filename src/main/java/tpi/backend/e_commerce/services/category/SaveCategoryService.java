@@ -23,13 +23,15 @@ public class SaveCategoryService implements ISaveCategoryService{
 
     @Override
     public ResponseEntity<?> save(Category category, BindingResult result) {
+        
         if(categoryRepository.existByName(category.getName())){
             return validation.validate(
                 "name",
-                "Ya existe en la base de datos",
+                "Ya existe una categoria con ese nombre",
                 409
             );
         }
+
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
@@ -49,7 +51,7 @@ public class SaveCategoryService implements ISaveCategoryService{
         if(categoryRepository.existByNameExceptId(category.getName(), id)){
             return validation.validate(
                 "name",
-                "Ya existe en la base de datos",
+                "Ya existe una categoria con ese nombre",
                 409
             );
         }

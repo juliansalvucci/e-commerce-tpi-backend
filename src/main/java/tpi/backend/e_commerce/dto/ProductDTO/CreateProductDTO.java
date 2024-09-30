@@ -12,7 +12,7 @@ import lombok.Data;
 public class CreateProductDTO {
 
     @NotBlank(message = "No puede estar vacio")
-    @Size(min = 2, max = 60, message = "Debe tener entre 3 y 20 caracteres")
+    @Size(min = 2, max = 60, message = "Debe tener entre 2 y 60 caracteres")
     private String name;
 
     @Size(max = 100)

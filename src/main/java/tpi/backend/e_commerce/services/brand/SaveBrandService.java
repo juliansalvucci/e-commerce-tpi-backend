@@ -25,7 +25,7 @@ public class SaveBrandService implements ISaveBrandService{
         if(brandRepository.existsByName(brand.getName())){
             return validation.validate(
                 "name",
-                "Ya existe en la base de datos",
+                "Ya existe una marca con ese nombre",
                 409
             );
         }
@@ -50,7 +50,7 @@ public class SaveBrandService implements ISaveBrandService{
 
             return validation.validate(
                 "name",
-                "Ya existe en la base de datos",
+                "Ya existe una marca con ese nombre",
                 409
             );        
 

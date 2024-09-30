@@ -47,7 +47,7 @@ public class AuthenticationService implements IAuthenticationService {
         if(userRepository.existsByEmail(request.getEmail())) {
             return validation.validate(
                 "email",
-                "Ya existe en la base de datos",
+                "Ya existe un usuario con ese email",
                 409
             );
         }
@@ -72,7 +72,7 @@ public class AuthenticationService implements IAuthenticationService {
         if (optionalUser.isEmpty()) {
             return validation.validate(
                 "email",
-                "El email no existe en la base de datos",
+                "No existe un usuario con ese email",
                 404
             );
         }
