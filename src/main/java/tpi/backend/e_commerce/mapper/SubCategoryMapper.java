@@ -20,7 +20,6 @@ public class SubCategoryMapper {
     } 
 
    public static SubCategory toEntity(CreateSubCategoryDTO subCategoryDTO, Category category) {
-
         return new SubCategory(subCategoryDTO.getName(), category);
     }
 
@@ -31,7 +30,6 @@ public class SubCategoryMapper {
     }
 
     public static SubCategory toUpdate(Long id, CreateSubCategoryDTO subCategoryDTO, Category category){
-        
         return new SubCategory(id, subCategoryDTO.getName(), category);
     }
     
