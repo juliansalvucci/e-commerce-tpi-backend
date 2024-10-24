@@ -35,6 +35,8 @@ public class User implements UserDetails {
     private String lastName;
     private String email;
     private String password;
+    //fecha nacimiento
+    //direccion
     @Enumerated(EnumType.STRING)
     private Role role;
     @Override

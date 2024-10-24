@@ -80,9 +80,9 @@ public class ProductController {
     }
 
     @PatchMapping("/update-stock/{id}")
-    public ResponseEntity<?> updateStock(@Valid @RequestBody UpdateStockDTO productDto, @PathVariable Long id){
+    public ResponseEntity<?> updateStock(@Valid @RequestBody UpdateStockDTO productDto, BindingResult result ,@PathVariable Long id){
 
-        return saveProductService.updateStock(id, productDto);
+        return saveProductService.updateStock(id, productDto, result);
     }
 
     @DeleteMapping("/{id}") //Elimina logicamente un producto por su id 
