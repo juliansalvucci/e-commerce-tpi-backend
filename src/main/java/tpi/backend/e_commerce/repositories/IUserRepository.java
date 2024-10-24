@@ -11,7 +11,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface IUserRepository extends CrudRepository<User, Integer> {
+public interface IUserRepository extends CrudRepository<User, Long> {
     // Since email is unique, we'll find users by email
     Optional<User> findByEmail(String email);
 

@@ -1,6 +1,8 @@
 package tpi.backend.e_commerce.mapper;
 
 
+import java.util.List;
+
 import tpi.backend.e_commerce.dto.orderDTO.ResponseOrderDto;
 import tpi.backend.e_commerce.models.Order;
 import tpi.backend.e_commerce.models.User;
@@ -21,6 +23,14 @@ public class OrderMapper {
             .userEmail(order.getUser().getEmail())
             .total(order.getTotal())
             .orderDetails(OrderDetailMapper.toDtoList(order.getOrderDetails()))
+            .creationDatetime(order.getCreation_datetime())
             .build();
+    }
+
+    public static List<ResponseOrderDto> toDtoList(List<Order> orders){
+        return orders
+            .stream()
+            .map(order -> OrderMapper.toDto(order))
+            .toList();
     }
 }
