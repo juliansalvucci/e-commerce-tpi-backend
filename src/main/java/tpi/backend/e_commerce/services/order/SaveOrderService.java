@@ -46,13 +46,13 @@ public class SaveOrderService implements ISaveOrderService{
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
-        
+
         Optional<User> optionalUser = userRepository.findByEmail(orderDto.getUserEmail());
         if (optionalUser.isEmpty()){
             System.out.println(orderDto.getUserEmail());
             return validation.validate(
                 "userEmail",
-                "No existe un usuario con ese email",
+                "No existe un usuario con ese email en la base de datos",
                 404
             );
         }

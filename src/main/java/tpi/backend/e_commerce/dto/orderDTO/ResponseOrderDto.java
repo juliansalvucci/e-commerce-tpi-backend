@@ -1,5 +1,6 @@
 package tpi.backend.e_commerce.dto.orderDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -16,5 +17,5 @@ public class ResponseOrderDto {
     private String userEmail;
     private Double total;
     private List<ResponseOrderDetailDto> orderDetails;
-
+    private LocalDateTime creationDatetime;
 }
