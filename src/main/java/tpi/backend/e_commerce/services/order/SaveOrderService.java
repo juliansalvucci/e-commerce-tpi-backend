@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import tpi.backend.e_commerce.dto.orderDTO.CreateOrderDto;
 import tpi.backend.e_commerce.dto.orderDetailDto.CreateOrderDetailDto;
@@ -40,8 +41,12 @@ public class SaveOrderService implements ISaveOrderService{
     private IProductRepository productRepository;
 
     @Override
-    public ResponseEntity<?> create(CreateOrderDto orderDto) {
+    public ResponseEntity<?> create(CreateOrderDto orderDto, BindingResult result) {
 
+        if (result.hasFieldErrors()) {
+            return validation.validate(result);
+        }
+        
         Optional<User> optionalUser = userRepository.findByEmail(orderDto.getUserEmail());
         if (optionalUser.isEmpty()){
             System.out.println(orderDto.getUserEmail());
