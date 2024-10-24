@@ -2,6 +2,7 @@ package tpi.backend.e_commerce.dto.orderDTO;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +15,7 @@ public class CreateOrderDto {
     
     private String userEmail;
 
+    @Valid
     private List<CreateOrderDetailDto> orderDetails;
 
 }
