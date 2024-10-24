@@ -28,5 +28,5 @@ public class StockEntryDetail {
     @ManyToOne
     private Product product;
 
-    private Integer amount;
+    private Integer quantity;
 }
