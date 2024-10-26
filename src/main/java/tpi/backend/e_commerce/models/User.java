@@ -1,6 +1,7 @@
 package tpi.backend.e_commerce.models;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -32,6 +33,7 @@ public class User implements UserDetails {
     private Long id;
     private String firstName;
     private String lastName;
+    private Date DateBirth;
     private String email;
     private String password;
     //fecha nacimiento
