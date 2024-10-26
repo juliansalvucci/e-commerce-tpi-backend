@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 
 
 import tpi.backend.e_commerce.dto.ProductDTO.CreateProductDTO;
+import tpi.backend.e_commerce.dto.ProductDTO.UpdateStockDTO;
 import tpi.backend.e_commerce.mapper.ProductMapper;
 import tpi.backend.e_commerce.models.Brand;
 import tpi.backend.e_commerce.models.Product;
@@ -114,7 +115,7 @@ public class SaveProductService implements ISaveProductService{
 
             return validation.validate(
                 "id", 
-                "El id ingresado no corresponde a ningun producto", 
+                "El id ingresado no corresponde a ningun producto activo", 
                 404
             );
            
@@ -149,6 +150,28 @@ public class SaveProductService implements ISaveProductService{
         //Asigno al producto a guardar en la bd la fecha de creacion que tenia el producto antes de ser actualizado
 
         return ResponseEntity.ok(ProductMapper.toDTO(productRepository.save(productToSave)));
+
+    }
+
+    @Override
+    public ResponseEntity<?> updateStock(Long id, UpdateStockDTO updateStockDTO, BindingResult result) {
+        if (result.hasFieldErrors()) {
+            return validation.validate(result);
+        }
+        Optional<Product> optionalProduct = productRepository.findActiveById(id);
+        if (optionalProduct.isEmpty()) {
+            return validation.validate(
+                "id",
+                "El id ingresado no corresponde a ningun producto activo",
+                404
+            );
+        }
+
+        Product product = optionalProduct.get();
+        product.setStock(updateStockDTO.getStock());
+        productRepository.save(product);
+        
+        return ResponseEntity.ok(ProductMapper.toDTO(product));
 
     }
 

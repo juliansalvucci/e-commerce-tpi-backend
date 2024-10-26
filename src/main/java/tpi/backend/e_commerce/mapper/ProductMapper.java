@@ -13,7 +13,9 @@ public class ProductMapper {
 
     //El mapper recibira el DTO y la categoria. Si no recibiera la categoria, deberia hacer una 
     //consulta a la BD para traerla, lo cual no es responsabilidad de esta clase
-    public static Product toEntity(CreateProductDTO createProductDTO, SubCategory subCategory,Brand brand){ 
+    public static Product toEntity(
+        CreateProductDTO createProductDTO, SubCategory subCategory, Brand brand
+        ){ 
         return new Product(
             createProductDTO.getName(),
             createProductDTO.getDescription(),
@@ -26,8 +28,6 @@ public class ProductMapper {
             brand,
             subCategory
         );
-
-
         
     }
 
