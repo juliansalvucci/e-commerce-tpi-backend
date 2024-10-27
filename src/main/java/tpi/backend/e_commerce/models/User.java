@@ -33,7 +33,7 @@ public class User implements UserDetails {
     private Long id;
     private String firstName;
     private String lastName;
-    private Date DateBirth;
+    private Date dateBirth;
     private String email;
     private String password;
     //fecha nacimiento
