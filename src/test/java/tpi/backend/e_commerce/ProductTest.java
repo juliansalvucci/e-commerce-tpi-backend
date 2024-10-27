@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -160,6 +161,20 @@ public class ProductTest {
                                 .content(objectMapper.writeValueAsString(productDto)))
                                 .andExpect(status().isCreated()); // Asegura que el estatus sea 200 OK
                 // .andExpect(jsonPath("$.message").value("Producto creado con éxito"));
+        }
+
+        @Test
+        @Transactional
+        void testDeleteProductSuccess() throws Exception {
+                Long productId = 20L;
+
+                // Realizar la solicitud DELETE simulada
+                mockMvc.perform(delete("/product/{id}", productId)
+                                .contentType(MediaType.APPLICATION_JSON))
+                                .andExpect(status().isConflict()) // Asegura que el estatus sea 204 No Content
+                                .andExpect(jsonPath("$.stock")
+                                                .value("No se puede eliminar un producto cuyo stock no es 0"));
+
         }
 
 }
