@@ -2,7 +2,9 @@ package tpi.backend.e_commerce.dto.stockEntryDetailDto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
+@Data
 public class CreateStockEntryDetailDto {
     @NotNull(message = "Debe ingresar un productId")
     private Long productId;
