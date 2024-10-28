@@ -54,7 +54,8 @@ public class AuthenticationService implements IAuthenticationService {
                 .role(Role.USER).build();
         userRepository.save(user);
         var jwt = jwtService.generateToken(user);
-        return ResponseEntity.ok(JwtAuthenticationResponse.builder().token(jwt).build());
+        return ResponseEntity.ok(JwtAuthenticationResponse.builder().token(jwt).firstName(user.getFirstName())
+                .lastName(user.getLastName()).build());
     }
 
     @Override
@@ -86,6 +87,8 @@ public class AuthenticationService implements IAuthenticationService {
         }
 
         var jwt = jwtService.generateToken(optionalUser.get());
-        return ResponseEntity.ok(JwtAuthenticationResponse.builder().token(jwt).build());
+        var user = optionalUser.get();
+        return ResponseEntity.ok(JwtAuthenticationResponse.builder().token(jwt).firstName(user.getFirstName())
+                .lastName(user.getLastName()).build());
     }
 }
