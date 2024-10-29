@@ -34,6 +34,7 @@ public class CreateProductDTO {
     @URL(message = "Debe ser una URL")
     private String imageURL;
 
+    @NotBlank(message = "Debe ingresar un color")
     private String color;
     private String size;
     
