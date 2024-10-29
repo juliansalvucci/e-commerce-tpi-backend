@@ -1,6 +1,6 @@
 package tpi.backend.e_commerce.services.subCategory;
 
-import java.time.LocalDateTime;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,41 +12,57 @@ import tpi.backend.e_commerce.models.SubCategory;
 
 import tpi.backend.e_commerce.repositories.ISubCategoryRepository;
 import tpi.backend.e_commerce.services.subCategory.interfaces.IDeleteSubCategoryService;
+import tpi.backend.e_commerce.validation.Validation;
 
 @Service
 public class DeleteSubCategoryService implements IDeleteSubCategoryService{
     @Autowired
     private ISubCategoryRepository subCategoryRepository;
 
-
+    @Autowired
+    private Validation validation;
+    
     @Override
     public ResponseEntity<?> delete(Long id) { 
         Optional<SubCategory> optionalSubCategory = subCategoryRepository.findById(id);
         if (optionalSubCategory.isEmpty()){    
 
-            return ResponseEntity.notFound().build();
+            return validation.validate(
+                "id",
+                "No existe una sub categoria con ese id",
+                404  
+            );
         }
         
         if (subCategoryRepository.hasSubCategoryProducts(id)) {
-            return ResponseEntity.status(409).body("La subcategoria tiene productos asociados");
+
+            return validation.validate(
+                "id",
+                "La subcategoria tiene productos asociados",
+                409
+            );
         }
 
         SubCategory subCategory = optionalSubCategory.get();
         subCategory.setDeleted(true);
-        subCategory.setDeleteDatetime(LocalDateTime.now());
         subCategoryRepository.save(subCategory);
         return ResponseEntity.noContent().build();
     }
 
     @Override
     public ResponseEntity<?> recover(Long id) {
+
         Optional<SubCategory> optionalSubCategory = subCategoryRepository.findById(id);
-        if (optionalSubCategory.isPresent()){
-            SubCategory subCategory = optionalSubCategory.get();
-            subCategory.setDeleted(false);
-            subCategory.setDeleteDatetime(null);
-            return ResponseEntity.ok(SubCategoryMapper.toDTO(subCategoryRepository.save(subCategory)));
+        if (optionalSubCategory.isEmpty()){
+            return validation.validate(
+                "id",
+                "No existe una sub categoria con ese id",
+                404
+            );
         }
-        return ResponseEntity.notFound().build();    
+
+        SubCategory subCategory = optionalSubCategory.get();
+        subCategory.setDeleted(false);
+        return ResponseEntity.ok(SubCategoryMapper.toDTO(subCategoryRepository.save(subCategory)));
     }
 }

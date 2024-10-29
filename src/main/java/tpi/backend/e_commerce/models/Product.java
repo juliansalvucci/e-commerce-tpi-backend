@@ -36,6 +36,10 @@ public class Product {
 
     private String imageURL;
 
+    private String color;
+
+    private String size;
+
     @ManyToOne
     private Brand brand;
 
@@ -74,21 +78,24 @@ public class Product {
     }
 
 
-    public Product(Long id, String name, String description, Double price, Long stock, Long stockMin, String imageURL,
-            Brand brand, SubCategory subCategory) {
-        this.id = id;
+    
+
+    public Product(String name, String description, Double price, Long stock, Long stockMin, String imageURL,
+            String color, String size, Brand brand, SubCategory subCategory) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
         this.stockMin = stockMin;
         this.imageURL = imageURL;
+        this.color = color;
+        this.size = size;
         this.brand = brand;
         this.subCategory = subCategory;
     }
     public Product(Long id, String name, String description, Double price, Long stock, Long stockMin, String imageURL,
-            Brand brand, SubCategory subCategory, boolean deleted, LocalDateTime creationDatetime,
-            LocalDateTime updateDatetime, LocalDateTime deleteDatetime) {
+            String color, String size, Brand brand, SubCategory subCategory, boolean deleted,
+            LocalDateTime creationDatetime, LocalDateTime updateDatetime, LocalDateTime deleteDatetime) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -96,6 +103,8 @@ public class Product {
         this.stock = stock;
         this.stockMin = stockMin;
         this.imageURL = imageURL;
+        this.color = color;
+        this.size = size;
         this.brand = brand;
         this.subCategory = subCategory;
         this.deleted = deleted;
@@ -103,7 +112,29 @@ public class Product {
         this.updateDatetime = updateDatetime;
         this.deleteDatetime = deleteDatetime;
     }
-
+    public Product(Long id, String name, String description, Double price, Long stock, Long stockMin, String imageURL,
+            String color, String size, Brand brand, SubCategory subCategory) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.stockMin = stockMin;
+        this.imageURL = imageURL;
+        this.color = color;
+        this.size = size;
+        this.brand = brand;
+        this.subCategory = subCategory;
+    }
+    
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+        if (deleted) {
+            deleteDatetime = LocalDateTime.now();            
+        }else{
+            deleteDatetime = null;
+        }
+    }
    
     
     

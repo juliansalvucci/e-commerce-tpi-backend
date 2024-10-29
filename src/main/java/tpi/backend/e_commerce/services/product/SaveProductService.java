@@ -1,7 +1,7 @@
 package tpi.backend.e_commerce.services.product;
 
 import java.util.Optional;
-import java.util.Collections;
+
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 
 
 import tpi.backend.e_commerce.dto.ProductDTO.CreateProductDTO;
+import tpi.backend.e_commerce.dto.ProductDTO.UpdateStockDTO;
 import tpi.backend.e_commerce.mapper.ProductMapper;
 import tpi.backend.e_commerce.models.Brand;
 import tpi.backend.e_commerce.models.Product;
@@ -37,17 +38,18 @@ public class SaveProductService implements ISaveProductService{
     @Override
     public ResponseEntity<?> save(CreateProductDTO createProductDTO , BindingResult result) {
 
-        if (productRepository.existsByName(createProductDTO.getName())) {
-            result.rejectValue(
-                "name", 
-                "", 
-                "Ya existe un producto con ese nombre"
-            );
-        }
         
         //Este if evita un null pointer exception al hacer el getName() si el nombre es nulo
         if (result.hasFieldErrors()) {
             return validation.validate(result);
+        }
+        
+        if (productRepository.existsByName(createProductDTO.getName())) {
+            return validation.validate(
+                "name", 
+                "Ya existe una producto con ese nombre", 
+                409
+            );
         }
 
         result = nameProductValidation(result, createProductDTO.getName()); 
@@ -59,16 +61,25 @@ public class SaveProductService implements ISaveProductService{
         
         Optional<SubCategory> optionalSubCategory = subCategoryRepository.findActiveById(createProductDTO.getSubCategoryId()); 
         if (optionalSubCategory.isEmpty()) { //Si no existe la categoria mandada por la peticion, retorno un 404
-            return ResponseEntity.status(404).body(
-                Collections.singletonMap("subCategoryId","La sub categoria ingresada no existe")
+
+            return validation.validate(
+                "subCategoryId", 
+                "La subcategoria ingresada no existe", 
+                404
             );
+
         }
         Optional<Brand> optionalBrand = brandRepository.findActiveById(createProductDTO.getBrandId()); 
         if (optionalBrand.isEmpty()) { //Si no existe la marca mandada por la peticion, retorno un 404
-            return ResponseEntity.status(404).body(
-                Collections.singletonMap("brandId","La marca ingresada no existe")
+           
+            return validation.validate(
+                "brandId", 
+                "La marca ingresada no existe", 
+                404
             );
+
         }
+        
         Product productToSave = ProductMapper.toEntity(createProductDTO, optionalSubCategory.get(), optionalBrand.get()); 
         //Convierto el product de la peticion en un product de la bd a traves del mapper
 
@@ -79,16 +90,18 @@ public class SaveProductService implements ISaveProductService{
     @Override
     public ResponseEntity<?> update(Long id, CreateProductDTO createProductDTO, BindingResult result) {
 
-        if (productRepository.existsByNameExceptId(createProductDTO.getName(),id)) {
-            result.rejectValue(
-                "name", 
-                "", 
-                "Ya existe un producto con ese nombre"
-            );
-        }
-
+        
         if (result.hasFieldErrors()) {
             return validation.validate(result);
+        }
+
+        if (productRepository.existsByNameExceptId(createProductDTO.getName(),id)) {
+
+            return validation.validate(
+                "name", 
+                "Ya existe un producto con ese nombre", 
+                409
+            );
         }
        
         result = nameProductValidation(result, createProductDTO.getName()); 
@@ -99,20 +112,35 @@ public class SaveProductService implements ISaveProductService{
 
         Optional<Product> optionalProduct = productRepository.findActiveById(id); 
         if (optionalProduct.isEmpty()) { //Si no existe la categoria mandada por la peticion, retorno un 404
-            return ResponseEntity.status(404).body(
-                Collections.singletonMap("id","El id ingresado no corresponde a ningun producto")
+
+            return validation.validate(
+                "id", 
+                "El id ingresado no corresponde a ningun producto activo", 
+                404
             );
+           
         }
+
         Optional<SubCategory> optionalSubCategory = subCategoryRepository.findActiveById(createProductDTO.getSubCategoryId()); 
         if (optionalSubCategory.isEmpty()) { //Si no existe la categoria mandada por la peticion, retorno un 404
-            return ResponseEntity.status(404).body(
-                Collections.singletonMap("subCategoryId","La sub categoria ingresada no existe")
-            );        }
+   
+            return validation.validate(
+                "subCategoryId", 
+                "La sub categoria ingresada no existe", 
+                404
+            );
+
+        }
+
         Optional<Brand> optionalBrand = brandRepository.findActiveById(createProductDTO.getBrandId()); 
         if (optionalBrand.isEmpty()) { //Si no existe la marca mandada por la peticion, retorno un 404
-            return ResponseEntity.status(404).body(
-                Collections.singletonMap("brandId","La marca ingresada no existe")
+
+            return validation.validate(
+                "brandId", 
+                "La marca ingresada no existe", 
+                404
             );
+           
         }
 
         Product productToSave = ProductMapper.toUpdate(createProductDTO, id ,optionalSubCategory.get(), optionalBrand.get()); 
@@ -122,6 +150,28 @@ public class SaveProductService implements ISaveProductService{
         //Asigno al producto a guardar en la bd la fecha de creacion que tenia el producto antes de ser actualizado
 
         return ResponseEntity.ok(ProductMapper.toDTO(productRepository.save(productToSave)));
+
+    }
+
+    @Override
+    public ResponseEntity<?> updateStock(Long id, UpdateStockDTO updateStockDTO, BindingResult result) {
+        if (result.hasFieldErrors()) {
+            return validation.validate(result);
+        }
+        Optional<Product> optionalProduct = productRepository.findActiveById(id);
+        if (optionalProduct.isEmpty()) {
+            return validation.validate(
+                "id",
+                "El id ingresado no corresponde a ningun producto activo",
+                404
+            );
+        }
+
+        Product product = optionalProduct.get();
+        product.setStock(updateStockDTO.getStock());
+        productRepository.save(product);
+        
+        return ResponseEntity.ok(ProductMapper.toDTO(product));
 
     }
 

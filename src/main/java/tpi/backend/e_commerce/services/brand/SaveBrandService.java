@@ -23,7 +23,11 @@ public class SaveBrandService implements ISaveBrandService{
     public ResponseEntity<?> save(Brand brand, BindingResult result) {
 
         if(brandRepository.existsByName(brand.getName())){
-            result.rejectValue("name", "", "Ya existe una marca con ese nombre");
+            return validation.validate(
+                "name",
+                "Ya existe una marca con ese nombre",
+                409
+            );
         }
         
         if (result.hasFieldErrors()) {
@@ -43,7 +47,13 @@ public class SaveBrandService implements ISaveBrandService{
     public ResponseEntity<?> update(Long id, Brand brand, BindingResult result) {
 
         if(brandRepository.existsByNameExceptId(brand.getName(), id)){
-            result.rejectValue("name", "", "Ya existe una marca con ese nombre");
+
+            return validation.validate(
+                "name",
+                "Ya existe una marca con ese nombre",
+                409
+            );        
+
         }
 
         if (result.hasFieldErrors()) {
@@ -57,13 +67,18 @@ public class SaveBrandService implements ISaveBrandService{
         }
 
         Optional<Brand> optionalBrand = brandRepository.findActiveById(id);
-        if (optionalBrand.isPresent()) {
-            brand.setId(id);
-            brand.setCreationDatetime(optionalBrand.get().getCreationDatetime());
-            BrandDTO brandDTO = BrandMapper.toDTO(brandRepository.save(brand));
-            return ResponseEntity.ok(brandDTO);
+        if (optionalBrand.isEmpty()) {
+            return validation.validate(
+                "id",
+                "El id no corresponde a ninguna marca",
+                404
+            );
         }
-        return ResponseEntity.notFound().build();
+        
+        brand.setId(id);
+        brand.setCreationDatetime(optionalBrand.get().getCreationDatetime());
+        BrandDTO brandDTO = BrandMapper.toDTO(brandRepository.save(brand));
+        return ResponseEntity.ok(brandDTO);
     }
     
     private BindingResult brandNameValidations(BindingResult result , String name){

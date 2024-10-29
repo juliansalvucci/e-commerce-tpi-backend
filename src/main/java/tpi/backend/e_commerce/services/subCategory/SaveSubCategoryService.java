@@ -17,7 +17,7 @@ import tpi.backend.e_commerce.services.subCategory.interfaces.ISaveSubCategorySe
 import tpi.backend.e_commerce.validation.Validation;
 
 import org.springframework.validation.BindingResult;
-import java.util.Collections;
+
 
 @Service
 public class SaveSubCategoryService implements ISaveSubCategoryService{
@@ -33,10 +33,10 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
     public ResponseEntity<?> save(CreateSubCategoryDTO subCategoryDTO, BindingResult result) {
         
         if(subCategoryRepository.existByName(subCategoryDTO.getName())){
-            result.rejectValue(
-                "name", 
-                "", 
-                "Ya existe una sub categoria con ese nombre"
+           return validation.validate(
+            "name", 
+            "Ya existe una sub categoria con ese nombre", 
+            409
             );
         }
 
@@ -51,14 +51,17 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
         }
         
         Optional<Category> optionalCategory = categoryRepository.findActiveById(subCategoryDTO.getCategoryId());
-        if (optionalCategory.isPresent()) {
+        if (optionalCategory.isEmpty()) {
+            return validation.validate(
+                "categoryId", 
+                "La categoria ingresada no existe", 
+                404
+            );
+        }
+        
             SubCategory subCategory = SubCategoryMapper.toEntity(subCategoryDTO, optionalCategory.get());
             subCategoryRepository.save(subCategory);
             return ResponseEntity.status(201).body(SubCategoryMapper.toDTO(subCategory));
-        }
-        return ResponseEntity.status(404).body(
-            Collections.singletonMap("categoryId","La categoria ingresada no existe")
-            );
     }
 
     @Override
@@ -67,7 +70,11 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
 
         //Chequea que no exista otra subcategoria con el mismo nombre
         if(subCategoryRepository.existByNameExceptId(subCategoryDTO.getName(),id)){
-            result.rejectValue("name", "", "Ya existe una sub categoria con ese nombre");
+            return validation.validate(
+                "name", 
+                "Ya existe una sub categoria con ese nombre", 
+                409
+            );
         }    
 
         if (result.hasFieldErrors()) {
@@ -81,23 +88,29 @@ public class SaveSubCategoryService implements ISaveSubCategoryService{
         }
 
         Optional<SubCategory> optionalSubCategory = subCategoryRepository.findActiveById(id);
-        if (optionalSubCategory.isPresent()){
-            Optional<Category> optionalCategory = categoryRepository.findActiveById(subCategoryDTO.getCategoryId());
-            if (optionalCategory.isPresent()) {
-                SubCategory subCategory = SubCategoryMapper.toUpdate(id, subCategoryDTO, optionalCategory.get());
-
-                subCategory.setCreationDatetime(optionalSubCategory.get().getCreationDatetime());   
-                subCategoryRepository.save(subCategory);
-                return ResponseEntity.ok(SubCategoryMapper.toDTO(subCategory));
-            }
-            return ResponseEntity.status(404).body(
-                Collections.singletonMap("categoryId","La categoria ingresada no existe")
+        if (optionalSubCategory.isEmpty()){
+           
+            return validation.validate(
+                "id", 
+                "El id no corresponde a ninguna sub categoria", 
+                404
             );
-
         }
-        return ResponseEntity.status(404).body(
-            Collections.singletonMap("id","El id no corresponde a ninguna sub categoria")
-        );
+
+        Optional<Category> optionalCategory = categoryRepository.findActiveById(subCategoryDTO.getCategoryId());
+        if (optionalCategory.isEmpty()) {
+           
+            return validation.validate(
+                "categoryId",
+              "La categoria ingresada no existe",
+               404
+            );
+        }
+                     
+        SubCategory subCategory = SubCategoryMapper.toUpdate(id, subCategoryDTO, optionalCategory.get());
+        subCategory.setCreationDatetime(optionalSubCategory.get().getCreationDatetime());   
+        subCategoryRepository.save(subCategory);
+        return ResponseEntity.ok(SubCategoryMapper.toDTO(subCategory));
     }
 
     private BindingResult subCategoryNameValidations(BindingResult result, String name){

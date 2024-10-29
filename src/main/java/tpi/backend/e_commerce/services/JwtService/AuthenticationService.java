@@ -1,10 +1,13 @@
 package tpi.backend.e_commerce.services.JwtService;
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -35,16 +38,20 @@ public class AuthenticationService implements IAuthenticationService {
     @Override
     public ResponseEntity<?> signup(SignUpRequest request , BindingResult result) {
 
-        //Chequea que el email no exista en la BD
-        if(userRepository.existsByEmail(request.getEmail())) {
-            result.rejectValue("Email", "", "Ya existe un usuario con ese email");
-        }
-
         //Si hay algun error de validacion, retornara un 400 con los errores
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
-        
+
+        //Chequea que el email no exista en la BD
+        if(userRepository.existsByEmail(request.getEmail())) {
+            return validation.validate(
+                "email",
+                "Ya existe un usuario con ese email",
+                409
+            );
+        }
+
         //Si no hay errores, guarda al usuario en la BD y retorna el JWT
         var user = User.builder().firstName(request.getFirstName()).lastName(request.getLastName())
                 .email(request.getEmail()).password(passwordEncoder.encode(request.getPassword()))
@@ -60,12 +67,33 @@ public class AuthenticationService implements IAuthenticationService {
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
+        
+        Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
+        if (optionalUser.isEmpty()) {
+            return validation.validate(
+                "email",
+                "No existe un usuario con ese email",
+                404
+            );
+        }
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
-        var jwt = jwtService.generateToken(user);
+        try{
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                        request.getEmail(), 
+                        request.getPassword()
+                    )
+            );
+
+        }catch(AuthenticationException e){
+            return validation.validate(
+                "password",
+                "La contraseña es incorrecta",
+                401
+            );
+        }
+
+        var jwt = jwtService.generateToken(optionalUser.get());
         return ResponseEntity.ok(JwtAuthenticationResponse.builder().token(jwt).build());
     }
 }

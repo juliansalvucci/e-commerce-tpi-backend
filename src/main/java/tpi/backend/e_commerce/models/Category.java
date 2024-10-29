@@ -22,7 +22,7 @@ public class Category {
 
     @Column(unique = true)
     @NotBlank(message = "No puede estar vacio")
-    @Size(min = 2, max = 30, message = "Debe tener entre 2 y 30 caracteres")
+    @Size(min = 3, max = 30, message = "Debe tener entre 3 y 30 caracteres")
     private String name;
 
     private boolean deleted; 
@@ -47,4 +47,12 @@ public class Category {
         this.name = name;
     }
 
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+        if (deleted) {
+            deleteDatetime = LocalDateTime.now();
+        }else{
+            deleteDatetime = null;
+        }
+    }
 }

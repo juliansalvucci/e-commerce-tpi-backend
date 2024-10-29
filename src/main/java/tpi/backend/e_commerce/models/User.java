@@ -30,11 +30,13 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    //fecha nacimiento
+    //direccion
     @Enumerated(EnumType.STRING)
     private Role role;
     @Override
