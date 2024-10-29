@@ -44,17 +44,18 @@ public class SaveProductService implements ISaveProductService{
             return validation.validate(result);
         }
         
-        if (productRepository.existsByName(createProductDTO.getName())) {
+        if (productRepository.existsByNameAndColor(createProductDTO.getName(), createProductDTO.getColor())) {
             return validation.validate(
-                "name", 
-                "Ya existe una producto con ese nombre", 
+                "name and color", 
+                "Ya existe una producto con ese nombre y ese color", 
                 409
             );
         }
 
         result = nameProductValidation(result, createProductDTO.getName()); 
         //Las validaciones de producto estan en un metodo privado aparte
-        
+        result = validateColorProduct(result, createProductDTO.getColor());
+
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
@@ -95,16 +96,17 @@ public class SaveProductService implements ISaveProductService{
             return validation.validate(result);
         }
 
-        if (productRepository.existsByNameExceptId(createProductDTO.getName(),id)) {
+        if (productRepository.existsByNameAndColorExceptId(createProductDTO.getName(),createProductDTO.getColor() ,id)) {
 
             return validation.validate(
-                "name", 
-                "Ya existe un producto con ese nombre", 
+                "name and color", 
+                "Ya existe un producto con ese nombre y ese color", 
                 409
             );
         }
        
         result = nameProductValidation(result, createProductDTO.getName()); 
+        result  = validateColorProduct(result, createProductDTO.getColor());
         
         if (result.hasFieldErrors()) {
             return validation.validate(result);
@@ -202,6 +204,24 @@ public class SaveProductService implements ISaveProductService{
             );
         }
 
+        return result;
+    }
+
+    private BindingResult validateColorProduct(BindingResult result, String color) {
+        boolean solorLetras = true;
+        for (int i = 0; i < color.length(); i++) {
+            if (!Character.isLetter(color.charAt(i))) {
+                solorLetras = false;
+            }
+        }
+
+        if (!solorLetras) {
+            result.rejectValue(
+                "color", 
+                "", 
+                "El color solo puede contener letras"
+            );
+        }
         return result;
     }
     
