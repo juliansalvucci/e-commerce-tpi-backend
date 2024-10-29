@@ -25,7 +25,7 @@ public class StockEntryController {
     
     @PostMapping
     public ResponseEntity<?> saveStockEntry(
-        @RequestBody CreateStockEntryDto stockEntryDto, @Valid BindingResult result) {
+        @Valid @RequestBody CreateStockEntryDto stockEntryDto, BindingResult result) {
 
         return saveStockService.saveStockEntry(stockEntryDto, result);
     }
