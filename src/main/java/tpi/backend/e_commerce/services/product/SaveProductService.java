@@ -44,10 +44,10 @@ public class SaveProductService implements ISaveProductService{
             return validation.validate(result);
         }
         
-        if (productRepository.existsByName(createProductDTO.getName())) {
+        if (productRepository.existsByNameAndColor(createProductDTO.getName(), createProductDTO.getColor())) {
             return validation.validate(
-                "name", 
-                "Ya existe una producto con ese nombre", 
+                "name and color", 
+                "Ya existe una producto con ese nombre y ese color", 
                 409
             );
         }
@@ -95,11 +95,11 @@ public class SaveProductService implements ISaveProductService{
             return validation.validate(result);
         }
 
-        if (productRepository.existsByNameExceptId(createProductDTO.getName(),id)) {
+        if (productRepository.existsByNameAndColorExceptId(createProductDTO.getName(),createProductDTO.getColor() ,id)) {
 
             return validation.validate(
-                "name", 
-                "Ya existe un producto con ese nombre", 
+                "name and color", 
+                "Ya existe un producto con ese nombre y ese color", 
                 409
             );
         }
