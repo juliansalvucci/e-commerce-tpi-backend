@@ -54,7 +54,8 @@ public class SaveProductService implements ISaveProductService{
 
         result = nameProductValidation(result, createProductDTO.getName()); 
         //Las validaciones de producto estan en un metodo privado aparte
-        
+        result = validateColorProduct(result, createProductDTO.getColor());
+
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
@@ -105,6 +106,7 @@ public class SaveProductService implements ISaveProductService{
         }
        
         result = nameProductValidation(result, createProductDTO.getName()); 
+        result  = validateColorProduct(result, createProductDTO.getColor());
         
         if (result.hasFieldErrors()) {
             return validation.validate(result);
@@ -202,6 +204,24 @@ public class SaveProductService implements ISaveProductService{
             );
         }
 
+        return result;
+    }
+
+    private BindingResult validateColorProduct(BindingResult result, String color) {
+        boolean solorLetras = true;
+        for (int i = 0; i < color.length(); i++) {
+            if (!Character.isLetter(color.charAt(i))) {
+                solorLetras = false;
+            }
+        }
+
+        if (!solorLetras) {
+            result.rejectValue(
+                "color", 
+                "", 
+                "El color solo puede contener letras"
+            );
+        }
         return result;
     }
     
