@@ -1,6 +1,7 @@
 package tpi.backend.e_commerce.models;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class StockEntryDetail {
     @ManyToOne
     private StockEntry stockEntry;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Product product;
 
     private Integer quantity;
