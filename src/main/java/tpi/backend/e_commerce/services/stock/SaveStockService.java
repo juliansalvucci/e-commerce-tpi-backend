@@ -64,8 +64,11 @@ public class SaveStockService implements ISaveStockService{
         stockEntryDetailDtos.forEach(stockEntryDetailDto -> {
 
             Optional<Product> optionalProduct = productRepository.findById(stockEntryDetailDto.getProductId());
-        
-            StockEntryDetail stockEntryDetailToSave = StockEntryDetailMapper.toEntity(stockEntryDetailDto,stockEntry,optionalProduct.get());
+
+            Product product = optionalProduct.get();
+            product.setStock(product.getStock() + stockEntryDetailDto.getQuantity());
+
+            StockEntryDetail stockEntryDetailToSave = StockEntryDetailMapper.toEntity(stockEntryDetailDto,stockEntry,product);
 
             StockEntryDetailsToSave.add(stockEntryDetailToSave);
         });
