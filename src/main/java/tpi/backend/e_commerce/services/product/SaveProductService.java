@@ -179,16 +179,6 @@ public class SaveProductService implements ISaveProductService{
 
     private BindingResult nameProductValidation(BindingResult result, String name) {
         
-        //Chequea que el primer caracter sea un digito o una letra
-        char firstChar = name.charAt(0);
-        if (!Character.isLetterOrDigit(firstChar)) {
-            result.rejectValue(
-                "name", 
-                "", 
-                "El primer caracter debe ser un numero o una letra"
-            );     
-        }
-
         //Chequea que al menos un caracter sea una letra
         boolean letra = false;
         for (int i = 0; i < name.length(); i++) {
@@ -196,6 +186,7 @@ public class SaveProductService implements ISaveProductService{
                 letra = true;
             }
         }
+
         if (!letra) {
             result.rejectValue(
                 "name", 
@@ -208,18 +199,19 @@ public class SaveProductService implements ISaveProductService{
     }
 
     private BindingResult validateColorProduct(BindingResult result, String color) {
-        boolean solorLetras = true;
+
+        boolean numero = false;
         for (int i = 0; i < color.length(); i++) {
-            if (!Character.isLetter(color.charAt(i))) {
-                solorLetras = false;
+            if (Character.isDigit(color.charAt(i))) {
+                numero = true;
             }
         }
 
-        if (!solorLetras) {
+        if (numero) {
             result.rejectValue(
                 "color", 
                 "", 
-                "El color solo puede contener letras"
+                "El color no puede contener numeros"
             );
         }
         return result;
