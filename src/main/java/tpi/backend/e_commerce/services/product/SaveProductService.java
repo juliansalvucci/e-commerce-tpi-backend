@@ -44,17 +44,18 @@ public class SaveProductService implements ISaveProductService{
             return validation.validate(result);
         }
         
-        if (productRepository.existsByName(createProductDTO.getName())) {
+        if (productRepository.existsByNameAndColor(createProductDTO.getName(), createProductDTO.getColor())) {
             return validation.validate(
-                "name", 
-                "Ya existe una producto con ese nombre", 
+                "name and color", 
+                "Ya existe una producto con ese nombre y ese color", 
                 409
             );
         }
 
         result = nameProductValidation(result, createProductDTO.getName()); 
         //Las validaciones de producto estan en un metodo privado aparte
-        
+        result = validateColorProduct(result, createProductDTO.getColor());
+
         if (result.hasFieldErrors()) {
             return validation.validate(result);
         }
@@ -95,16 +96,17 @@ public class SaveProductService implements ISaveProductService{
             return validation.validate(result);
         }
 
-        if (productRepository.existsByNameExceptId(createProductDTO.getName(),id)) {
+        if (productRepository.existsByNameAndColorExceptId(createProductDTO.getName(),createProductDTO.getColor() ,id)) {
 
             return validation.validate(
-                "name", 
-                "Ya existe un producto con ese nombre", 
+                "name and color", 
+                "Ya existe un producto con ese nombre y ese color", 
                 409
             );
         }
        
         result = nameProductValidation(result, createProductDTO.getName()); 
+        result  = validateColorProduct(result, createProductDTO.getColor());
         
         if (result.hasFieldErrors()) {
             return validation.validate(result);
@@ -177,16 +179,6 @@ public class SaveProductService implements ISaveProductService{
 
     private BindingResult nameProductValidation(BindingResult result, String name) {
         
-        //Chequea que el primer caracter sea un digito o una letra
-        char firstChar = name.charAt(0);
-        if (!Character.isLetterOrDigit(firstChar)) {
-            result.rejectValue(
-                "name", 
-                "", 
-                "El primer caracter debe ser un numero o una letra"
-            );     
-        }
-
         //Chequea que al menos un caracter sea una letra
         boolean letra = false;
         for (int i = 0; i < name.length(); i++) {
@@ -194,6 +186,7 @@ public class SaveProductService implements ISaveProductService{
                 letra = true;
             }
         }
+
         if (!letra) {
             result.rejectValue(
                 "name", 
@@ -202,6 +195,25 @@ public class SaveProductService implements ISaveProductService{
             );
         }
 
+        return result;
+    }
+
+    private BindingResult validateColorProduct(BindingResult result, String color) {
+
+        boolean numero = false;
+        for (int i = 0; i < color.length(); i++) {
+            if (Character.isDigit(color.charAt(i))) {
+                numero = true;
+            }
+        }
+
+        if (numero) {
+            result.rejectValue(
+                "color", 
+                "", 
+                "El color no puede contener numeros"
+            );
+        }
         return result;
     }
     

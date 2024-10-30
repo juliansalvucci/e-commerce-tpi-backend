@@ -1,14 +1,12 @@
 package tpi.backend.e_commerce.models;
 
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,28 +17,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDetail {
-    
+public class StockEntryDetail {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double subTotal;
-    private Integer amount;
-
     @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    private StockEntry stockEntry;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Product product;
-    
-    @PrePersist
-    public void prePersist(){
-        calculateSubTotal();
-    }
-    
-    private void calculateSubTotal(){
-        subTotal = product.getPrice() * amount;
-    }
+
+    private Integer quantity;
 }

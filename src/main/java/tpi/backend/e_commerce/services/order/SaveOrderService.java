@@ -93,8 +93,9 @@ public class SaveOrderService implements ISaveOrderService{
         orderDetailsDto.forEach(orderDetailDto -> {
 
             Optional<Product> optionalProduct = productRepository.findById(orderDetailDto.getProductId());
-        
-            OrderDetail orderDetailToSave = OrderDetailMapper.toEntity(orderDetailDto,order,optionalProduct.get());
+            Product product = optionalProduct.get();
+            product.setStock(product.getStock() - orderDetailDto.getAmount());
+            OrderDetail orderDetailToSave = OrderDetailMapper.toEntity(orderDetailDto,order,product);
 
             orderDetailListToSave.add(orderDetailToSave);
         });
