@@ -20,7 +20,7 @@ public class CreateProductDTO {
     @NotBlank(message = "No puede estar vacio")
     private String description;
 
-    @Min(0)
+    @Min(1)
     @NotNull(message = "Debe ingresar un precio")
     private Double price;
 
