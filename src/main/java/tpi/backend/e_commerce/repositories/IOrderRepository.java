@@ -8,5 +8,5 @@ import tpi.backend.e_commerce.models.Order;
 
 public interface IOrderRepository extends CrudRepository<Order,Long> {
     
-    List<Order> findOrdersByUserId(Long id);
+    List<Order> findOrdersByUserEmail(String email);
 }
