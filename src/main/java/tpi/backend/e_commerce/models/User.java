@@ -88,4 +88,14 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+        if (deleted) {
+            deleteDateTime = LocalDateTime.now();
+        }else{
+            deleteDateTime = null;
+        }
+    }
+
 }
