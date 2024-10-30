@@ -26,19 +26,19 @@ public class FindOrderService implements IFindOrderService{
     private Validation validation;
     
     @Override
-    public ResponseEntity<?> findOrdersByUserId(Long userId) {
+    public ResponseEntity<?> findOrdersByUserEmail(String email) {
 
         //Verifica que el id corresponda a un usuario existente
-        Optional<User> optionalUser = userRepository.findById(userId);
+        Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isEmpty()){
             return validation.validate(
                 "id",
-                "No existe un usuario con ese id en la base de datos",
+                "No existe un usuario con ese email en la base de datos",
                 404
             );
         }
 
-        return ResponseEntity.ok(OrderMapper.toDtoList(orderRepository.findOrdersByUserId(userId)));
+        return ResponseEntity.ok(OrderMapper.toDtoList(orderRepository.findOrdersByUserEmail(email)));
 
     }
     

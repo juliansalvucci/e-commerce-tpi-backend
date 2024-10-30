@@ -32,10 +32,11 @@ public class OrderController {
     public ResponseEntity<?> create(@Valid @RequestBody CreateOrderDto orderDto, BindingResult result){
         return saveOrderService.create(orderDto, result);
     }
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findOrdersByUserId(@PathVariable Long id){
-        return findOrderService.findOrdersByUserId(id);
+
+    //Endpoint de historial de compra de usuario
+    @GetMapping("/{email}")
+    public ResponseEntity<?> findOrdersByUserId(@PathVariable String email){
+        return findOrderService.findOrdersByUserEmail(email);
     }
     
 }
