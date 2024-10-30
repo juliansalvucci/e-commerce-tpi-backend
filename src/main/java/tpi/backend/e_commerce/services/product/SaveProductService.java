@@ -179,16 +179,6 @@ public class SaveProductService implements ISaveProductService{
 
     private BindingResult nameProductValidation(BindingResult result, String name) {
         
-        //Chequea que el primer caracter sea un digito o una letra
-        char firstChar = name.charAt(0);
-        if (!Character.isLetterOrDigit(firstChar)) {
-            result.rejectValue(
-                "name", 
-                "", 
-                "El primer caracter debe ser un numero o una letra"
-            );     
-        }
-
         //Chequea que al menos un caracter sea una letra
         boolean letra = false;
         for (int i = 0; i < name.length(); i++) {
