@@ -11,6 +11,7 @@ import tpi.backend.e_commerce.enums.Role;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JwtAuthenticationResponse { //ResponseUserDto
+
     private String firstName;
     private String lastName;
     private String email;
