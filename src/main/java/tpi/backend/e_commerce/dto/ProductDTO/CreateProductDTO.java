@@ -7,15 +7,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import tpi.backend.e_commerce.validation.sizeValidation.SizeValidation;
 
 @Data
 public class CreateProductDTO {
 
     @NotBlank(message = "No puede estar vacio")
-    @Size(min = 2, max = 60, message = "Debe tener entre 2 y 60 caracteres")
+    @SizeValidation(min = 2, max = 60)
     private String name;
 
-    @Size(max = 100)
+    @SizeValidation(max = 100)
     @NotBlank(message = "No puede estar vacio")
     private String description;
 
@@ -35,7 +36,7 @@ public class CreateProductDTO {
     private String imageURL;
 
     @NotBlank(message = "Debe ingresar un color")
-    @Size(min = 3, max = 20, message = "Debe tener entre 3 y 20 caracteres")
+    @SizeValidation(min = 3 , max = 20)
     private String color;
     private String size;
     
