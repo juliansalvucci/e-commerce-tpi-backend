@@ -1,5 +1,6 @@
 package tpi.backend.e_commerce.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -21,10 +22,10 @@ public interface IUserRepository extends CrudRepository<User, Long> {
     Optional<User> findActiveById(Long id);
 
     @Query("select u from User u where u.deleted = false")
-    Optional<User> findAllActive();
+    List<User> findAllActive();
 
     @Query("select u from User u where u.deleted = true")
-    Optional<User> findAllDeleted();
+    List<User> findAllDeleted();
 
 }
 

@@ -32,6 +32,7 @@ public class DeleteUserService implements IDeleteUserService {
         }
         User user = optionalUser.get();
         user.setDeleted(true);
+        userRepository.save(user);
         return ResponseEntity.noContent().build();
     }
 
@@ -48,6 +49,7 @@ public class DeleteUserService implements IDeleteUserService {
         }
         User user = optionalUser.get();
         user.setDeleted(false);
+        userRepository.save(user);
         return ResponseEntity.ok(UserMapper.toDto(user));
     }
     

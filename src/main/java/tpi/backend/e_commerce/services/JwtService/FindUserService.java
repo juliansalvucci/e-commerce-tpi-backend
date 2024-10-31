@@ -2,6 +2,8 @@ package tpi.backend.e_commerce.services.JwtService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
 import tpi.backend.e_commerce.mapper.UserMapper;
@@ -10,6 +12,7 @@ import tpi.backend.e_commerce.repositories.IUserRepository;
 import tpi.backend.e_commerce.services.JwtService.interfaces.IFindUserService;
 import tpi.backend.e_commerce.validation.Validation;
 
+@Service
 public class FindUserService implements IFindUserService{
 
     @Autowired
@@ -20,12 +23,12 @@ public class FindUserService implements IFindUserService{
     
     @Override
     public ResponseEntity<?> findAllActive() {
-        return ResponseEntity.ok(userRepository.findAllActive());
+        return ResponseEntity.ok(UserMapper.toDtoList(userRepository.findAllActive()));
     }
 
     @Override
     public ResponseEntity<?> findAllDeleted() {
-        return ResponseEntity.ok(userRepository.findAllDeleted());
+        return ResponseEntity.ok(UserMapper.toDtoList(userRepository.findAllDeleted()));
     }
 
     @Override
