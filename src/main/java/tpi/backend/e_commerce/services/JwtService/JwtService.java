@@ -21,6 +21,7 @@ import tpi.backend.e_commerce.services.JwtService.interfaces.IJwtService;
 public class JwtService implements IJwtService {
     @Value("${token.signing.key}")
     private String jwtSigningKey;
+
     @Override
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
