@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +14,6 @@ import tpi.backend.e_commerce.dto.auth.request.SignInRequest;
 import tpi.backend.e_commerce.dto.auth.request.SignUpRequest;
 
 import tpi.backend.e_commerce.services.JwtService.interfaces.IAuthenticationService;
-import tpi.backend.e_commerce.services.JwtService.interfaces.IDeleteUserService;
 
 @RestController
 @RequestMapping("/auth")
@@ -25,9 +22,6 @@ public class AuthenticationController {
 
     @Autowired
     private IAuthenticationService authenticationService;
-
-    @Autowired
-    private IDeleteUserService deleteService;
 
     //Endpoint para registrar un usuario
     @PostMapping("/signup")
@@ -39,15 +33,5 @@ public class AuthenticationController {
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@Valid @RequestBody SignInRequest request , BindingResult result) {
         return authenticationService.signin(request,result);
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        return deleteService.delete(id);
-    }
-
-    @PostMapping("/recover/{id}")
-    public ResponseEntity<?> recover(@PathVariable Long id){
-        return deleteService.recover(id);
     }
 }
