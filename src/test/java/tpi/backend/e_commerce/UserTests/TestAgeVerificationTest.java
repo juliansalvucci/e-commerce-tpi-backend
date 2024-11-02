@@ -17,7 +17,7 @@ import jakarta.validation.ValidatorFactory;
 import tpi.backend.e_commerce.dto.auth.request.SignUpRequest;
 
 @SpringBootTest
-public class AgeVerificationTest {
+public class TestAgeVerificationTest {
     private static Validator validator;
 
     @BeforeAll
