@@ -44,10 +44,10 @@ public class Test4DeleteProductWithStock {
     void testDeleteProductWhenStockIsZero() {
         Long productId = 10L;
 
-        ResponseEntity<?> conflictResponse = ResponseEntity.status(HttpStatus.OK)
+        ResponseEntity<?> oktResponse = ResponseEntity.status(HttpStatus.OK)
                 .body("Eliminación exitosa");
 
-        doReturn(conflictResponse).when(productService).delete(productId);
+        doReturn(oktResponse).when(productService).delete(productId);
 
         ResponseEntity<?> response = productController.delete(productId);
 

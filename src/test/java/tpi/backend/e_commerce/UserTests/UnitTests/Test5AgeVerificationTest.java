@@ -30,12 +30,12 @@ public class Test5AgeVerificationTest {
     @Test
     void testValidAgeRange26112005() {
         // Fecha de nacimiento válida (dentro del rango de 18 a 100 años) - 18 años
-        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         Date validBirthDate = new Date();
 
         try {
             // Convertir "26-11-2005" en un objeto Date
-            validBirthDate = formato.parse("26-11-2005");
+            validBirthDate = format.parse("26-11-2005");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -56,11 +56,11 @@ public class Test5AgeVerificationTest {
     @Test
     void testValidAgeRange02072006() {
         // Fecha de nacimiento válida (dentro del rango de 18 a 100 años) - 18 años
-        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         Date validBirthDate = new Date();
 
         try {
-            validBirthDate = formato.parse("02-07-2006");
+            validBirthDate = format.parse("02-07-2006");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -81,11 +81,11 @@ public class Test5AgeVerificationTest {
     @Test
     void testInvalidAge28012007() {
         // Fecha de nacimiento menor de 18 años - 17 años
-        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         Date underageBirthDate = new Date();
 
         try {
-            underageBirthDate = formato.parse("28-01-2007");
+            underageBirthDate = format.parse("28-01-2007");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -107,11 +107,11 @@ public class Test5AgeVerificationTest {
     @Test
     void testValidAgeRange30101925() {
         // Fecha de nacimiento válida (dentro del rango de 18 a 100 años) - 99 años
-        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         Date validBirthDate = new Date();
 
         try {
-            validBirthDate = formato.parse("30-10-1925");
+            validBirthDate = format.parse("30-10-1925");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -132,11 +132,11 @@ public class Test5AgeVerificationTest {
     @Test
     void testValidAgeRange15081924() {
         // Fecha de nacimiento válida (dentro del rango de 18 a 100 años) - 100 años
-        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         Date validBirthDate = new Date();
 
         try {
-            validBirthDate = formato.parse("15-08-1924");
+            validBirthDate = format.parse("15-08-1924");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -157,11 +157,11 @@ public class Test5AgeVerificationTest {
     @Test
     void testInvalidAge01111923() {
         // Fecha de nacimiento mayor a 100 años - 101 años
-        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         Date overageBirthDate = new Date();
 
         try {
-            overageBirthDate = formato.parse("01-11-1923");
+            overageBirthDate = format.parse("01-11-1923");
         } catch (ParseException e) {
             e.printStackTrace();
         }
