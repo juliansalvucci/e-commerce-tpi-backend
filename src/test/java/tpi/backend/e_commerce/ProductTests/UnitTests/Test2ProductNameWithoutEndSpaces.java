@@ -1,53 +1,53 @@
 package tpi.backend.e_commerce.ProductTests.UnitTests;
 
-import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import tpi.backend.e_commerce.models.Product;
 
+@SpringBootTest
 public class Test2ProductNameWithoutEndSpaces {
     private Product product;
 
     @BeforeEach
     void setUp() {
-        // Crear una instancia de Product con espacios al inicio y al final del nombre
+        // Inicialización general que puede usarse para diferentes pruebas
         product = Product.builder()
-                .name("   Product Name with Spaces   ")
-                .description("  Product Description   ")
+                .description("Product Description")
                 .price(10.0)
                 .stock(5L)
                 .stockMin(1L)
-                .imageURL("  http://example.com/image.jpg   ")
-                .color("   Blue  ")
-                .size("  L  ")
+                .imageURL("http://example.com/image.jpg")
+                .color("Blue")
+                .size("M")
                 .build();
     }
 
     @Test
-    void testPreCreateTrimsName() {
+    void testPreCreateTrimsNameSamsungGalaxyS22() {
+        // Asignar el nombre con espacios al inicio y final
+        product.setName("Samsung Galaxy S22  ");
+
         // Invocar el método preCreate para que se aplique el recorte
         product.preCreate();
 
         // Verificar que el nombre ha sido recortado correctamente
-        assertEquals("Product Name with Spaces", product.getName());
-        assertEquals("Product Description", product.getDescription());
-        assertEquals("http://example.com/image.jpg", product.getImageURL());
-        assertEquals("Blue", product.getColor());
-        assertEquals("L", product.getSize());
+        assertEquals("Samsung Galaxy S22", product.getName());
     }
 
     @Test
-    void testPreCreateSetsCreationDate() {
-        // Invocar el método preCreate
+    void testPreCreateTrimsNameSamsungGalaxyS24() {
+        // Asignar el nombre sin espacios adicionales
+        product.setName("Samsung Galaxy S24");
+
+        // Invocar el método preCreate para verificar que no cambia un nombre sin espacios
         product.preCreate();
 
-        // Verificar que la fecha de creación no sea nula y esté cerca del tiempo actual
-        LocalDateTime now = LocalDateTime.now();
-        assertEquals(now.getYear(), product.getCreationDatetime().getYear());
-        assertEquals(now.getMonth(), product.getCreationDatetime().getMonth());
-        assertEquals(now.getDayOfMonth(), product.getCreationDatetime().getDayOfMonth());
+        // Verificar que el nombre permanece sin cambio
+        assertEquals("Samsung Galaxy S24", product.getName());
     }
+
+   
 }

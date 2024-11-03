@@ -39,4 +39,19 @@ public class Test4DeleteProductWithStock {
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         assertEquals("No se puede eliminar un producto cuyo stock no es 0", response.getBody());
     }
+
+    @Test
+    void testDeleteProductWhenStockIsZero() {
+        Long productId = 10L;
+
+        ResponseEntity<?> conflictResponse = ResponseEntity.status(HttpStatus.OK)
+                .body("Eliminación exitosa");
+
+        doReturn(conflictResponse).when(productService).delete(productId);
+
+        ResponseEntity<?> response = productController.delete(productId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Eliminación exitosa", response.getBody());
+    }
 }

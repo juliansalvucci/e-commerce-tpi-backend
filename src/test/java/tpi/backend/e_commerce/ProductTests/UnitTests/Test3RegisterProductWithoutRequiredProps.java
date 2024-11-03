@@ -46,5 +46,51 @@ public class Test3RegisterProductWithoutRequiredProps {
         // Verificar que no hay violaciones
         assertTrue(violations.isEmpty(), "El producto debería ser válido sin campos opcionales");
     }
+
+    @Test
+    void testCreateProductWithoutSize() {
+        // Crear un objeto CreateProductDTO sin los campos opcionales
+        CreateProductDTO productDTO = new CreateProductDTO(
+            "Producto de prueba",     // name
+            "Descripción de prueba",   // description
+            100.0,                     // price
+            10L,                       // stock
+            1L,                        // stockMin
+            "http://example.com/image.jpg",                      // imageURL (opcional)
+            "Rojo",                    // color
+            null,                      // size (opcional)
+            1L,                        // brandId
+            1L                         // subCategoryId
+        );
+
+        // Validar el objeto y obtener las violaciones de las restricciones
+        Set<ConstraintViolation<CreateProductDTO>> violations = validator.validate(productDTO);
+
+        // Verificar que no hay violaciones
+        assertTrue(violations.isEmpty(), "El producto debería ser válido sin campos opcionales");
+    }
+
+    @Test
+    void testCreateProductWithoutImageURL() {
+        // Crear un objeto CreateProductDTO sin los campos opcionales
+        CreateProductDTO productDTO = new CreateProductDTO(
+            "Producto de prueba",     // name
+            "Descripción de prueba",   // description
+            100.0,                     // price
+            10L,                       // stock
+            1L,                        // stockMin
+            null,                      // imageURL (opcional)
+            "Rojo",                    // color
+            "XXL",                      // size (opcional)
+            1L,                        // brandId
+            1L                         // subCategoryId
+        );
+
+        // Validar el objeto y obtener las violaciones de las restricciones
+        Set<ConstraintViolation<CreateProductDTO>> violations = validator.validate(productDTO);
+
+        // Verificar que no hay violaciones
+        assertTrue(violations.isEmpty(), "El producto debería ser válido sin campos opcionales");
+    }
 }
 
