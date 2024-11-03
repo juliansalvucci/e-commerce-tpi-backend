@@ -1,6 +1,7 @@
 package tpi.backend.e_commerce.UserTests.UnitTests;
 
-import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
@@ -27,64 +28,155 @@ public class Test5AgeVerificationTest {
     }
 
     @Test
-    void testValidAgeRange() {
-        // Fecha de nacimiento válida (dentro del rango de 18 a 100 años)
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, -25); // Ajustar a 25 años de edad
-        Date validBirthDate = calendar.getTime();
+    void testValidAgeRange26112005() {
+        // Fecha de nacimiento válida (dentro del rango de 18 a 100 años) - 18 años
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        Date validBirthDate = new Date();
+
+        try {
+            // Convertir "26-11-2005" en un objeto Date
+            validBirthDate = formato.parse("26-11-2005");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         SignUpRequest request = SignUpRequest.builder()
-            .firstName("John")
-            .lastName("Vanzetti")
-            .dateBirth(validBirthDate)
-            .email("test@example.com")
-            .password("securePassword123")
-            .build();
+                .firstName("John")
+                .lastName("Vanzetti")
+                .dateBirth(validBirthDate)
+                .email("test@example.com")
+                .password("securePassword123")
+                .build();
 
         Set<ConstraintViolation<SignUpRequest>> violations = validator.validate(request);
 
-        assertTrue(violations.isEmpty(), "No debería haber violaciones de validación para una edad válida");
+        assertTrue(violations.isEmpty(), "acepta la fecha de nacimiento sin mostrar errores");
     }
 
     @Test
-    void testInvalidAgeUnder18() {
-        // Fecha de nacimiento menor de 18 años
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, -15); // Ajustar a 15 años de edad
-        Date underageBirthDate = calendar.getTime();
+    void testValidAgeRange02072006() {
+        // Fecha de nacimiento válida (dentro del rango de 18 a 100 años) - 18 años
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        Date validBirthDate = new Date();
+
+        try {
+            validBirthDate = formato.parse("02-07-2006");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         SignUpRequest request = SignUpRequest.builder()
-            .firstName("John")
-            .lastName("Vanzetti")
-            .dateBirth(underageBirthDate)
-            .email("test@example.com")
-            .password("securePassword123")
-            .build();
+                .firstName("John")
+                .lastName("Vanzetti")
+                .dateBirth(validBirthDate)
+                .email("test@example.com")
+                .password("securePassword123")
+                .build();
 
         Set<ConstraintViolation<SignUpRequest>> violations = validator.validate(request);
 
-        assertFalse(violations.isEmpty(), "Debe haber violaciones de validación para una edad menor a 18 años");
+        assertTrue(violations.isEmpty(), "acepta la fecha de nacimiento sin mostrar errores");
+    }
+
+    @Test
+    void testInvalidAge28012007() {
+        // Fecha de nacimiento menor de 18 años - 17 años
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        Date underageBirthDate = new Date();
+
+        try {
+            underageBirthDate = formato.parse("28-01-2007");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SignUpRequest request = SignUpRequest.builder()
+                .firstName("John")
+                .lastName("Vanzetti")
+                .dateBirth(underageBirthDate)
+                .email("test@example.com")
+                .password("securePassword123")
+                .build();
+
+        Set<ConstraintViolation<SignUpRequest>> violations = validator.validate(request);
+
+        assertFalse(violations.isEmpty(), "Debe ser mayor de 18 años");
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("La edad debe estar entre 18 y 100 años")));
     }
 
     @Test
-    void testInvalidAgeOver100() {
-        // Fecha de nacimiento mayor a 100 años
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, -105); // Ajustar a 105 años de edad
-        Date overageBirthDate = calendar.getTime();
+    void testValidAgeRange30101925() {
+        // Fecha de nacimiento válida (dentro del rango de 18 a 100 años) - 99 años
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        Date validBirthDate = new Date();
+
+        try {
+            validBirthDate = formato.parse("30-10-1925");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         SignUpRequest request = SignUpRequest.builder()
-            .firstName("John")
-            .lastName("Vanzetti")
-            .dateBirth(overageBirthDate)
-            .email("test@example.com")
-            .password("securePassword123")
-            .build();
+                .firstName("John")
+                .lastName("Vanzetti")
+                .dateBirth(validBirthDate)
+                .email("test@example.com")
+                .password("securePassword123")
+                .build();
 
         Set<ConstraintViolation<SignUpRequest>> violations = validator.validate(request);
 
-        assertFalse(violations.isEmpty(), "Debe haber violaciones de validación para una edad mayor a 100 años");
+        assertTrue(violations.isEmpty(), "acepta la fecha de nacimiento sin mostrar errores");
+    }
+
+    @Test
+    void testValidAgeRange15081924() {
+        // Fecha de nacimiento válida (dentro del rango de 18 a 100 años) - 100 años
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        Date validBirthDate = new Date();
+
+        try {
+            validBirthDate = formato.parse("15-08-1924");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SignUpRequest request = SignUpRequest.builder()
+                .firstName("John")
+                .lastName("Vanzetti")
+                .dateBirth(validBirthDate)
+                .email("test@example.com")
+                .password("securePassword123")
+                .build();
+
+        Set<ConstraintViolation<SignUpRequest>> violations = validator.validate(request);
+
+        assertTrue(violations.isEmpty(), "acepta la fecha de nacimiento sin mostrar errores");
+    }
+
+    @Test
+    void testInvalidAge01111923() {
+        // Fecha de nacimiento mayor a 100 años - 101 años
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        Date overageBirthDate = new Date();
+
+        try {
+            overageBirthDate = formato.parse("01-11-1923");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SignUpRequest request = SignUpRequest.builder()
+                .firstName("John")
+                .lastName("Vanzetti")
+                .dateBirth(overageBirthDate)
+                .email("test@example.com")
+                .password("securePassword123")
+                .build();
+
+        Set<ConstraintViolation<SignUpRequest>> violations = validator.validate(request);
+
+        assertFalse(violations.isEmpty(), "Debe ser menor a 100 años");
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("La edad debe estar entre 18 y 100 años")));
     }
 }
