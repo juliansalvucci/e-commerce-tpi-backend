@@ -49,8 +49,7 @@ public class Test6DontAceptDuplicateEmail {
         SignUpRequest request = SignUpRequest.builder()
                 .firstName("Julián")
                 .lastName("Salvucci")
-                .dateBirth(new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 24 * 365 * 20)) // Edad mayor de 18
-                                                                                                   // años
+                .dateBirth(new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 24 * 365 * 20)) 
                 .email("test@example.com") // Email duplicado
                 .password("securePassword123")
                 .build();
@@ -79,9 +78,8 @@ public class Test6DontAceptDuplicateEmail {
         SignUpRequest request = SignUpRequest.builder()
                 .firstName("Julián")
                 .lastName("Salvucci")
-                .dateBirth(new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 24 * 365 * 20)) // Edad mayor de 18
-                                                                                                   // años
-                .email("test@example.com") // Email único
+                .email("test@example.com")
+                .dateBirth(new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 24 * 365 * 20)) 
                 .password("securePassword123")
                 .build();
 
@@ -110,5 +108,4 @@ public class Test6DontAceptDuplicateEmail {
         assertEquals(expectedResponse.getEmail(), ((JwtAuthenticationResponse) response.getBody()).getEmail());
         assertEquals(expectedResponse.getRole(), ((JwtAuthenticationResponse) response.getBody()).getRole());
     }
-
 }

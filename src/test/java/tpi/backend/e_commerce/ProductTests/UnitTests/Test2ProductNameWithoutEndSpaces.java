@@ -15,12 +15,12 @@ public class Test2ProductNameWithoutEndSpaces {
     void setUp() {
         // Inicialización general que puede usarse para diferentes pruebas
         product = Product.builder()
-                .description("Product Description")
+                .description("descripción")
                 .price(10.0)
                 .stock(5L)
                 .stockMin(1L)
                 .imageURL("http://example.com/image.jpg")
-                .color("Blue")
+                .color("Azul")
                 .size("M")
                 .build();
     }
