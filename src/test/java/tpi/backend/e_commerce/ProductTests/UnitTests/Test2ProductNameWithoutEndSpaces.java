@@ -1,4 +1,4 @@
-package tpi.backend.e_commerce.ProductTests;
+package tpi.backend.e_commerce.ProductTests.UnitTests;
 
 import java.time.LocalDateTime;
 
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import tpi.backend.e_commerce.models.Product;
 
-public class TestProductNameWithoutEndSpaces {
+public class Test2ProductNameWithoutEndSpaces {
     private Product product;
 
     @BeforeEach

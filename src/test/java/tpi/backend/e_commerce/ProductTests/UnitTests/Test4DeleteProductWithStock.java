@@ -1,4 +1,4 @@
-package tpi.backend.e_commerce.ProductTests;
+package tpi.backend.e_commerce.ProductTests.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import tpi.backend.e_commerce.controllers.ProductController;
 import tpi.backend.e_commerce.services.product.DeleteProductService;
 
 @SpringBootTest
-public class TestDeleteProductWithStock {
+public class Test4DeleteProductWithStock {
     @Mock
     private DeleteProductService productService;
 

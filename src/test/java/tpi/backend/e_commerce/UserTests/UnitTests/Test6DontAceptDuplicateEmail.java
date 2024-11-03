@@ -1,4 +1,4 @@
-package tpi.backend.e_commerce.UserTests;
+package tpi.backend.e_commerce.UserTests.UnitTests;
 
 import java.util.Collections;
 import java.util.Date;
@@ -21,7 +21,7 @@ import tpi.backend.e_commerce.services.JwtService.JwtService;
 import tpi.backend.e_commerce.validation.Validation;
 
 @SpringBootTest
-public class TestDontAceptDuplicateEmail {
+public class Test6DontAceptDuplicateEmail {
     @Mock
     private IUserRepository userRepository;
 

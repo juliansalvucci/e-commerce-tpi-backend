@@ -1,4 +1,4 @@
-package tpi.backend.e_commerce.UserTests;
+package tpi.backend.e_commerce.UserTests.UnitTests;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -17,7 +17,7 @@ import jakarta.validation.ValidatorFactory;
 import tpi.backend.e_commerce.dto.auth.request.SignUpRequest;
 
 @SpringBootTest
-public class TestAgeVerificationTest {
+public class Test5AgeVerificationTest {
     private static Validator validator;
 
     @BeforeAll
