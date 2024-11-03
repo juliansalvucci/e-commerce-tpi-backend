@@ -1,4 +1,4 @@
-package tpi.backend.e_commerce.marcaTests;
+package tpi.backend.e_commerce.brandTests.unitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
