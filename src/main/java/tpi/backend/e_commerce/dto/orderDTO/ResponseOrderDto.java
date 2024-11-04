@@ -16,6 +16,7 @@ public class ResponseOrderDto {
     private Long id;
     private String userEmail;
     private Double total;
+    private String discount;
     private List<ResponseOrderDetailDto> orderDetails;
     private LocalDateTime creationDatetime;
 }

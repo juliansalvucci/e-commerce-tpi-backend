@@ -30,6 +30,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private double total;
+    private String discount;
 
     @ManyToOne
     private User user;
@@ -54,6 +55,16 @@ public class Order {
         orderDetails.forEach(orderDetail -> {
             total+=orderDetail.getSubTotal();
         });
+        calculateDiscount();
+    }
+
+    public void calculateDiscount(){
+        if (total>1000000) {
+            total = total*0.95;
+            discount = "5%";
+        }else{
+            discount = "0%";
+        }
     }
 
 }
