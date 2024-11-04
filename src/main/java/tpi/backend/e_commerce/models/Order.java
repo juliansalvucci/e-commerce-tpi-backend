@@ -58,7 +58,7 @@ public class Order {
         calculateDiscount();
     }
 
-    private void calculateDiscount(){
+    public void calculateDiscount(){
         if (total>1000000) {
             total = total*0.95;
             discount = "5%";
