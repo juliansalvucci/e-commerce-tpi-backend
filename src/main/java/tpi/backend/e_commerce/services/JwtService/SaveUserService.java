@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import tpi.backend.e_commerce.dto.auth.request.SignUpRequest;
-import tpi.backend.e_commerce.dto.auth.response.JwtAuthenticationResponse;
-import tpi.backend.e_commerce.enums.Role;
+import tpi.backend.e_commerce.mapper.UserMapper;
 import tpi.backend.e_commerce.models.User;
 import tpi.backend.e_commerce.repositories.IUserRepository;
 import tpi.backend.e_commerce.services.JwtService.interfaces.ISaveUserService;
@@ -47,14 +46,10 @@ public class SaveUserService implements ISaveUserService{
         }
 
         // Si no hay errores, guarda al usuario en la BD y retorna el JWT
-        var user = User.builder().firstName(userDto.getFirstName()).lastName(userDto.getLastName())
-                .email(userDto.getEmail()).password(passwordEncoder.encode(userDto.getPassword()))
-                .role(Role.ADMIN).build();
+        User user = UserMapper.toEntity(userDto, passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
-        var jwt = jwtService.generateToken(user);
-        return ResponseEntity
-                .ok(JwtAuthenticationResponse.builder().token(jwt).firstName(user.getFirstName())
-                        .lastName(user.getLastName()).email(user.getEmail()).role(user.getRole()).build());
+        String jwt = jwtService.generateToken(user);
+        return ResponseEntity.ok(UserMapper.toJwtDto(user, jwt));
     }
 }
     

@@ -1,6 +1,8 @@
 package tpi.backend.e_commerce.dto.auth.response;
 
 import tpi.backend.e_commerce.enums.Role;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ public class ResponseUserDto {
     private String lastName;
     private String email;
     private Role role;
+    private LocalDate dateBirth;
     private LocalDateTime creationDatetime;
     private LocalDateTime updateDateTime;
     private LocalDateTime deleteDateTime;
