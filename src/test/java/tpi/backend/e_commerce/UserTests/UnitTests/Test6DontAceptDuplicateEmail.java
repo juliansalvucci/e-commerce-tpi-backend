@@ -1,7 +1,7 @@
 package tpi.backend.e_commerce.UserTests.UnitTests;
 
+import java.time.LocalDate;
 import java.util.Collections;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
@@ -45,11 +45,14 @@ public class Test6DontAceptDuplicateEmail {
 
     @Test
     void testDuplicateEmail() {
+        //Edad mayor a 18 años
+        LocalDate validBirthDate = LocalDate.now().minusYears(25);
+
         // Crear un request con un email duplicado
         SignUpRequest request = SignUpRequest.builder()
                 .firstName("Julián")
                 .lastName("Salvucci")
-                .dateBirth(new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 24 * 365 * 20)) 
+                .dateBirth(validBirthDate) 
                 .email("test@example.com") // Email duplicado
                 .password("securePassword123")
                 .build();
@@ -72,14 +75,18 @@ public class Test6DontAceptDuplicateEmail {
         assertEquals(Collections.singletonMap("email", "Ya existe un usuario con ese email"), response.getBody());
     }
 
+    @SuppressWarnings("null")
     @Test
     void testNotDuplicateEmail() {
+        //Edad mayor a 18 años
+        LocalDate validBirthDate = LocalDate.now().minusYears(25);
+
         // Crear un request con un email único
         SignUpRequest request = SignUpRequest.builder()
                 .firstName("Julián")
                 .lastName("Salvucci")
                 .email("test@example.com")
-                .dateBirth(new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 24 * 365 * 20)) 
+                .dateBirth(validBirthDate) 
                 .password("securePassword123")
                 .build();
 
@@ -98,7 +105,7 @@ public class Test6DontAceptDuplicateEmail {
                 .firstName("Julián")
                 .lastName("Salvucci")
                 .email("test@example.com")
-                .role(Role.USER) // Asegúrate de que el rol es el esperado en tu aplicación
+                .role(Role.USER)
                 .token(any(String.class)) // Uso expresión `any(String.class)` para el token, para no verificar su valor
                                           // exacto
                 .build();

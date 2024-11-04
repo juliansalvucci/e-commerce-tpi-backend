@@ -1,8 +1,6 @@
 package tpi.backend.e_commerce.UserTests.UnitTests;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -28,17 +26,9 @@ public class Test5AgeVerificationTest {
     }
 
     @Test
-    void testValidAgeRange26112005() {
-        // Fecha de nacimiento válida (dentro del rango de 18 a 100 años) - 18 años
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        Date validBirthDate = new Date();
-
-        try {
-            // Convertir "26-11-2005" en un objeto Date
-            validBirthDate = format.parse("26-11-2005");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    void testValidAgeRange() {
+        LocalDate validBirthDate = LocalDate.now().minusYears(25); 
+        //Fecha de nacimiento de ejemplo de 25 años de edad
 
         SignUpRequest request = SignUpRequest.builder()
                 .firstName("John")
@@ -55,20 +45,13 @@ public class Test5AgeVerificationTest {
 
     @Test
     void testValidAgeRange02072006() {
-        // Fecha de nacimiento válida (dentro del rango de 18 a 100 años) - 18 años
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        Date validBirthDate = new Date();
-
-        try {
-            validBirthDate = format.parse("02-07-2006");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        LocalDate birthDate = LocalDate.now().minusYears(18); 
+        //18 Años
 
         SignUpRequest request = SignUpRequest.builder()
                 .firstName("John")
                 .lastName("Vanzetti")
-                .dateBirth(validBirthDate)
+                .dateBirth(birthDate)
                 .email("test@example.com")
                 .password("securePassword123")
                 .build();
@@ -80,20 +63,13 @@ public class Test5AgeVerificationTest {
 
     @Test
     void testInvalidAge28012007() {
-        // Fecha de nacimiento menor de 18 años - 17 años
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        Date underageBirthDate = new Date();
-
-        try {
-            underageBirthDate = format.parse("28-01-2007");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        LocalDate birthDate = LocalDate.now().minusYears(17); 
+        //17 Años
 
         SignUpRequest request = SignUpRequest.builder()
                 .firstName("John")
                 .lastName("Vanzetti")
-                .dateBirth(underageBirthDate)
+                .dateBirth(birthDate)
                 .email("test@example.com")
                 .password("securePassword123")
                 .build();
@@ -106,20 +82,13 @@ public class Test5AgeVerificationTest {
 
     @Test
     void testValidAgeRange30101925() {
-        // Fecha de nacimiento válida (dentro del rango de 18 a 100 años) - 99 años
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        Date validBirthDate = new Date();
-
-        try {
-            validBirthDate = format.parse("30-10-1925");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        LocalDate birthDate = LocalDate.now().minusYears(99); 
+        //99 Años
 
         SignUpRequest request = SignUpRequest.builder()
                 .firstName("John")
                 .lastName("Vanzetti")
-                .dateBirth(validBirthDate)
+                .dateBirth(birthDate)
                 .email("test@example.com")
                 .password("securePassword123")
                 .build();
@@ -131,20 +100,13 @@ public class Test5AgeVerificationTest {
 
     @Test
     void testValidAgeRange15081924() {
-        // Fecha de nacimiento válida (dentro del rango de 18 a 100 años) - 100 años
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        Date validBirthDate = new Date();
-
-        try {
-            validBirthDate = format.parse("15-08-1924");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        LocalDate birthDate = LocalDate.now().minusYears(100); 
+        //100 Años
 
         SignUpRequest request = SignUpRequest.builder()
                 .firstName("John")
                 .lastName("Vanzetti")
-                .dateBirth(validBirthDate)
+                .dateBirth(birthDate)
                 .email("test@example.com")
                 .password("securePassword123")
                 .build();
@@ -156,20 +118,13 @@ public class Test5AgeVerificationTest {
 
     @Test
     void testInvalidAge01111923() {
-        // Fecha de nacimiento mayor a 100 años - 101 años
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        Date overageBirthDate = new Date();
-
-        try {
-            overageBirthDate = format.parse("01-11-1923");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        LocalDate birthDate = LocalDate.now().minusYears(101); 
+        //101 Años
 
         SignUpRequest request = SignUpRequest.builder()
                 .firstName("John")
                 .lastName("Vanzetti")
-                .dateBirth(overageBirthDate)
+                .dateBirth(birthDate)
                 .email("test@example.com")
                 .password("securePassword123")
                 .build();
