@@ -1,6 +1,6 @@
 package tpi.backend.e_commerce.dto.auth.request;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
@@ -24,5 +24,5 @@ public class UpdateUserDto {
 
     @Past(message = "No cumple con la edad para registrarse en el sitio")
     @AgeRange(message = "La edad debe estar entre 18 y 100 años")
-    private Date dateBirth;
+    private LocalDate dateBirth;
 }

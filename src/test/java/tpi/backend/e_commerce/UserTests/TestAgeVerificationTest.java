@@ -1,7 +1,6 @@
 package tpi.backend.e_commerce.UserTests;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -28,10 +27,9 @@ public class TestAgeVerificationTest {
 
     @Test
     void testValidAgeRange() {
-        // Fecha de nacimiento válida (dentro del rango de 18 a 100 años)
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, -25); // Ajustar a 25 años de edad
-        Date validBirthDate = calendar.getTime();
+
+        LocalDate validBirthDate = LocalDate.now().minusYears(25); 
+        //Fecha de nacimiento de ejemplo de 25 años de edad
 
         SignUpRequest request = SignUpRequest.builder()
             .firstName("John")
@@ -48,15 +46,13 @@ public class TestAgeVerificationTest {
 
     @Test
     void testInvalidAgeUnder18() {
-        // Fecha de nacimiento menor de 18 años
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, -15); // Ajustar a 15 años de edad
-        Date underageBirthDate = calendar.getTime();
+
+        LocalDate teenBirthDate = LocalDate.now().minusYears(15); 
 
         SignUpRequest request = SignUpRequest.builder()
             .firstName("John")
             .lastName("Vanzetti")
-            .dateBirth(underageBirthDate)
+            .dateBirth(teenBirthDate)
             .email("test@example.com")
             .password("securePassword123")
             .build();
@@ -69,15 +65,13 @@ public class TestAgeVerificationTest {
 
     @Test
     void testInvalidAgeOver100() {
-        // Fecha de nacimiento mayor a 100 años
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, -105); // Ajustar a 105 años de edad
-        Date overageBirthDate = calendar.getTime();
+       
+        LocalDate oldBirthDate = LocalDate.now().minusYears(105); 
 
         SignUpRequest request = SignUpRequest.builder()
             .firstName("John")
             .lastName("Vanzetti")
-            .dateBirth(overageBirthDate)
+            .dateBirth(oldBirthDate)
             .email("test@example.com")
             .password("securePassword123")
             .build();

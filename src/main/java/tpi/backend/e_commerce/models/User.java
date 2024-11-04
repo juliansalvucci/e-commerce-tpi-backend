@@ -1,7 +1,6 @@
 package tpi.backend.e_commerce.models;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -22,6 +21,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import tpi.backend.e_commerce.enums.Role;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -36,7 +37,7 @@ public class User implements UserDetails {
     private Long id;
     private String firstName;
     private String lastName;
-    private Date dateBirth;
+    private LocalDate dateBirth;
     private String email;
     private String password;
 

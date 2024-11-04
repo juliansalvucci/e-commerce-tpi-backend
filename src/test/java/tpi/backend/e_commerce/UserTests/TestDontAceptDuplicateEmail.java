@@ -1,5 +1,6 @@
 package tpi.backend.e_commerce.UserTests;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Date;
 
@@ -56,11 +57,14 @@ public class TestDontAceptDuplicateEmail {
 
     @Test
     void testDuplicateEmail() {
+        //Edad mayor a 18 años
+        LocalDate validBirthDate = LocalDate.now().minusYears(25);
+
         SignUpRequest request = SignUpRequest.builder()
             .firstName("Julián")
             .lastName("Salvucci")
-            .dateBirth(new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 24 * 365 * 20)) // Edad mayor de 18 años
-            .email("jls@mail.com") // Email duplicado
+            .dateBirth(validBirthDate)
+            .email("test@example.com") // Email duplicado
             .password("micontraseña")
             .build();
 
