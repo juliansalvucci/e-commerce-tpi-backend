@@ -26,7 +26,7 @@ public class SignUpRequest {
 
     @Past(message = "No cumple con la edad para registrarse en el sitio")
     @AgeRange(message = "La edad debe estar entre 18 y 100 años")
-    private LocalDate dateBirth;
+    private LocalDate dateBirth; //"yyyy-MM-dd"
 
     @Email(message = "No respeta el formato de email")
     @NotBlank(message = "No puede estar vacio")

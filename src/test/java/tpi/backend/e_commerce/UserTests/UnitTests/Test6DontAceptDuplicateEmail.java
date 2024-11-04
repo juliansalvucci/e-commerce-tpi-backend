@@ -106,8 +106,7 @@ public class Test6DontAceptDuplicateEmail {
                 .lastName("Salvucci")
                 .email("test@example.com")
                 .role(Role.USER)
-                .token(any(String.class)) // Uso expresión `any(String.class)` para el token, para no verificar su valor
-                                          // exacto
+                .token(any(String.class))
                 .build();
 
         assertEquals(expectedResponse.getFirstName(), ((JwtAuthenticationResponse) response.getBody()).getFirstName());

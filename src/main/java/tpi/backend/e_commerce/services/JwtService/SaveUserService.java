@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import tpi.backend.e_commerce.dto.auth.request.SignUpRequest;
+import tpi.backend.e_commerce.enums.Role;
 import tpi.backend.e_commerce.mapper.UserMapper;
 import tpi.backend.e_commerce.models.User;
 import tpi.backend.e_commerce.repositories.IUserRepository;
@@ -46,7 +47,7 @@ public class SaveUserService implements ISaveUserService{
         }
 
         // Si no hay errores, guarda al usuario en la BD y retorna el JWT
-        User user = UserMapper.toEntity(userDto, passwordEncoder.encode(userDto.getPassword()));
+        User user = UserMapper.toEntity(userDto, passwordEncoder.encode(userDto.getPassword()), Role.ADMIN);
         userRepository.save(user);
         String jwt = jwtService.generateToken(user);
         return ResponseEntity.ok(UserMapper.toJwtDto(user, jwt));
