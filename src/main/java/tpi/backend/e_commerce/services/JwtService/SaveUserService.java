@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import tpi.backend.e_commerce.dto.auth.request.SignUpRequest;
-import tpi.backend.e_commerce.dto.auth.response.JwtAuthenticationResponse;
-import tpi.backend.e_commerce.enums.Role;
 import tpi.backend.e_commerce.mapper.UserMapper;
 import tpi.backend.e_commerce.models.User;
 import tpi.backend.e_commerce.repositories.IUserRepository;
