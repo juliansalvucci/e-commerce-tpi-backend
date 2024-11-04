@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -58,12 +59,13 @@ public class TestDeleteBrandWithProducts {
     @Test
     void deleteBrandWithProducts(){
         
-        when(validation.validate(anyString(), anyString(), eq(409)))
-        .thenReturn(ResponseEntity.status(409).build());
+        when(validation.validate(eq("id"), eq("La marca tiene productos asociados"), eq(409)))
+        .thenReturn(ResponseEntity.status(409).body(Map.of("id", "La marca tiene productos asociados")));
 
         brand.setId(1L);
         ResponseEntity<?> serviceResponse = deleteBrandService.delete(1L);
         assertEquals(HttpStatus.CONFLICT, serviceResponse.getStatusCode());
+        assertEquals(Map.of("id", "La marca tiene productos asociados"), serviceResponse.getBody());
     }
     //En este metodo verifico que al llamar al metodo brandService
 
@@ -71,7 +73,8 @@ public class TestDeleteBrandWithProducts {
     void deleteBrandWithoutProducts(){
         brand.setId(2L);
         ResponseEntity<?> serviceResponse = deleteBrandService.delete(2L);
-        assertEquals(HttpStatus.NO_CONTENT, serviceResponse.getStatusCode());
+        assertEquals(HttpStatus.OK, serviceResponse.getStatusCode());
+        assertEquals("La marca fue eliminada con exito!", serviceResponse.getBody());
     }
 
 }
