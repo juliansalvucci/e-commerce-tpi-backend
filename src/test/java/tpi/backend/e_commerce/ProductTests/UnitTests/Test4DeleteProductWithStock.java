@@ -1,4 +1,4 @@
-package tpi.backend.e_commerce.ProductTests;
+package tpi.backend.e_commerce.ProductTests.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import tpi.backend.e_commerce.controllers.ProductController;
 import tpi.backend.e_commerce.services.product.DeleteProductService;
 
 @SpringBootTest
-public class TestDeleteProductWithStock {
+public class Test4DeleteProductWithStock {
     @Mock
     private DeleteProductService productService;
 
@@ -38,5 +38,20 @@ public class TestDeleteProductWithStock {
         // esperado
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         assertEquals("No se puede eliminar un producto cuyo stock no es 0", response.getBody());
+    }
+
+    @Test
+    void testDeleteProductWhenStockIsZero() {
+        Long productId = 10L;
+
+        ResponseEntity<?> oktResponse = ResponseEntity.status(HttpStatus.OK)
+                .body("Eliminación exitosa");
+
+        doReturn(oktResponse).when(productService).delete(productId);
+
+        ResponseEntity<?> response = productController.delete(productId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Eliminación exitosa", response.getBody());
     }
 }
