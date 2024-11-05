@@ -13,7 +13,7 @@ public class Test2ProductNameWithoutEndSpaces {
 
     @BeforeEach
     void setUp() {
-        // Inicialización general que puede usarse para diferentes pruebas
+
         product = Product.builder()
                 .description("descripción")
                 .price(10.0)
