@@ -14,6 +14,7 @@ import tpi.backend.e_commerce.dto.auth.request.SignInRequest;
 import tpi.backend.e_commerce.dto.auth.request.SignUpRequest;
 
 import tpi.backend.e_commerce.services.JwtService.interfaces.IAuthenticationService;
+import tpi.backend.e_commerce.services.JwtService.interfaces.ISaveUserService;
 
 @RestController
 @RequestMapping("/auth")
@@ -22,6 +23,9 @@ public class AuthenticationController {
 
     @Autowired
     private IAuthenticationService authenticationService;
+
+    @Autowired
+    private ISaveUserService saveService;
 
     //Endpoint para registrar un usuario
     @PostMapping("/signup")
@@ -33,5 +37,10 @@ public class AuthenticationController {
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@Valid @RequestBody SignInRequest request , BindingResult result) {
         return authenticationService.signin(request,result);
+    }
+
+    @PostMapping("/admin")
+    public ResponseEntity<?> signUpAdmin(@Valid @RequestBody SignUpRequest userDto, BindingResult result){
+        return saveService.signUpAdmin(userDto, result);
     }
 }

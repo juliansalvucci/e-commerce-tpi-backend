@@ -1,6 +1,6 @@
 package tpi.backend.e_commerce.dto.auth.request;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,7 +26,7 @@ public class SignUpRequest {
 
     @Past(message = "No cumple con la edad para registrarse en el sitio")
     @AgeRange(message = "La edad debe estar entre 18 y 100 años")
-    private Date dateBirth;
+    private LocalDate dateBirth; //"yyyy-MM-dd"
 
     @Email(message = "No respeta el formato de email")
     @NotBlank(message = "No puede estar vacio")

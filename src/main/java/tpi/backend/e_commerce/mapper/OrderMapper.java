@@ -22,6 +22,7 @@ public class OrderMapper {
             .id(order.getId())
             .userEmail(order.getUser().getEmail())
             .total(order.getTotal())
+            .discount(order.getDiscount())
             .orderDetails(OrderDetailMapper.toDtoList(order.getOrderDetails()))
             .creationDatetime(order.getCreation_datetime())
             .build();

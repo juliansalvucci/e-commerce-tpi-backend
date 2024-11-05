@@ -7,11 +7,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import tpi.backend.e_commerce.dto.orderDetailDto.CreateOrderDetailDto;
 
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class CreateOrderDto {
     
     private String userEmail;

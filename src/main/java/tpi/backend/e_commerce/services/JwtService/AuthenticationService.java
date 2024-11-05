@@ -14,8 +14,8 @@ import org.springframework.validation.BindingResult;
 import lombok.RequiredArgsConstructor;
 import tpi.backend.e_commerce.dto.auth.request.SignInRequest;
 import tpi.backend.e_commerce.dto.auth.request.SignUpRequest;
-import tpi.backend.e_commerce.dto.auth.response.JwtAuthenticationResponse;
 import tpi.backend.e_commerce.enums.Role;
+import tpi.backend.e_commerce.mapper.UserMapper;
 import tpi.backend.e_commerce.models.User;
 import tpi.backend.e_commerce.repositories.IUserRepository;
 import tpi.backend.e_commerce.services.JwtService.interfaces.IAuthenticationService;
@@ -49,14 +49,10 @@ public class AuthenticationService implements IAuthenticationService {
         }
 
         // Si no hay errores, guarda al usuario en la BD y retorna el JWT
-        var user = User.builder().firstName(request.getFirstName()).lastName(request.getLastName())
-                .email(request.getEmail()).password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER).build();
+        var user = UserMapper.toEntity(request, passwordEncoder.encode(request.getPassword()), Role.USER);
         userRepository.save(user);
         var jwt = jwtService.generateToken(user);
-        return ResponseEntity
-                .ok(JwtAuthenticationResponse.builder().token(jwt).firstName(user.getFirstName())
-                        .lastName(user.getLastName()).email(user.getEmail()).role(user.getRole()).build());
+        return ResponseEntity.ok(UserMapper.toJwtDto(user, jwt));
     }
 
     @Override
@@ -89,7 +85,6 @@ public class AuthenticationService implements IAuthenticationService {
 
         var jwt = jwtService.generateToken(optionalUser.get());
         var user = optionalUser.get();
-        return ResponseEntity.ok(JwtAuthenticationResponse.builder().token(jwt).firstName(user.getFirstName())
-                .lastName(user.getLastName()).email(user.getEmail()).role(user.getRole()).build());
+        return ResponseEntity.ok(UserMapper.toJwtDto(user, jwt));
     }
 }

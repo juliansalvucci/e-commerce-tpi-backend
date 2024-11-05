@@ -47,7 +47,7 @@ public class DeleteBrandService implements IDeleteBrandService{
         Brand brand = optionalBrand.get();
         brand.setDeleted(true);
         brandRepository.save(brand);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("La marca fue eliminada con exito!");
     }
 
 

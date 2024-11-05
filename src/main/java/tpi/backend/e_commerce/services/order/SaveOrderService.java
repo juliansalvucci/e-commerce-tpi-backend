@@ -23,6 +23,7 @@ import tpi.backend.e_commerce.repositories.IOrderRepository;
 import tpi.backend.e_commerce.repositories.IProductRepository;
 import tpi.backend.e_commerce.repositories.IUserRepository;
 import tpi.backend.e_commerce.services.order.interfaces.ISaveOrderService;
+import tpi.backend.e_commerce.services.product.interfaces.IModifyProductService;
 import tpi.backend.e_commerce.validation.Validation;
 
 @Service
@@ -39,6 +40,9 @@ public class SaveOrderService implements ISaveOrderService{
 
     @Autowired
     private IProductRepository productRepository;
+
+    @Autowired
+    private IModifyProductService productService;
 
     @Override
     public ResponseEntity<?> create(CreateOrderDto orderDto, BindingResult result) {
@@ -94,7 +98,10 @@ public class SaveOrderService implements ISaveOrderService{
 
             Optional<Product> optionalProduct = productRepository.findById(orderDetailDto.getProductId());
             Product product = optionalProduct.get();
-            product.setStock(product.getStock() - orderDetailDto.getAmount());
+
+            //Le pido al servicio de producto que me descuente el stock
+            product = productService.discountStock(product, orderDetailDto.getAmount());
+
             OrderDetail orderDetailToSave = OrderDetailMapper.toEntity(orderDetailDto,order,product);
 
             orderDetailListToSave.add(orderDetailToSave);
