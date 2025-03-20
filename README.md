@@ -55,7 +55,7 @@ La estructura de carpetas del proyecto es la siguiente:
 
 ---
 
-## **Clonar Proyecto**
+## **Clonar Proyecto para testing**
 
 Sigue estos pasos para clonar y ejecutar el proyecto en tu máquina local:
 
