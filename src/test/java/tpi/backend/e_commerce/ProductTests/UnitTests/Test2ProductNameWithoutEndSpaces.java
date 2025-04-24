@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import tpi.backend.e_commerce.models.Product;
 
-@SpringBootTest
 public class Test2ProductNameWithoutEndSpaces {
     private Product product;
 
@@ -42,12 +41,12 @@ public class Test2ProductNameWithoutEndSpaces {
         // Asignar el nombre sin espacios adicionales
         product.setName("Samsung Galaxy S24");
 
-        // Invocar el método preCreate para verificar que no cambia un nombre sin espacios
+        // Invocar el método preCreate para verificar que no cambia un nombre sin
+        // espacios
         product.preCreate();
 
         // Verificar que el nombre permanece sin cambio
         assertEquals("Samsung Galaxy S24", product.getName());
     }
 
-   
 }
