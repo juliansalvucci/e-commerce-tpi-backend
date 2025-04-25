@@ -32,6 +32,11 @@ public class Brand {
     private LocalDateTime updateDatetime;
     private LocalDateTime deleteDatetime;
 
+    public Brand() {
+        // Necesario para JPA y tests
+    }
+    
+
     @PrePersist //Este metodo se ejecutara antes de crear persistir al objeto en la BD
     public void preCreate() {
         creationDatetime = LocalDateTime.now();
