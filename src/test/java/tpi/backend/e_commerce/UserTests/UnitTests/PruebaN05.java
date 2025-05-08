@@ -1,6 +1,5 @@
 package tpi.backend.e_commerce.UserTests.UnitTests;
 
-import java.util.Collections;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -15,8 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 
@@ -29,7 +28,7 @@ import tpi.backend.e_commerce.services.JwtService.AuthenticationService;
 import tpi.backend.e_commerce.services.JwtService.JwtService;
 import tpi.backend.e_commerce.validation.Validation;
 import java.util.Map;
-import java.util.Collections;
+
 
 @SpringBootTest
 public class PruebaN05 {
@@ -55,38 +54,32 @@ public class PruebaN05 {
         private AuthenticationService authenticationService;
 
         @Test
-        void testIncorrectPasswordOnSignIn() {
-                // Setup
-                SignInRequest request = SignInRequest.builder()
-                                .email("test@example.com")
-                                .password("wrongPassword123")
-                                .build();
+        void signinWhenPasswordIncorrect() {
+                // Arrange
+                SignInRequest request = new SignInRequest("user@example.com", "wrongpassword");
+                User user = new User();
+                user.setEmail("user@example.com");
+                user.setPassword("encodedPassword");
+                user.setRole(Role.USER);
 
-                BindingResult result = mock(BindingResult.class);
                 when(result.hasFieldErrors()).thenReturn(false);
+                when(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user));
+                doThrow(new BadCredentialsException("Bad credentials"))
+                                .when(authenticationManager).authenticate(any());
 
-                User mockUser = User.builder()
-                                .email("test@example.com")
-                                .password("encrypted") // no importa en este test
-                                .role(Role.USER)
-                                .build();
-                when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(mockUser));
-
-                doThrow(new AuthenticationException("Bad credentials") {
-                })
-                                .when(authenticationManager)
-                                .authenticate(any(UsernamePasswordAuthenticationToken.class));
-
-                Map<String, String> error = Collections.singletonMap("password", "La contraseña es incorrecta");
-                when(validation.validate("password", "La contraseña es incorrecta", 401))
+                Map<String, String> error = Map.of("password", "La contraseña es incorrecta");
+                when(validation.validate("password", "La contraseña es incorrecta", 401))
                                 .thenReturn(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error));
 
-                // Execute
+                // Act
                 ResponseEntity<?> response = authenticationService.signin(request, result);
 
                 // Assert
-                assertNull(response);
+                assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+                assertEquals(error, response.getBody());
 
+                verify(authenticationManager).authenticate(any());
+                verify(validation).validate("password", "La contraseña es incorrecta", 401);
         }
 
         @Test
