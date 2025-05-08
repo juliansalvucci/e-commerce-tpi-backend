@@ -6,6 +6,7 @@ import org.mockito.Mock;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
@@ -34,17 +35,16 @@ public class PruebaN07 {
     @Test
     void recoverShouldReturn404WhenCategoryDoesNotExist() {
         Long categoryId = 1L;
-        ResponseEntity<?> responseEntity = ResponseEntity.status(404).body("No existe una categoria con ese id");
 
         //Simulamos el repositorio para que responda como "vacío", es decir, no hay categoría con ese id
         when(categoryRepository.findById(categoryId)).thenReturn(Optional.empty());
         when(validation.validate("id", "No existe una categoria con ese id", 404))
-                .thenReturn((ResponseEntity<Map<String, String>>) responseEntity);
+                .thenReturn((ResponseEntity.status(404).body(Map.of("id", "No existe una categoria con ese id"))));
 
         ResponseEntity<?> response = deleteCategoryService.recover(categoryId);
 
-        assertEquals(404, response.getStatusCodeValue());
-        assertEquals("No existe una categoria con ese id", response.getBody());
+        assertEquals(404, response.getStatusCode().value());
+        assertEquals("No existe una categoria con ese id", ((Map<?, ?>) Objects.requireNonNull(response.getBody())).get("id"));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class PruebaN07 {
 
         ResponseEntity<?> response = deleteCategoryService.recover(categoryId);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
     }
 }
