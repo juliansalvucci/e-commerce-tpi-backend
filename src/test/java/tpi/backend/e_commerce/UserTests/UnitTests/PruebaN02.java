@@ -24,7 +24,7 @@ import tpi.backend.e_commerce.services.JwtService.JwtService;
 import tpi.backend.e_commerce.validation.Validation;
 
 @SpringBootTest
-public class Test6DontAceptDuplicateEmail {
+public class PruebaN02 {
     @Mock
     private IUserRepository userRepository;
 

@@ -27,7 +27,7 @@ import tpi.backend.e_commerce.repositories.ICategoryRepository;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class TestConsultActiveProducts {
+class PruebaN06 {
 
     @Autowired
     private MockMvc mockMvc;
