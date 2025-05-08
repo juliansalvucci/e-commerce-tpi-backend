@@ -56,10 +56,10 @@ public class PruebaN05 {
         @Test
         void signinWhenPasswordIncorrect() {
                 // Arrange
-                SignInRequest request = new SignInRequest("user@example.com", "wrongpassword");
+                SignInRequest request = new SignInRequest("user@example.com", "contraseña");
                 User user = new User();
                 user.setEmail("user@example.com");
-                user.setPassword("encodedPassword");
+                user.setPassword("contraseña123");
                 user.setRole(Role.USER);
 
                 when(result.hasFieldErrors()).thenReturn(false);
@@ -87,13 +87,13 @@ public class PruebaN05 {
                 // Crear la solicitud con email y contraseña correctos
                 SignInRequest request = SignInRequest.builder()
                                 .email("test@example.com")
-                                .password("correctPassword123")
+                                .password("contraseña123")
                                 .build();
 
                 // Crear el usuario simulado
                 User mockUser = User.builder()
                                 .email("test@example.com")
-                                .password(passwordEncoder.encode("correctPassword123")) // esta será codificada
+                                .password(passwordEncoder.encode("contraseña123")) // esta será codificada
                                 .role(Role.USER)
                                 .build();
 

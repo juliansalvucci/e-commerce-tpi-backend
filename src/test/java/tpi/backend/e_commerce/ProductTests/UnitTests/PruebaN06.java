@@ -105,4 +105,57 @@ class PruebaN06 {
                 .andExpect(jsonPath("$[0].name").value("Producto Activo"));
     }
 
+    @Test
+    void shouldReturnOnlyInactiveProducts() throws Exception {
+        // Crear Brand y SubCategory necesarios
+        Brand brand = new Brand();
+        brand.setName("POCO");
+        brand = brandRepository.save(brand);
+
+        Category category = new Category("Ropa");
+        categoryRepository.save(category);
+
+        SubCategory subCategory = new SubCategory();
+        subCategory.setName("Zapatillas");
+        subCategory.setCategory(category);
+        subCategory = subCategoryRepository.save(subCategory);
+
+        // Producto ACTIVO
+        Product activeProduct = new Product();
+        activeProduct.setName("Producto Activo");
+        activeProduct.setDescription("Desc");
+        activeProduct.setPrice(100.0);
+        activeProduct.setStock(10L);
+        activeProduct.setStockMin(2L);
+        activeProduct.setImageURL("http://img.com/activo.jpg");
+        activeProduct.setColor("Rojo");
+        activeProduct.setSize("M");
+        activeProduct.setBrand(brand);
+        activeProduct.setSubCategory(subCategory);
+        activeProduct.setDeleted(false);
+        productRepository.save(activeProduct);
+
+        // Producto ELIMINADO
+        Product deletedProduct = new Product();
+        deletedProduct.setName("Producto Eliminado");
+        deletedProduct.setDescription("Desc");
+        deletedProduct.setPrice(200.0);
+        deletedProduct.setStock(5L);
+        deletedProduct.setStockMin(1L);
+        deletedProduct.setImageURL("http://img.com/borrado.jpg");
+        deletedProduct.setColor("Azul");
+        deletedProduct.setSize("L");
+        deletedProduct.setBrand(brand);
+        deletedProduct.setSubCategory(subCategory);
+        deletedProduct.setDeleted(true);
+        productRepository.save(deletedProduct);
+
+        // Ejecutar la request y verificar solo el producto activo
+        mockMvc.perform(get("/product/deleted")  // reemplazá "/products" si tu endpoint es distinto
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].name").value("Producto Eliminado"));
+    }
+
 }
