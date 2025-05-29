@@ -4,10 +4,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,14 +17,18 @@ import tpi.backend.e_commerce.models.Brand;
 import tpi.backend.e_commerce.models.Category;
 import tpi.backend.e_commerce.models.Product;
 import tpi.backend.e_commerce.models.SubCategory;
+import tpi.backend.e_commerce.models.User;
 import tpi.backend.e_commerce.repositories.IBrandRepository;
 import tpi.backend.e_commerce.repositories.IProductRepository;
 import tpi.backend.e_commerce.repositories.ISubCategoryRepository;
+import tpi.backend.e_commerce.services.JwtService.JwtService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import tpi.backend.e_commerce.repositories.ICategoryRepository;
+
+import org.springframework.http.HttpHeaders;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -44,6 +50,8 @@ class PruebaN06 {
     @Autowired
     private ICategoryRepository categoryRepository;
 
+    @Mock
+    private JwtService jwtService;
 
     @BeforeEach
     void setUp() {
@@ -98,7 +106,7 @@ class PruebaN06 {
         productRepository.save(deletedProduct);
 
         // Ejecutar la request y verificar solo el producto activo
-        mockMvc.perform(get("/product")  // reemplazá "/products" si tu endpoint es distinto
+        mockMvc.perform(get("/product") // reemplazá "/products" si tu endpoint es distinto
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1))
@@ -151,11 +159,10 @@ class PruebaN06 {
         productRepository.save(deletedProduct);
 
         // Ejecutar la request y verificar solo el producto activo
-        mockMvc.perform(get("/product/deleted")  // reemplazá "/products" si tu endpoint es distinto
+        mockMvc.perform(get("/product/deleted") // reemplazá "/products" si tu endpoint es distinto
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[0].name").value("Producto Eliminado"));
     }
-
 }
