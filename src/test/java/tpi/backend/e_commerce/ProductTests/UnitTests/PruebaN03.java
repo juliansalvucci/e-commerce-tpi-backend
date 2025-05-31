@@ -14,7 +14,7 @@ import jakarta.validation.ValidatorFactory;
 import tpi.backend.e_commerce.dto.ProductDTO.CreateProductDTO;
 
 @SpringBootTest
-public class Test3RegisterProductWithoutRequiredProps {
+public class PruebaN03 {
 
     private static Validator validator;
 

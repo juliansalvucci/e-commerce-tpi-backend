@@ -39,7 +39,6 @@ public class SubCategoryController {
     
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id){
-        
         return findSubCategoryService.findActiveById(id);
     }
 
